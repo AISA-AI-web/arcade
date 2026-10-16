@@ -1,0 +1,678 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Coding Activities Station</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+/* Layout: purple station band, sticky tool switcher, one stepper card per tool, shared "share with students" stepper, checklist + links */
+:root{
+  --purple:#21076C; --gold:#D8B664; --bg:#FFFFFF; --ink:#1A1A1A; --muted:#555555;
+  --tint:#F2EFFA; --line:#C8BEE8; --surface:#FFFFFF; --heading:#21076C; --gold-ink:#7A5C14;
+  --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(33,7,108,.06),0 8px 24px rgba(33,7,108,.08);
+  --font:'DM Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E0920; --ink:#ECE9F7; --muted:#ABA4C8; --tint:#1C1540; --line:#3A2F6B; --surface:#150F30;
+  --heading:#CFC4FF; --gold-ink:#E6C97E; --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E0920; --ink:#ECE9F7; --muted:#ABA4C8; --tint:#1C1540; --line:#3A2F6B; --surface:#150F30;
+  --heading:#CFC4FF; --gold-ink:#E6C97E; --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35); color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--heading);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-weight:700;text-wrap:balance;margin:0;color:var(--heading)}
+p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
+
+/* Band */
+.band{background:var(--band);color:var(--band-ink)}
+.band .wrap{padding-block:32px 36px;display:grid;gap:14px}
+.band .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.mark{font-weight:700;letter-spacing:.08em;color:var(--gold)}
+.sign{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(216,182,100,.6);color:var(--gold);border-radius:999px;padding:4px 12px;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.band h1{color:#fff;font-size:clamp(2rem,6vw,3.1rem);line-height:1.05;letter-spacing:-.01em}
+.band .lede{max-width:62ch;color:#E4DEFA;font-size:1.06rem}
+.meta{display:flex;gap:10px 22px;flex-wrap:wrap;font-size:.9rem;color:#CFC6F2}
+.meta b{color:var(--gold);font-weight:700}
+
+/* Quick start */
+.quick{margin-top:-18px;position:relative}
+.quick .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 20px;display:grid;gap:12px}
+.quick ol{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:.92rem;border-radius:999px;padding:9px 16px;border:1.5px solid var(--heading);color:var(--heading);background:transparent;cursor:pointer;font-family:inherit}
+.btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
+:root[data-theme="dark"] .btn.primary{border-color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{border-color:var(--gold)}}
+.btn .arr{font-weight:400}
+
+/* Nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-top:28px}
+.nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.nav a{flex:none;text-decoration:none;font-size:.9rem;font-weight:500;color:var(--muted);padding:7px 14px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.nav a.on{color:var(--heading);background:var(--tint);border-color:var(--line);font-weight:700}
+
+/* Tool sections */
+section.tool{padding-block:44px 8px;scroll-margin-top:64px}
+.toolhead{display:grid;gap:8px;margin-bottom:18px}
+.toolhead h2{font-size:clamp(1.6rem,4.4vw,2.1rem);line-height:1.15}
+.toolhead p.why{max-width:66ch;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.chip{font-size:.8rem;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.chip b{color:var(--heading)}
+.chip a{font-weight:700}
+
+/* Stepper */
+.stepper{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.sbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--tint);flex-wrap:wrap}
+.count{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.count b{color:var(--heading)}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dot{width:22px;height:6px;border-radius:3px;background:var(--line);border:0;padding:0;cursor:pointer}
+.dot.on{background:var(--gold)}
+.dot.done{background:var(--heading);opacity:.55}
+.toggle{background:none;border:0;color:var(--heading);font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;padding:4px 2px;text-decoration:underline;text-underline-offset:3px}
+ol.steps{list-style:none;margin:0;padding:0}
+.step{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;padding:20px}
+.step+.step{border-top:1px solid var(--line)}
+.stepper.paged .step+.step{border-top:0}
+.shot{margin:0;min-width:0}
+.shot button{display:block;width:100%;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:zoom-in;background:var(--tint)}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{font-size:.78rem;color:var(--muted);margin-top:6px}
+.shot + .shot{margin-top:12px}
+.txt{min-width:0;display:grid;align-content:start;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--purple);color:#fff;font-weight:700;font-size:.95rem}
+.step h3{font-size:1.2rem;line-height:1.25}
+.txt p,.txt li{font-size:.98rem}
+.txt ul{margin:0;padding-left:1.1em;display:grid;gap:4px}
+.tip{border-left:3px solid var(--gold);background:var(--tint);padding:9px 12px;border-radius:0 8px 8px 0;font-size:.9rem}
+.tip b{color:var(--heading)}
+.ui{font-weight:700;color:var(--heading);white-space:nowrap}
+.snav{display:flex;justify-content:space-between;gap:10px;padding:12px 16px;border-top:1px solid var(--line)}
+.snav[hidden]{display:none!important}
+.snav .btn[disabled]{opacity:.35;cursor:default}
+
+/* Ideas + checks */
+.ideas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.idea{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;align-content:start}
+.idea h4{margin:0;font-size:.95rem;color:var(--heading)}
+.idea p{font-size:.9rem;color:var(--ink)}
+.challenge{background:var(--purple);color:#fff;border-radius:var(--r);padding:24px;display:grid;gap:12px;margin-top:48px}
+.challenge h2{color:#fff;font-size:1.5rem}
+.challenge .eyebrow{color:var(--gold)}
+.challenge ol{margin:0;padding-left:1.2em;display:grid;gap:6px;color:#ECE7FF}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.check{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;background:var(--surface)}
+.check h4{margin:0;color:var(--heading);font-size:1rem}
+.check p{font-size:.92rem}
+.links{display:grid;gap:0;margin-top:16px;border-top:1px solid var(--line)}
+.links a{display:flex;justify-content:space-between;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.links a span:first-child{font-weight:700;color:var(--heading)}
+.links a span:last-child{color:var(--muted);font-size:.85rem;text-align:right;overflow-wrap:anywhere}
+footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
+.sect{padding-block:44px 0}
+.sect h2{font-size:1.6rem}
+
+/* Lightbox */
+.lb{position:fixed;inset:0;background:rgba(10,4,30,.92);z-index:20;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));cursor:zoom-out}
+.lb img{max-width:100%;max-height:100%;border-radius:8px;background:#fff}
+.lb button{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));background:var(--gold);color:#21076C;border:0;border-radius:999px;font:700 .9rem var(--font);padding:8px 14px;cursor:pointer}
+
+@media (max-width:760px){
+  .step{grid-template-columns:1fr;gap:14px;padding:16px}
+  .step .txt{order:-1}
+  .ideas,.checks{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:no-preference){.step.enter{animation:in .22s ease-out}@keyframes in{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}}
+</style>
+<style>
+/* Flipbook (animated screenshot sequence) */
+.flip{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--tint);display:grid}
+.fstage{position:relative;aspect-ratio:var(--ar,16/10);cursor:zoom-in;background:#F1F3F8;border:0;padding:0;width:100%;display:block}
+.fstage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .45s ease;max-width:100%}
+.fstage img.on{opacity:1}
+.fbar{display:flex;align-items:center;gap:8px;padding:8px 10px;border-top:1px solid var(--line);background:var(--surface);flex-wrap:wrap}
+.fnum{flex:none;display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--gold);color:#21076C;font-weight:700;font-size:.75rem}
+.fcap{flex:1 1 160px;min-width:0;font-size:.85rem;font-weight:500;color:var(--ink)}
+.fctl{display:flex;gap:4px;align-items:center}
+.fctl button{background:none;border:1px solid var(--line);border-radius:999px;color:var(--heading);font:700 .78rem var(--font);padding:3px 9px;cursor:pointer;min-width:30px}
+.fprog{height:3px;background:var(--line);position:relative}
+.fprog i{position:absolute;left:0;top:0;bottom:0;background:var(--gold);width:0}
+@media (prefers-reduced-motion:no-preference){.fprog i.run{transition:width linear}}
+.flip + .flip,.shot + .flip,.flip + .shot,.mock + .shot,.mock + .flip{margin-top:12px}
+
+/* Shared mock chrome */
+.mock{border:1px solid var(--line);border-radius:8px;background:#F7F8FC;color:#1F1F1F;padding:14px;display:grid;gap:10px;font-family:'Google Sans',Roboto,Arial,sans-serif;overflow:hidden}
+.mlab{justify-self:start;font:700 .72rem var(--font);letter-spacing:.12em;text-transform:uppercase;color:#21076C;background:#D8B664;border-radius:999px;padding:3px 10px}
+.caret{display:inline-block;width:2px;height:1em;background:#0B57D0;vertical-align:-.12em;margin-left:1px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.caret{animation:none}}
+
+/* Gemini prompt mock */
+.gbox{background:#fff;border-radius:22px;box-shadow:0 1px 3px rgba(0,0,0,.12),0 4px 14px rgba(11,87,208,.08);padding:14px 16px 10px;display:grid;gap:10px}
+.gtext{font-size:.92rem;line-height:1.5;height:7.5em;overflow:hidden;color:#1F1F1F}
+.gtext .ph{color:#5f6368}
+.grow{display:flex;align-items:center;gap:8px}
+.gplus{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:1.2rem;color:#444}
+.gchip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 12px;background:#E9EEF6;font-size:.85rem;opacity:.25;transition:opacity .3s,box-shadow .3s}
+.gchip.on{opacity:1}
+.gchip.hl,.gsend.hl{box-shadow:0 0 0 3px #D8B664,0 0 0 5px #21076C}
+.gchip svg{width:15px;height:15px}
+.gsend{margin-left:auto;width:32px;height:32px;border-radius:50%;background:#C2D7F8;color:#fff;display:grid;place-items:center;transition:background .3s,box-shadow .3s}
+.gsend.ready{background:#0B57D0}
+
+/* Clipboard journey mock */
+.cj{grid-template-columns:1fr}
+.tabs{display:flex;gap:4px;margin:-14px -14px 0;padding:8px 10px 0;background:#DEE1E6;border-bottom:1px solid #C7CBD1}
+.tab{font-size:.78rem;padding:6px 14px;border-radius:8px 8px 0 0;color:#5f6368;max-width:50%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab.on{background:#F7F8FC;color:#1F1F1F;font-weight:700}
+.pane{background:#fff;border:1px solid #DADCE0;border-radius:10px;display:grid;grid-template-rows:auto 1fr auto;min-height:220px;position:relative;overflow:hidden}
+.phead{display:flex;align-items:center;gap:6px;padding:7px 10px;border-bottom:1px solid #E3E3E3;font-size:.78rem;font-weight:700;color:#3c4043;flex-wrap:wrap}
+.phead .seg{margin-left:auto;display:inline-flex;border-radius:999px;background:#EDF0F5;padding:2px;font-weight:500}
+.phead .seg span{padding:2px 8px;border-radius:999px}
+.phead .seg .a{background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.15)}
+.hubhead{background:#21076C;color:#fff;border-bottom:0}
+.hubhead b{color:#D8B664}
+.code{font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;padding:8px 10px;white-space:pre;overflow:hidden;color:#1F3B73}
+.code .ln{display:block;border-radius:2px}
+.code .ln.sel{background:#B4CCF4}
+.code .t{color:#7A3E9D}.code .s{color:#0B7A3E}.code .c{color:#80868B}
+.ppl{display:grid;place-items:center;text-align:center;padding:12px;color:#21076C;font-size:.85rem}
+.ppl b{display:block;font-size:.95rem}
+.pfoot{font-size:.72rem;color:#5f6368;padding:5px 10px;border-top:1px solid #EEE;min-height:1.9em}
+.ripple{position:absolute;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;border:3px solid #D8B664;opacity:0;pointer-events:none}
+.ripple.go{animation:rip .9s ease-out}
+@keyframes rip{0%{opacity:1;transform:scale(.4)}100%{opacity:0;transform:scale(1.8)}}
+.toast{position:absolute;left:10px;right:10px;bottom:4px;text-align:center;background:#202124;color:#fff;font-size:.75rem;padding:6px 10px;border-radius:6px;opacity:0;transition:opacity .25s}
+.toast.on{opacity:1}
+.keys{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-height:46px}
+.kc{display:inline-grid;place-items:center;min-width:38px;height:38px;padding:0 8px;border-radius:8px;background:#fff;border:1px solid #C8BEE8;border-bottom-width:4px;font:700 1rem var(--font);color:#21076C;transition:transform .12s,border-bottom-width .12s,background .12s}
+.kc.down{transform:translateY(2px);border-bottom-width:2px;background:#FFF4D6}
+.kplus{color:#555;font-weight:700}
+.kcap{flex:1 1 200px;font:600 .9rem var(--font);color:#21076C}
+.knote{grid-column:1/-1;font-size:.78rem;color:#555;margin-top:-4px}
+.kbox{display:inline-flex;gap:6px;align-items:center}
+.kbox[hidden],.ppl[hidden],.code[hidden]{display:none}
+@media (max-width:620px){.pane{min-height:170px}}
+
+/* Two-option chooser + prompt recipe */
+.routes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.route{display:grid;gap:6px;align-content:start;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:var(--r);padding:16px;background:var(--surface)}
+.route:hover{border-color:var(--heading)}
+.route .rn{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-ink)}
+.route h3{font-size:1.1rem}
+.route p{font-size:.9rem}
+.route .go{font-size:.85rem;font-weight:700;color:var(--heading)}
+.rules{border:1px dashed var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:10px;background:var(--tint);margin-top:16px}
+.rules code{font-family:inherit;font-size:.95rem;color:var(--ink);display:block;white-space:pre-wrap}
+.rules .btnrow{justify-content:flex-start}
+.copied{font-size:.85rem;color:var(--muted);align-self:center}
+.warn{border-left-color:#C0392B}
+.gem{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:22px;align-items:start;margin-top:16px;border:1px solid var(--line);border-radius:var(--r);padding:18px;background:var(--surface);scroll-margin-top:70px}
+.gem ol{margin:0;padding-left:1.2em;display:grid;gap:4px}
+#recipe{scroll-margin-top:70px}
+@media (max-width:760px){.gem{grid-template-columns:1fr}.gem .txt{order:-1}}
+@media (max-width:760px){.routes{grid-template-columns:1fr}}
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <div class="top"><span class="mark">AISA</span><span class="sign">AI PD Stations &middot; Station 5</span></div>
+    <h1>Code Your Own Class Activities</h1>
+    <p class="lede">Ask Gemini Canvas to code an interactive game or quiz as one HTML file. Then paste it into the AISA Activity Hub to get a link, a QR code and a Google Classroom button. No coding knowledge needed. The demo is a Grade 10 English game called <em>Ethos, Pathos or Logos?</em></p>
+    <div class="meta"><span><b>2 tools</b> Gemini Canvas, AISA Activity Hub</span><span><b>~20 min</b> from idea to link</span><span><b>Output</b> A link and QR code that open on any device</span></div>
+  </div>
+</header>
+
+<div class="wrap quick">
+  <div class="card">
+    <span class="eyebrow">Before you start</span>
+    <ol>
+      <li>Open Gemini with your AISA account, and open the AISA Activity Hub in a second tab.</li>
+      <li>Pick one skill or concept your students need to practise in the next two weeks. Games that sort, match or quiz work best.</li>
+      <li>Leave student names and personal details out of your prompt. Activities on the Hub can be opened by anyone with the link.</li>
+    </ol>
+    <div class="btnrow">
+      <a class="btn primary" href="https://gemini.google.com/app" target="_blank" rel="noopener">Open Gemini <span class="arr">&nearr;</span></a>
+      <a class="btn" href="https://aisa-ai-web.github.io/code-uploader/library.html" target="_blank" rel="noopener">Open the Activity Hub <span class="arr">&nearr;</span></a>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" aria-label="Station sections">
+  <div class="wrap">
+    <a href="#build" class="on">1 &middot; Build in Canvas</a>
+    <a href="#copy">2 &middot; Copy the code</a>
+    <a href="#publish">3 &middot; Paste &amp; publish</a>
+    <a href="#share">4 &middot; Share it</a>
+    <a href="#library">5 &middot; Library &amp; Remix</a>
+    <a href="#check">Check &amp; links</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- PART 1 -->
+<section class="tool" id="build">
+  <div class="toolhead">
+    <span class="eyebrow">Part 1 &middot; Gemini Canvas</span>
+    <h2>Build the activity in Canvas</h2>
+    <p class="why">Canvas is a workspace next to the Gemini chat. Gemini writes the code for you and runs it there, so you can play the activity straight away and ask for changes in plain English.</p>
+    <div class="chips"><span class="chip"><b>1 prompt</b> made a 10-question game</span><span class="chip">About 2 minutes to build</span><span class="chip"><a href="https://gemini.google.com/app" target="_blank" rel="noopener">Open Gemini &nearr;</a></span></div>
+  </div>
+
+  <div class="routes">
+    <a class="route" href="#recipe"><span class="rn">Start A &middot; I know what I want</span><h3>Write your own prompt</h3><p>Use the prompt recipe below in Gemini with Canvas switched on, then follow steps 1 to 5.</p><span class="go">Use the recipe &rarr;</span></a>
+    <a class="route" href="#gem"><span class="rn">Start B &middot; Not sure where to start?</span><h3>Use the AISA EduSim Gem</h3><p>A Gemini Gem that already holds the prompts for building an HTML activity. You just describe your class and topic.</p><span class="go">Use the Gem &rarr;</span></a>
+  </div>
+
+  <div class="gem" id="gem">
+    <figure class="shot"><button type="button"><img src="img/g_01_gem.jpg" alt="The EduSim 5.1 Gem in Gemini with a starter message typed in the chat box: Grade 10 English: ethos, pathos and logos. I'm not sure where to start." loading="lazy"></button></figure>
+    <div class="txt">
+      <span class="eyebrow">Start B &middot; AISA EduSim Gem</span>
+      <h3>Let the Gem write the prompt for you</h3>
+      <ol>
+        <li>Open the <b>EduSim</b> Gem with your AISA account.</li>
+        <li>Type your grade, subject and topic. It's fine to say you're not sure where to start.</li>
+        <li>Answer its questions until it builds the activity.</li>
+        <li>Play it, then copy the code (Part 2) and paste it into the Hub (Part 3).</li>
+      </ol>
+      <div class="tip"><b>"This Gem is shared. Instructions may change"</b> is normal. It means the AI &amp; Innovation team can improve the Gem for everyone.</div>
+      <div class="btnrow"><a class="btn primary" href="https://gemini.google.com/gem/11QD4AkTJjpXVgEGw8SJ74nq99ntDfv8V?usp=sharing" target="_blank" rel="noopener">Open the EduSim Gem <span class="arr">&nearr;</span></a></div>
+    </div>
+  </div>
+
+  <div class="rules" id="recipe">
+    <span class="eyebrow">Prompt recipe &middot; change the words in [brackets]</span>
+    <code id="rulesText">Make a single self-contained HTML file: a [sorting game / quiz / matching game / flashcards] for Grade [X] [subject] called "[title]". [Say what students do, one step at a time.] After each answer, explain in one sentence why. Show a score and a Play again button at the end. Clear, simple English for EAL learners, big buttons that work on a laptop, iPad or phone, no external images or links.</code>
+    <div class="btnrow"><button type="button" class="btn" id="copyRules">Copy the recipe</button><span class="copied" id="copiedMsg" aria-live="polite"></span></div>
+  </div>
+
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/c_01_tools.jpg" alt="Gemini plus menu open with More tools highlighted and Canvas highlighted in the submenu" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">1</span><h3>Turn on Canvas</h3><p>In Gemini, click the <span class="ui">+</span> at the left of the chat box. Click <span class="ui">More tools</span>, then <span class="ui">Canvas</span>.</p><p>A <span class="ui">Canvas</span> chip appears in the chat box, so Gemini knows to build something rather than just reply.</p><div class="tip"><b>Can't see Canvas?</b> Make your browser window wider; the menu hides it in a narrow window. Or end your prompt with <em>Build it in Canvas.</em></div></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="mock" role="img" aria-label="Animation: Canvas is selected, the prompt is typed into the Gemini chat box and the send button is clicked">
+            <span class="mlab" id="glab">Canvas on</span>
+            <div class="gbox">
+              <div class="gtext" id="gtext"><span class="ph">Ask Gemini</span></div>
+              <div class="grow"><span class="gplus" aria-hidden="true">+</span><span class="gchip" id="gchip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="7" y="7" width="13" height="13" rx="2"/><path d="M4 16V5a1 1 0 0 1 1-1h11"/></svg>Canvas</span><span class="gsend" id="gsend" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span></div>
+            </div>
+          </div>
+          <figure class="shot"><button type="button"><img src="img/c_02_prompt.jpg" alt="The full prompt typed into the Gemini chat box, with the Canvas chip and the send arrow highlighted" loading="lazy"></button><figcaption>Our real prompt, with Canvas switched on.</figcaption></figure>
+        </div>
+        <div class="txt"><span class="num">2</span><h3>Describe the activity and send</h3><p>Copy the prompt recipe above, paste it into the chat box and change the words in brackets. Then click the send arrow.</p><p>Two phrases do the heavy lifting:</p><ul><li><b>"a single self-contained HTML file"</b> puts everything in one file, which is exactly what the Hub needs.</li><li><b>"big buttons that work on a laptop, iPad or phone"</b> makes it easy to use on student devices.</li></ul><div class="tip"><b>Be specific about content.</b> Say how many questions, the grade, and where your students live. Our prompt asked for examples a teenager in the UAE would hear.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/c_03_canvas.jpg" alt="The finished game open in Canvas with the Code and Preview switch highlighted in the Canvas toolbar" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">3</span><h3>Meet the Canvas toolbar</h3><p>After a minute or two the activity opens in Canvas. Across the top:</p><ul><li><span class="ui">Code</span> / <span class="ui">Preview</span>: switch between the code and the working activity.</li><li><span class="ui">Download</span>: saves the HTML file to your computer.</li><li>The <b>share icon</b>: the quickest way to copy the code (Part 2).</li><li>The <b>full screen</b> icon: hides the chat so you can play it bigger.</li></ul></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2800" style="--ar:1036/685">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/c_04_play.jpg" data-cap="A question appears with Ethos, Pathos and Logos buttons." alt="The game in full screen showing a persuasive line about sharing popcorn at Yas Mall and three buttons: Ethos, Pathos and Logos">
+              <img src="img/c_05_correct.jpg" data-cap="Answer it: you get Correct! and a one-sentence reason." alt="Correct! Category: Pathos, with a one-sentence explanation and a Next Question button highlighted" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">4</span><h3>Play it like a student</h3><p>Play every question in <span class="ui">Preview</span>. Get some wrong on purpose to see the feedback.</p><p>Want a change? Just ask in the chat, for example <em>Make the buttons bigger</em> or <em>Replace question 4 with one about school uniform</em>. Gemini updates the same Canvas.</p><div class="tip"><b>Check every answer.</b> Gemini can label a line wrongly or give a weak reason. You are the subject expert.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/c_06_error.jpg" alt="Gemini message: Sorry, something went wrong. Please try your request again. Below it: Pro is in high demand right now" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">5</span><h3>Got an error? Ask again</h3><p>When lots of people use Gemini at once you may see <em>Sorry, something went wrong</em> or <em>Pro is in high demand</em>. This happened to us during the demo.</p><p>Type <em>Please try again and build it in Canvas.</em> and send. You don't need to paste your prompt again.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- PART 2 -->
+<section class="tool" id="copy">
+  <div class="toolhead">
+    <span class="eyebrow">Part 2 &middot; Copy the code</span>
+    <h2>Copy the code: two ways</h2>
+    <p class="why">The Hub needs the code, not a Gemini link. Both ways below copy the whole file. Try Option A first; if nothing pastes in Part 3, use Option B.</p>
+  </div>
+  <div class="routes">
+    <a class="route" href="#copy" data-go="0"><span class="rn">Option A &middot; Quickest</span><h3>Copy contents</h3><p>Click the share icon in the Canvas toolbar, then <b>Copy contents</b>.</p><span class="go">Two clicks &rarr;</span></a>
+    <a class="route" href="#copy" data-go="1"><span class="rn">Option B &middot; If A doesn't work</span><h3>Select all in the code</h3><p>Click <b>Code</b>, click inside the code, press <b>&#8984;A</b> then <b>&#8984;C</b>.</p><span class="go">Works every time &rarr;</span></a>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2600" style="--ar:1112/685">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/k_02_share.jpg" data-cap="Click the share icon, then Copy contents." alt="Canvas toolbar with the share icon clicked and a menu showing Share and Copy contents, Copy contents highlighted">
+              <img src="img/k_03_copied.jpg" data-cap="“Copied to clipboard” appears at the bottom left." alt="Copied to clipboard message at the bottom left of the Gemini window" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">A</span><h3>Option A: Copy contents</h3><p>In the Canvas toolbar, click the <b>share icon</b> (three connected dots, next to <span class="ui">Download</span>). Click <span class="ui">Copy contents</span>.</p><p>Look for <em>Copied to clipboard</em> at the bottom left. The whole file is now copied, so go to Part 3 and paste it.</p><div class="tip warn"><b>Don't click Share.</b> It makes a public Gemini link straight away. The Hub gives you a better link, a QR code and a Classroom button instead.</div></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2800" style="--ar:1036/685">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/k_01_code.jpg" data-cap="Click Code, then click inside the code." alt="Canvas switched to Code view, with the Code button highlighted" loading="lazy">
+              <img src="img/k_04_selected.jpg" data-cap="Press ⌘A: all the code turns blue. Then press ⌘C." alt="All of the code in Canvas highlighted in blue after Command A" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">B</span><h3>Option B: Select all, then copy</h3><p>Use this if Option A doesn't paste anything.</p><ol><li>Click <span class="ui">Code</span> in the Canvas toolbar.</li><li><b>Click inside the code box</b>, anywhere in the code.</li><li>Press <b>&#8984; Cmd + A</b> to select all of it. The code turns blue.</li><li>Press <b>&#8984; Cmd + C</b> to copy.</li></ol><p>Now switch to your Activity Hub tab to paste it (Part 3).</p><div class="tip"><b>Click in the code first.</b> If you press &#8984;A without clicking in the code box, you select the whole Gemini page instead, chat and all.</div></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- PART 3 -->
+<section class="tool" id="publish">
+  <div class="toolhead">
+    <span class="eyebrow">Part 3 &middot; AISA Activity Hub</span>
+    <h2>Paste it into the Hub and publish</h2>
+    <p class="why">The Activity Hub turns your code into a web page with its own link. It reads your code, guesses the title, grade and subject, and adds it to a shared library for AISA staff.</p>
+    <div class="chips"><span class="chip">Works with code from Gemini, ChatGPT, Claude or Canva</span><span class="chip"><a href="https://aisa-ai-web.github.io/code-uploader/index.html" target="_blank" rel="noopener">Open Create &nearr;</a></span></div>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2600" style="--ar:1100/685">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/h_01_library.jpg" data-cap="In the library, click Create an activity." alt="Activity Hub library page, Find an activity, with the Create an activity button highlighted">
+              <img src="img/h_02_create.jpg" data-cap="The Create page: paste on the left, preview on the right." alt="Create page: Paste your code. Get a link to share. The empty paste box and the Paste button are highlighted" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">1</span><h3>Open Create</h3><p>In the Activity Hub, click <span class="ui">Create an activity</span>, or <span class="ui">+ Create</span> at the top.</p><p>The page has three parts: <b>1 Paste your code</b>, <b>2 Check the preview</b> and <b>3 Describe it for the library</b>.</p></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2800" style="--ar:1100/685">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/h_02_create.jpg" data-cap="Click in the box and press ⌘V, or click Paste." alt="Empty Paste your HTML here box with the Paste button highlighted" loading="lazy">
+              <img src="img/h_03_pasted.jpg" data-cap="Your code appears on the left and the activity runs on the right." alt="The pasted code on the left and the working game in the preview on the right, both highlighted" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">2</span><h3>Paste your code</h3><p>Switch to your <b>Activity Hub</b> tab. Click inside <span class="ui">Paste your HTML here</span> and press <b>&#8984;V</b>. Or click the <span class="ui">Paste</span> button.</p><p>The preview on the right starts running straight away.</p><div class="tip"><b>Downloaded the file instead?</b> Click <span class="ui">Upload file</span> and choose the .html file. Copied some of Gemini's chat along with the code? That's fine, the Hub tidies it up.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/h_04_phone.jpg" alt="Preview switched to phone size, and the line count 522 lines, 27 KB highlighted under the code" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">3</span><h3>Check the preview</h3><p>Use the icons above the preview to see it at <b>desktop</b>, <b>tablet</b> and <b>phone</b> size. Play a few questions in phone view: that's how it looks when students scan the QR code.</p><ul><li><b>&#8635;</b> restarts the activity.</li><li><b>Full screen</b> and <b>Download</b> are there too.</li></ul><p>Under the code you'll see its size, for example <em>522 lines &middot; 27 KB</em>. A handful of lines usually means only part of the code was copied, so copy it again.</p></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="3000" style="--ar:1100/685">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/h_05_detect.jpg" data-cap="The Hub reads your code and fills in the details." alt="Banner: We read your code: this looks like a Grade 10 English Language Arts quiz about rhetoric, highlighted" loading="lazy">
+              <img src="img/h_06_type.jpg" data-cap="It guessed Quiz. We changed Activity type to Game." alt="Activity type changed from Quiz to Game, highlighted" loading="lazy">
+              <img src="img/h_07_baddesc.jpg" data-cap="It took a line from the game as the description. Fix it." alt="Short description reads Here is how well you understood rhetorical appeals, and tags read rhetoric, quiz, both highlighted" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">4</span><h3>Check what the Hub guessed</h3><p>Scroll to <b>3 Describe it for the library</b>. Fields marked <span class="ui">AUTO-DETECTED</span> are guesses from your code. In our demo:</p><ul><li><b>Activity type</b> said Quiz. We changed it to <b>Game</b>.</li><li><b>Grade level(s)</b> only had 10 ticked.</li><li><b>Short description</b> was a line of text from inside the game.</li></ul><div class="tip"><b>Colleagues search by these details.</b> A clear title, grade and description is what makes your activity findable in the library.</div></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2800" style="--ar:1100/625">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/h_08_fixed.jpg" data-cap="Tick every grade it suits and write a one-line description." alt="Grades 9, 10 and 11 ticked and a new short description, both highlighted" loading="lazy">
+              <img src="img/h_09_publish.jpg" data-cap="Add tags, check Shown as, then Publish & get link." alt="Tags and Shown as filled in, with the Publish and get link button highlighted" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">5</span><h3>Fix the details, then publish</h3><ul><li><b>Grade level(s):</b> click every grade it suits. We added 9 and 11.</li><li><b>Short description:</b> say what students do, in one sentence.</li><li><b>Tags:</b> words a colleague might search for, separated by commas.</li><li><b>Shown as:</b> your name as it appears in the library.</li></ul><p>Click <span class="ui">Publish &amp; get link</span>. It takes a few seconds.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- PART 4 -->
+<section class="tool" id="share">
+  <div class="toolhead">
+    <span class="eyebrow">Part 4 &middot; Share</span>
+    <h2>Get it to your students</h2>
+    <p class="why">Your activity now has its own page. Students don't need an account: they open the link or scan the QR code.</p>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/h_10_live.jpg" alt="Your activity is live dialog with a QR code, the activity link and Copy button, and buttons to share to Google Classroom, show the QR code full screen, download the QR code and open the activity" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">1</span><h3>Your activity is live</h3><p>A box pops up with everything you need:</p><ul><li><span class="ui">Copy</span>: copies the link, ready to paste anywhere.</li><li><span class="ui">Share to Google Classroom</span>: posts it to one of your classes.</li><li><span class="ui">Show QR code full screen</span>: put it on the board for students to scan.</li><li><span class="ui">Download QR code (PNG)</span>: add it to slides or a worksheet.</li><li><span class="ui">Open activity in a new tab</span>.</li></ul></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2800" style="--ar:1100/685">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/h_11_toolbar.jpg" data-cap="The toolbar: Classroom, QR code, Copy link, Download, Full screen." alt="Activity page with the toolbar highlighted: Classroom, QR code, Copy link, Download, Full screen and the three-dot menu" loading="lazy">
+              <img src="img/h_12_menu.jpg" data-cap="The … menu: Print, Details, View code, Remix, Edit, Delete." alt="Three-dot menu open: Print or save as PDF, Details, View code, Remix, Edit, Delete and Back to the library" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">2</span><h3>Use the activity page</h3><p>Closed the box? The same buttons are along the top of your activity page: <span class="ui">Classroom</span>, <span class="ui">QR code</span>, <span class="ui">Copy link</span>, <span class="ui">Download</span> and <span class="ui">Full screen</span>.</p><p>Click <span class="ui">&hellip;</span> for more:</p><ul><li><span class="ui">Edit</span>: fix a mistake or paste in new code.</li><li><span class="ui">View code</span> and <span class="ui">Details</span>.</li><li><span class="ui">Delete</span>: take it down.</li></ul><div class="tip"><b>Full screen on the board.</b> Play it together as a class first, then let students try it on their own devices.</div></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- PART 5 -->
+<section class="tool" id="library">
+  <div class="toolhead">
+    <span class="eyebrow">Part 5 &middot; Library</span>
+    <h2>Find, share and remix colleagues' work</h2>
+    <p class="why">Every published activity goes into the shared library. Before you build something new, check whether a colleague already has.</p>
+    <div class="chips"><span class="chip"><a href="https://aisa-ai-web.github.io/code-uploader/library.html" target="_blank" rel="noopener">Open the library &nearr;</a></span></div>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/h_13_cards.jpg" alt="Library with search, grade filters and two activity cards; the Ethos, Pathos or Logos card is highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">1</span><h3>Search and filter</h3><p>Search by topic, title, concept, tag or teacher. Click a grade such as <span class="ui">Gr 10</span>, or use the subject, activity type and sort menus.</p><p><span class="ui">My activities</span> shows only yours.</p><p>Each card has <span class="ui">Open</span> and quick icons for the QR code, Google Classroom, Download and Remix.</p></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2800" style="--ar:1100/625">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/h_14_remix.jpg" data-cap="The last icon on a card is Remix." alt="Card icons highlighted: QR code, Classroom, Download and Remix" loading="lazy">
+              <img src="img/h_15_remixpage.jpg" data-cap="Remix opens your own copy. The original stays as it is." alt="Remixing Ethos, Pathos, or Logos page: change the code or details, then publish your own copy with its own link" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">2</span><h3>Remix to make it yours</h3><p>Click the <b>Remix</b> icon on a card, or <span class="ui">Remix (make my own copy)</span> in the <span class="ui">&hellip;</span> menu. The code and details load into Create.</p><p>Change them, then publish your own copy with its own link. The original stays as it is.</p><div class="tip"><b>Remix with Gemini.</b> Copy the code from the Remix page, paste it into Gemini and ask, for example, <em>Keep the design but change the questions to Grade 7 science: states of matter.</em> Paste the new code back and publish.</div></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="challenge" aria-labelledby="ch">
+  <span class="eyebrow">Your station challenge &middot; 20 minutes</span>
+  <h2 id="ch">Publish one activity and play it on your phone</h2>
+  <ol>
+    <li>Use the prompt recipe or the EduSim Gem to build an activity for a lesson you're teaching soon.</li>
+    <li>Copy the code with Option A. If it doesn't paste, use Option B.</li>
+    <li>Paste it into the Activity Hub, fix the auto-detected details and publish.</li>
+    <li>Scan your QR code with your phone and play it to the end.</li>
+    <li>Find a colleague's activity in the library and remix it for your class.</li>
+  </ol>
+</section>
+
+<section class="sect" id="check">
+  <span class="eyebrow">Before students use it</span>
+  <h2>Check it</h2>
+  <div class="checks">
+    <div class="check"><h4>Play every question</h4><p>Gemini can sort an example into the wrong category or give a weak reason. Check every answer and explanation.</p></div>
+    <div class="check"><h4>Test on a student device</h4><p>We asked for no external links, but our game still loaded its styles and font from the internet (look near the top of the code). It needs Wi-Fi, so test it on a student laptop or iPad on the school network.</p></div>
+    <div class="check"><h4>Keep it free of student data</h4><p>Anyone with the link can open it and colleagues can see it in the library. No student names, photos or personal details in the code or description.</p></div>
+    <div class="check"><h4>Know what it doesn't do</h4><p>Our game shows a score on screen but doesn't send results to you. If you need evidence, ask students to screenshot their score or follow it with a Google Form.</p></div>
+  </div>
+
+  <div class="links">
+    <a href="https://gemini.google.com/app" target="_blank" rel="noopener"><span>Gemini (+ &rsaquo; More tools &rsaquo; Canvas)</span><span>gemini.google.com</span></a>
+    <a href="https://gemini.google.com/gem/11QD4AkTJjpXVgEGw8SJ74nq99ntDfv8V?usp=sharing" target="_blank" rel="noopener"><span>AISA EduSim Gem (if you're not sure where to start)</span><span>gemini.google.com/gem</span></a>
+    <a href="https://aisa-ai-web.github.io/code-uploader/index.html" target="_blank" rel="noopener"><span>AISA Activity Hub: Create</span><span>aisa-ai-web.github.io</span></a>
+    <a href="https://aisa-ai-web.github.io/code-uploader/library.html" target="_blank" rel="noopener"><span>AISA Activity Hub: Library</span><span>aisa-ai-web.github.io</span></a>
+  </div>
+</section>
+
+<footer>AISA &middot; AI &amp; Innovation &middot; AI PD Stations. Screenshots taken in October 2026; Google may move buttons over time.</footer>
+</main>
+
+<div class="lb" id="lb" hidden><button type="button" id="lbclose">Close</button><img id="lbimg" alt=""></div>
+<script>
+// Flipbooks: cycle real screenshots with a caption, step counter and controls
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.flip').forEach(function(f){
+    var stage=f.querySelector('.fstage'), imgs=[].slice.call(stage.querySelectorAll('img')), ms=+f.dataset.ms||2500, i=0, timer=null, paused=reduce, hover=false;
+    var prog=document.createElement('div'); prog.className='fprog'; var bar=document.createElement('i'); prog.appendChild(bar);
+    var fb=document.createElement('div'); fb.className='fbar';
+    var num=document.createElement('span'); num.className='fnum';
+    var cap=document.createElement('span'); cap.className='fcap'; cap.setAttribute('aria-live','polite');
+    var ctl=document.createElement('span'); ctl.className='fctl';
+    function mk(t,l){var b=document.createElement('button');b.type='button';b.textContent=t;b.setAttribute('aria-label',l);ctl.appendChild(b);return b}
+    var prev=mk('‹','Previous frame'), pp=mk(paused?'Play':'Pause','Play or pause'), next=mk('›','Next frame');
+    fb.append(num,cap,ctl); f.append(prog,fb);
+    function show(k){ i=(k+imgs.length)%imgs.length; imgs.forEach(function(im,n){im.classList.toggle('on',n===i)}); num.textContent=i+1; cap.textContent=imgs[i].dataset.cap||''; run(); }
+    function run(){ clearTimeout(timer); bar.classList.remove('run'); bar.style.transitionDuration='0ms'; bar.style.width='0';
+      if(paused||hover) return; void bar.offsetWidth; bar.classList.add('run'); bar.style.transitionDuration=ms+'ms'; bar.style.width='100%';
+      timer=setTimeout(function(){show(i+1)},ms); }
+    prev.onclick=function(){show(i-1)}; next.onclick=function(){show(i+1)};
+    pp.onclick=function(){paused=!paused; pp.textContent=paused?'Play':'Pause'; run();};
+    f.addEventListener('mouseenter',function(){hover=true;run()}); f.addEventListener('mouseleave',function(){hover=false;run()});
+    stage.addEventListener('click',function(){var lb=document.getElementById('lb'),li=document.getElementById('lbimg');li.src=imgs[i].src;li.alt=imgs[i].alt;lb.hidden=false;document.getElementById('lbclose').focus();});
+    show(0);
+  });
+})();
+// Copy the prompt recipe
+(function(){
+  var b=document.getElementById('copyRules'), msg=document.getElementById('copiedMsg'), t=document.getElementById('rulesText');
+  function selectText(){var r=document.createRange();r.selectNodeContents(t);var s=window.getSelection();s.removeAllRanges();s.addRange(r);}
+  b.addEventListener('click',function(){
+    try{ navigator.clipboard.writeText(t.textContent).then(function(){msg.textContent='Copied. Paste it into Gemini.';},function(){selectText();msg.textContent='Selected. Press ⌘C to copy.';}); }
+    catch(e){selectText();msg.textContent='Selected. Press ⌘C to copy.';}
+  });
+})();
+// Option A / B chooser jumps to that step
+(function(){
+  document.querySelectorAll('.route[data-go]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var sec=a.closest('section'), sp=sec.querySelector('.stepper'), d=sp&&sp.querySelectorAll('.dots .dot')[+a.dataset.go];
+      if(!d) return; e.preventDefault(); d.click(); sp.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+})();
+var REDUCE = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+// Gemini prompt typing mock
+(function(){
+  var t=document.getElementById('gtext'), lab=document.getElementById('glab'), chip=document.getElementById('gchip'), send=document.getElementById('gsend'); if(!t) return;
+  var P='Make a single self-contained HTML file: a sorting game for Grade 10 English called "Ethos, Pathos or Logos?". Show 10 short persuasive lines one at a time (examples a teenager would hear, suitable for a school in the UAE). Students tap Ethos, Pathos or Logos. After each answer, explain in one sentence why. Show a score and a Play again button at the end. Clear, simple English for EAL learners, big buttons that work on a Chromebook or phone, no external images or links.';
+  if(REDUCE){ t.textContent=P; t.style.height='auto'; chip.classList.add('on'); send.classList.add('ready'); lab.textContent='Canvas on, prompt ready'; return; }
+  (async function loop(){ for(;;){
+    t.innerHTML='<span class="ph">Ask Gemini</span>'; chip.className='gchip'; send.className='gsend'; lab.textContent='+ › More tools › Canvas';
+    await wait(1200); chip.className='gchip on hl'; lab.textContent='Canvas on'; await wait(1200); chip.className='gchip on';
+    lab.textContent='Type your prompt';
+    for(var k=2;k<=P.length;k+=2){ t.innerHTML=esc(P.slice(0,k))+'<span class="caret"></span>'; t.scrollTop=t.scrollHeight; await wait(22); }
+    send.className='gsend ready hl'; lab.textContent='Send'; await wait(2600);
+  }})();
+})();
+// Option B mock (Gemini tab): click in the code, Cmd+A, Cmd+C
+var CODE=['<span class="t">&lt;!DOCTYPE html&gt;</span>','<span class="t">&lt;html</span> lang=<span class="s">"en"</span><span class="t">&gt;</span>','<span class="t">&lt;head&gt;</span>','  <span class="t">&lt;title&gt;</span>Ethos, Pathos, or Logos?<span class="t">&lt;/title&gt;</span>','  <span class="t">&lt;style&gt;</span> body { font-family: Inter; }','<span class="t">&lt;/head&gt;</span>','<span class="t">&lt;body&gt;</span>','  <span class="c">&lt;!-- 10 questions --&gt;</span>','  <span class="t">&lt;button&gt;</span>Ethos<span class="t">&lt;/button&gt;</span>','  …'];
+function rip(r){r.classList.remove('go');void r.offsetWidth;r.classList.add('go')}
+async function press(box,a,b,x,y){ box.hidden=false; a.textContent=x; b.textContent=y; a.classList.add('down'); await wait(250); b.classList.add('down'); await wait(450); a.classList.remove('down'); b.classList.remove('down'); }
+(function(){
+  var L=document.getElementById('codeL'); if(!L) return;
+  var rp=document.getElementById('ripL'), box=document.getElementById('kbox'), k1=document.getElementById('k1'), k2=document.getElementById('k2'),
+      cap=document.getElementById('kcap'), lab=document.getElementById('kstep'), toast=document.getElementById('toastL');
+  L.innerHTML=CODE.map(function(c){return '<span class="ln">'+c+'</span>'}).join('');
+  var lines=[].slice.call(L.children);
+  function sel(on){lines.forEach(function(l){l.classList.toggle('sel',on)})}
+  if(REDUCE){ sel(true); box.hidden=false; k2.textContent='C'; cap.textContent='Click in the code, press ⌘A, then ⌘C'; toast.classList.add('on'); return; }
+  (async function loop(){ for(;;){
+    sel(false); box.hidden=true; toast.classList.remove('on');
+    lab.textContent='1 · Click in the code'; cap.textContent='Click Code, then click inside the code'; await wait(900); rip(rp); await wait(1400);
+    lab.textContent='2 · Select all'; cap.textContent='Press ⌘ + A: all the code turns blue'; await press(box,k1,k2,'⌘','A'); sel(true); await wait(1500);
+    lab.textContent='3 · Copy'; cap.textContent='Press ⌘ + C to copy it'; await press(box,k1,k2,'⌘','C'); toast.classList.add('on'); await wait(3200);
+  }})();
+})();
+// Paste mock (Activity Hub tab): click the box, Cmd+V
+(function(){
+  var R=document.getElementById('codeR'); if(!R) return;
+  var ppl=document.getElementById('pplR'), foot=document.getElementById('footR'), rp=document.getElementById('ripR'),
+      box=document.getElementById('pbox'), p1=document.getElementById('p1'), p2=document.getElementById('p2'), cap=document.getElementById('pcap'), lab=document.getElementById('pstep');
+  function done(){ ppl.hidden=true; R.hidden=false; R.innerHTML=CODE.map(function(c){return '<span class="ln">'+c+'</span>'}).join(''); foot.textContent='522 lines · 27 KB'; }
+  if(REDUCE){ done(); box.hidden=false; cap.textContent='Click inside the paste box, then press ⌘V'; return; }
+  (async function loop(){ for(;;){
+    R.hidden=true; R.innerHTML=''; ppl.hidden=false; foot.innerHTML='&nbsp;'; box.hidden=true;
+    lab.textContent='1 · Click the paste box'; cap.textContent='Click inside the paste box'; await wait(900); rip(rp); await wait(1400);
+    lab.textContent='2 · Paste'; cap.textContent='Press ⌘ + V to paste'; await press(box,p1,p2,'⌘','V');
+    ppl.hidden=true; R.hidden=false; for(var k=0;k<CODE.length;k++){ R.innerHTML+='<span class="ln">'+CODE[k]+'</span>'; await wait(90); }
+    foot.textContent='522 lines · 27 KB'; lab.textContent='3 · Pasted'; cap.textContent='The preview starts running'; await wait(3200);
+  }})();
+})();
+</script>
+<script>
+(function(){
+  // Steppers: show one step at a time with Back / Next, or all steps.
+  document.querySelectorAll('.stepper').forEach(function(sp){
+    var steps=[].slice.call(sp.querySelectorAll('.step')); if(!steps.length) return;
+    var i=0, all=false;
+    var bar=document.createElement('div'); bar.className='sbar';
+    var count=document.createElement('span'); count.className='count';
+    var dots=document.createElement('div'); dots.className='dots';
+    var tog=document.createElement('button'); tog.type='button'; tog.className='toggle';
+    steps.forEach(function(s,k){var d=document.createElement('button');d.type='button';d.className='dot';d.setAttribute('aria-label','Go to step '+(k+1));d.onclick=function(){go(k)};dots.appendChild(d)});
+    bar.append(count,dots,tog); sp.prepend(bar);
+    var nav=document.createElement('div'); nav.className='snav';
+    var back=document.createElement('button'); back.type='button'; back.className='btn'; back.textContent='← Back';
+    var next=document.createElement('button'); next.type='button'; next.className='btn primary';
+    nav.append(back,next); sp.append(nav);
+    back.onclick=function(){go(i-1)}; next.onclick=function(){ if(i<steps.length-1) go(i+1); else { var nx=sp.closest('section').nextElementSibling; if(nx) nx.scrollIntoView({behavior:'smooth'}); } };
+    tog.onclick=function(){all=!all;render()};
+    function go(k){ if(k<0||k>=steps.length) return; i=k; render(); steps[i].classList.remove('enter'); void steps[i].offsetWidth; steps[i].classList.add('enter');
+      var r=sp.getBoundingClientRect(); if(r.top<0) sp.scrollIntoView({behavior:'smooth',block:'start'}); }
+    function render(){
+      sp.classList.toggle('paged',!all);
+      steps.forEach(function(s,k){s.hidden=!all&&k!==i});
+      [].forEach.call(dots.children,function(d,k){d.className='dot'+(k===i?' on':k<i?' done':'')});
+      dots.hidden=all; nav.hidden=all;
+      count.innerHTML=all?'<b>'+steps.length+' steps</b>':'Step <b>'+(i+1)+'</b> of '+steps.length;
+      tog.textContent=all?'Show one step at a time':'Show all steps';
+      back.disabled=i===0;
+      next.textContent=i===steps.length-1?'Done ✓':'Next →';
+    }
+    render();
+  });
+
+  // Lightbox for screenshots
+  var lb=document.getElementById('lb'), lbimg=document.getElementById('lbimg');
+  document.querySelectorAll('.shot button').forEach(function(b){
+    var img=b.querySelector('img'); b.setAttribute('aria-label','Enlarge: '+img.alt);
+    b.onclick=function(){lbimg.src=img.src;lbimg.alt=img.alt;lb.hidden=false;document.getElementById('lbclose').focus()};
+  });
+  function close(){lb.hidden=true}
+  lb.onclick=close; document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+
+  // Highlight current section in the sticky nav
+  var links=[].slice.call(document.querySelectorAll('.nav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  function spy(){var y=window.scrollY+120, cur=0; secs.forEach(function(s,k){if(s&&s.offsetTop<=y)cur=k});
+    links.forEach(function(a,k){a.classList.toggle('on',k===cur)});}
+  window.addEventListener('scroll',spy,{passive:true}); spy();
+})();
+</script>
+
+</body></html>
