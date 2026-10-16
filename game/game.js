@@ -46,6 +46,20 @@
     clearTimeout(saveTimer);
     saveTimer = setTimeout(function () { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } }, 120);
   }
+  function saveNow() { clearTimeout(saveTimer); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } }
+  window.addEventListener('pagehide', saveNow);
+  // Another tab (e.g. one opened from the station guides) saved newer progress: adopt it,
+  // so this tab never writes its older copy back over badges earned there.
+  window.addEventListener('storage', function (e) {
+    if (e.key !== KEY || !e.newValue) return;
+    try {
+      var p = JSON.parse(e.newValue); if (!p || p.v !== 1) return;
+      var lang = S.lang;
+      S = Object.assign(fresh(), p); S.counters = Object.assign(fresh().counters, S.counters || {}); S.lang = lang;
+      if (S.look) player.look = S.look;
+      updateHUD(); rerenderModal();
+    } catch (err) { }
+  });
   function qs(id) { if (!S.q[id]) S.q[id] = { m: {}, coop: false, quiz: false, qi: 0, badge: false, seen: false }; return S.q[id]; }
   function questDone(q) { return !!(S.q[q.id] && S.q[q.id].badge); }
   function missionsDone(q) { var st = qs(q.id); return q.missions.filter(function (m) { return st.m[m.id]; }).length; }
@@ -439,7 +453,11 @@
      ================================================================= */
   var defaultLook = { skin: 1, hair: 'short', hairColor: '#3B2417', outfit: 'shirt', color: '#21076C', glasses: false };
   var player = { x: world.spawn.x, y: world.spawn.y, dir: 'up', moving: false, phase: 0, look: S.look || defaultLook, idle: 0 };
-  if (S.pos && !world.isSolid(S.pos.x, S.pos.y - 0.1)) { player.x = S.pos.x; player.y = S.pos.y; }
+  function footClear(x, y) {
+    var hw = 0.27, hh = 0.2;
+    return !world.isSolid(x - hw, y - hh) && !world.isSolid(x + hw, y - hh) && !world.isSolid(x - hw, y - 0.02) && !world.isSolid(x + hw, y - 0.02);
+  }
+  if (S.pos && footClear(S.pos.x, S.pos.y)) { player.x = S.pos.x; player.y = S.pos.y; }
   var leo = { x: world.leoSpawn.x, y: world.leoSpawn.y, dir: 'down', moving: false, phase: 0, state: 'sit', trail: [], hopUntil: 0 };
   var npcs = (PD.npcs || []).map(function (n) {
     var L = world.L, cz = world.zones.corridor, pos;
@@ -462,22 +480,34 @@
   var mode = 'title';
 
   function typing(e) { var tg = e.target; return tg && (tg.tagName === 'INPUT' || tg.tagName === 'TEXTAREA' || tg.isContentEditable); }
+  // Letter shortcuts follow the physical key when the layout isn't Latin (e.g. Arabic),
+  // but keep the printed letter on Latin layouts such as AZERTY.
+  var KEYCODE = { KeyW: 'w', KeyA: 'a', KeyS: 's', KeyD: 'd', KeyE: 'e', KeyQ: 'q', KeyB: 'b', KeyM: 'm' };
+  function keyOf(e) {
+    var k = (e.key || '').toLowerCase();
+    if (!/^[a-z]$/.test(k) && KEYCODE[e.code]) k = KEYCODE[e.code];
+    return k;
+  }
   window.addEventListener('keydown', function (e) {
     if (typing(e)) return;
-    var k = e.key.toLowerCase();
+    var k = keyOf(e), act = k === 'e' || k === ' ' || k === 'enter';
     if (k === 'escape') { if (closeTopLayer()) e.preventDefault(); return; }
-    if (dialog.open) { if (k === 'e' || k === ' ' || k === 'enter') { e.preventDefault(); dialog.advance(); } return; }
+    if (dialog.open) { if (act) { e.preventDefault(); if (!e.repeat) dialog.advance(); } return; }
     if (mode !== 'play') return;
     if (modal.open || awardEl.classList.contains('on') || !$('#cert').hasAttribute('hidden') || !$('#lightbox').hasAttribute('hidden')) return;
+    // a focused button (HUD, prompt pill) handles its own Enter/Space
+    var onControl = e.target && e.target.closest && e.target.closest('button, a, [role="button"]');
+    if (onControl && (k === ' ' || k === 'enter')) return;
     if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', ' '].indexOf(k) >= 0) e.preventDefault();
     keys[k] = true;
     if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd'].indexOf(k) >= 0) { path = null; pendingTarget = null; }
-    if (k === 'e' || k === ' ' || k === 'enter') { if (near) { Sound.init(); interact(near); } }
+    if (e.repeat) return;
+    if (act) { if (near) { Sound.init(); interact(near); } }
     if (k === 'q') openQuestLog();
     if (k === 'b') openBadges();
     if (k === 'm') openMap();
   });
-  window.addEventListener('keyup', function (e) { keys[e.key.toLowerCase()] = false; });
+  window.addEventListener('keyup', function (e) { keys[keyOf(e)] = false; });
   window.addEventListener('blur', function () { keys = {}; });
 
   canvas.addEventListener('pointerdown', function (e) {
@@ -560,9 +590,13 @@
     if (Math.abs(tx - leo.x) < 0.7 && ty > leo.y - 1.3 && ty < leo.y + 0.2) return { type: 'leo', rect: { x: leo.x - 0.5, y: leo.y - 0.45, w: 1, h: 0.5 }, range: 0.75 };
     npcs.forEach(function (n) { if (Math.abs(tx - n.x) < 0.6 && ty > n.y - 1.5 && ty < n.y + 0.2) hit = { type: 'npc', n: n, rect: { x: n.x - 0.35, y: n.y - 0.35, w: 0.7, h: 0.4 }, range: 0.9 }; });
     if (hit) return hit;
+    for (var ri = 0; ri < world.rooms.length; ri++) {
+      var kp = world.rooms[ri].kiosk;
+      if (Math.abs(tx - (kp.x + kp.w / 2)) <= 0.6 && ty >= kp.y - 3.6 && ty <= kp.y + kp.h) return { type: 'prop', p: kp, rect: { x: kp.x, y: kp.y, w: kp.w, h: kp.h }, range: 1.15 };
+    }
     world.interactables.forEach(function (p) {
       var top = p.layer === 'stand' ? Math.max(p.top || 0, WD.KIND_TOP[p.kind] || 0) : 0;
-      if (tx >= p.x && tx <= p.x + p.w && ty >= p.y - top && ty <= p.y + p.h) hit = { type: 'prop', p: p, rect: { x: p.x, y: p.y, w: p.w, h: p.h }, range: 0.8 };
+      if (tx >= p.x && tx <= p.x + p.w && ty >= p.y - top && ty <= p.y + p.h) hit = { type: 'prop', p: p, rect: { x: p.x, y: p.y, w: p.w, h: p.h }, range: p.kind === 'kiosk' ? 1.15 : 0.8 };
     });
     return hit;
   }
@@ -595,7 +629,7 @@
       var n = tg.n, lines = n.def.lines, k = (S.counters.npc[n.def.id] || 0);
       S.counters.npc[n.def.id] = k + 1; save();
       n.dir = faceToward(n, player);
-      say([lines[k % lines.length]], { portrait: 'npc', look: n.look, name: t(n.def.role) });
+      say([lines[k % lines.length]], { portrait: 'npc', look: n.look, name: n.def.role });
       return;
     }
     var it = tg.p.interact;
@@ -617,7 +651,7 @@
     if (id === 'copier') { S.counters.copier = (S.counters.copier || 0) + 1; if (S.counters.copier >= 3) unlockSecret('jam'); }
     if (id === 'bell') { Sound.play('bell'); shake = 0.5; unlockSecret('bell'); }
     else Sound.play('blip');
-    if (line) say([line], { portrait: null, name: t(o.name) });
+    if (line) say([line], { portrait: null, name: o.name });
   }
   function patLeo() {
     S.counters.pats = (S.counters.pats || 0) + 1; save();
@@ -664,10 +698,9 @@
      UPDATE LOOP
      ================================================================= */
   var last = performance.now(), shake = 0, hearts = [], currentZone = null;
-  var bumpState = false, bumpCooldown = 0, stepTimer = 0;
+  var bumpState = false, bumpCooldown = 0, stepTimer = 0, posDirty = false;
   function canStand(x, y) {
-    var hw = 0.27, hh = 0.2;
-    if (world.isSolid(x - hw, y - hh) || world.isSolid(x + hw, y - hh) || world.isSolid(x - hw, y - 0.02) || world.isSolid(x + hw, y - 0.02)) return false;
+    if (!footClear(x, y)) return false;
     for (var i = 0; i < npcs.length; i++) if (Math.abs(npcs[i].x - x) < 0.5 && Math.abs(npcs[i].y - y) < 0.32) return false;
     return true;
   }
@@ -742,7 +775,7 @@
       near = paused ? null : findNear();
       var z = world.zoneAt(player.x, player.y - 0.1);
       if (z && z !== currentZone) { enterZone(z, currentZone); currentZone = z; }
-      if (moved) S.pos = { x: +player.x.toFixed(2), y: +player.y.toFixed(2) };
+      if (moved) { S.pos = { x: +player.x.toFixed(2), y: +player.y.toFixed(2) }; posDirty = true; }
     }
     hearts = hearts.filter(function (h) { return now - h.t < 1200; });
     if (shake > 0) shake = Math.max(0, shake - dt);
@@ -904,7 +937,8 @@
     if (!miniBase || mode !== 'play') return;
     var L = world.L, x0 = (L.x0 - 1) * 3, y0 = (L.y0 - 1) * 3, w = (world.W - 2 * L.OUT + 2) * 3, h = (world.H - 2 * L.OUT + 2) * 3;
     var dpr = V.dpr, cssW = 190, cssH = Math.round(cssW * h / w);
-    if (mini.width !== cssW * dpr) { mini.width = cssW * dpr; mini.height = cssH * dpr; mini.style.width = cssW + 'px'; mini.style.height = cssH + 'px'; }
+    var pw = Math.round(cssW * dpr);
+    if (mini.width !== pw) { mini.width = pw; mini.height = Math.round(cssH * dpr); mini.style.width = cssW + 'px'; mini.style.height = cssH + 'px'; }
     var c = miniCtx, sc = mini.width / w;
     c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, mini.width, mini.height);
     c.imageSmoothingEnabled = false;
@@ -937,13 +971,15 @@
       '<button class="hud-btn icon-only" data-act="sound" type="button" aria-label="' + uiH('sound') + '">' + icon(S.sound ? 'sound-on' : 'sound-off') + '</button>' +
       '<button class="hud-btn icon-only" data-act="help" type="button" aria-label="' + uiH('help') + '">' + icon('help') + '</button>' +
       '</div>';
+    mini.title = ui('map');
     updateHUD();
   }
   function hudBtn(act, ic, key) {
-    return '<button class="hud-btn" data-act="' + act + '" type="button">' + icon(ic) + '<span>' + uiH(act) + '</span><kbd>' + key + '</kbd></button>';
+    return '<button class="hud-btn" data-act="' + act + '" type="button" aria-label="' + uiH(act) + '" title="' + uiH(act) + ' (' + key + ')">' + icon(ic) + '<span aria-hidden="true">' + uiH(act) + '</span><kbd aria-hidden="true">' + key + '</kbd></button>';
   }
   hud.addEventListener('click', function (e) {
     var b = e.target.closest('[data-act]'); if (!b) return;
+    if (e.detail) b.blur();
     Sound.init(); Sound.play('blip');
     var a = b.getAttribute('data-act');
     if (a === 'quests') openQuestLog();
@@ -951,7 +987,7 @@
     if (a === 'map') openMap();
     if (a === 'help') openHelp();
     if (a === 'lang') setLang(PD.lang === 'ar' ? 'en' : 'ar');
-    if (a === 'sound') { S.sound = !S.sound; save(); buildHUD(); }
+    if (a === 'sound') { S.sound = !S.sound; save(); keepFocus(hud, buildHUD); }
   });
   function updateHUD() {
     var name = $('.hud-name', hud); if (!name) return;
@@ -984,7 +1020,7 @@
     promptEl.innerHTML = '<kbd>E</kbd><span>' + esc(txt) + '</span>';
     promptEl.classList.add('on');
   }
-  promptEl.addEventListener('click', function () { if (near) interact(near); });
+  promptEl.addEventListener('click', function (e) { if (e.detail) promptEl.blur(); if (near) interact(near); });
 
   /* ---------------- banner ---------------- */
   var bannerEl = $('#banner'), bannerTimer = null;
@@ -1032,15 +1068,17 @@
       if (this.opts.portrait === 'leo') por.innerHTML = leoSVG(this.opts.expr || 'happy');
       else if (this.opts.portrait === 'npc') { por.innerHTML = '<canvas width="128" height="128"></canvas>'; drawAvatarPortrait($('canvas', por), this.opts.look); }
       else por.innerHTML = '';
-      $('.dlg-name', dialogEl).textContent = this.opts.name || ui('leo');
-      var skip = $('.dlg-skip', dialogEl); skip.textContent = ui('skip'); show(skip, lines.length > 1);
+      show($('.dlg-skip', dialogEl), lines.length > 1);
       this.show();
     },
     show: function () {
       var self = this, line = this.lines[this.i];
       var html = rich(line, { name: S.name });
       var txtEl = $('.dlg-text', dialogEl);
-      $('.dlg-next', dialogEl).textContent = this.i < this.lines.length - 1 ? ui('next') + (PD.lang === 'ar' ? ' ‹' : ' ›') : ui('close');
+      $('.dlg-name', dialogEl).textContent = t(this.opts.name || PD.ui.leo);
+      $('.dlg-skip', dialogEl).textContent = ui('skip');
+      // the same character in both languages: bidi mirroring points it the right way in RTL
+      $('.dlg-next', dialogEl).textContent = this.i < this.lines.length - 1 ? ui('next') + ' ›' : ui('close');
       if (this.opts.portrait === 'leo' && this.opts.exprs && this.opts.exprs[this.i]) $('.dlg-portrait', dialogEl).innerHTML = leoSVG(this.opts.exprs[this.i]);
       var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduce) { txtEl.innerHTML = html; this.typing = false; return; }
@@ -1108,7 +1146,26 @@
     if (!silent) Sound.play('close');
     canvas.focus && canvas.focus();
   }
-  function rerenderModal() { if (modal.open && modal.render) { var sc = $('.scroll', modalCard), top = sc ? sc.scrollTop : 0; modal.render(modalCard); var sc2 = $('.scroll', modalCard); if (sc2) sc2.scrollTop = top; } }
+  function rerenderModal() {
+    if (!modal.open || !modal.render) return;
+    var sc = $('.scroll', modalCard), top = sc ? sc.scrollTop : 0;
+    keepFocus(modalCard, function () { modal.render(modalCard); });
+    var sc2 = $('.scroll', modalCard); if (sc2) sc2.scrollTop = top;
+  }
+  // Re-rendering replaces buttons; put keyboard focus back on the same control.
+  var FOCUS_ATTRS = ['data-toggle', 'data-tab', 'data-how', 'data-opt', 'data-coop', 'data-next', 'data-claim', 'data-copy', 'data-k', 'data-v', 'data-act', 'data-q', 'data-open', 'data-walk', 'data-go-play', 'data-cert'];
+  function focusKey(el) {
+    if (!el || !el.getAttribute || !window.CSS || !CSS.escape) return null;
+    var parts = FOCUS_ATTRS.filter(function (a) { return el.hasAttribute(a); }).map(function (a) { return '[' + a + '="' + CSS.escape(el.getAttribute(a)) + '"]'; });
+    return parts.length ? el.tagName.toLowerCase() + (el.classList[0] ? '.' + CSS.escape(el.classList[0]) : '') + parts.join('') : null;
+  }
+  function keepFocus(root, fn, fallback) {
+    var a = document.activeElement, key = a && a !== root && root.contains(a) ? focusKey(a) : null;
+    fn();
+    if (!key) return;
+    var el = root.querySelector(key) || (fallback && root.querySelector(fallback));
+    if (el && !el.disabled) el.focus({ preventScroll: true });
+  }
   modalEl.addEventListener('click', function (e) {
     if (e.target === modalEl || e.target.closest('[data-close]')) closeModal();
   });
@@ -1221,7 +1278,7 @@
     });
     h += '</div>';
     if (u.quip) {
-      h += '<div class="feedback ' + (u.answered ? 'ok' : 'no') + '" role="status"><b>' + esc(u.quip) + '</b>' + (u.answered ? '<p>' + rich(item.why) + '</p><button class="btn primary" type="button" data-next>' + (qi < n - 1 ? uiH('nextQuestion') : uiH('quizPassed')) + ' ' + (icon(PD.lang === 'ar' ? 'arrow-left' : 'arrow-right') || '→') + '</button>' : '<p>' + uiH('tryAgain') + '</p>') + '</div>';
+      h += '<div class="feedback ' + (u.answered ? 'ok' : 'no') + '" role="status"><b>' + esc(t(PD.leo[u.quip.k][u.quip.i])) + '</b>' + (u.answered ? '<p>' + rich(item.why) + '</p><button class="btn primary" type="button" data-next>' + (qi < n - 1 ? uiH('nextQuestion') : uiH('quizPassed')) + ' ' + (icon(PD.lang === 'ar' ? 'arrow-left' : 'arrow-right') || '→') + '</button>' : '<p>' + uiH('tryAgain') + '</p>') + '</div>';
     }
     h += '</div>';
     return h;
@@ -1242,7 +1299,7 @@
     var st = qs(q.id);
     root.onclick = function (e) {
       var b;
-      if ((b = e.target.closest('[data-tab]'))) { questTab[q.id] = b.getAttribute('data-tab'); Sound.play('blip'); renderQuest(root, q); var sc = $('.scroll', root); if (sc) sc.scrollTop = 0; return; }
+      if ((b = e.target.closest('[data-tab]'))) { questTab[q.id] = b.getAttribute('data-tab'); Sound.play('blip'); keepFocus(root, function () { renderQuest(root, q); }, '.tab.on'); var sc = $('.scroll', root); if (sc) sc.scrollTop = 0; return; }
       if ((b = e.target.closest('[data-toggle]'))) {
         var id = b.getAttribute('data-toggle'); st.m[id] = !st.m[id]; save();
         Sound.play(st.m[id] ? 'tick' : 'untick');
@@ -1274,7 +1331,9 @@
         var u = quizUI[q.id];
         if (st.qi < q.quiz.length - 1) { st.qi++; quizUI[q.id] = { wrong: {}, answered: false, quip: null }; }
         else { st.quiz = true; quizUI[q.id] = null; Sound.play('achieve'); }
-        save(); Sound.play('blip'); renderQuest(root, q); return;
+        save(); Sound.play('blip'); renderQuest(root, q);
+        var nf = $('.opt:not([disabled])', root) || $('[data-claim]', root) || $('.quiz-done [data-tab]', root); if (nf && document.activeElement === document.body) nf.focus({ preventScroll: true });
+        return;
       }
       if (e.target.closest('[data-claim]')) { claimBadge(q); return; }
     };
@@ -1283,15 +1342,17 @@
     var st = qs(q.id), item = q.quiz[st.qi || 0], u = quizUI[q.id];
     if (u.answered) return;
     if (i === item.answer) {
-      u.answered = true; u.quip = t(PD.leo.correct[Math.floor(Math.random() * PD.leo.correct.length)]);
+      u.answered = true; u.quip = { k: 'correct', i: Math.floor(Math.random() * PD.leo.correct.length) };
       Sound.play('correct');
     } else {
-      u.wrong[i] = true; u.quip = t(PD.leo.wrong[Math.floor(Math.random() * PD.leo.wrong.length)]);
+      u.wrong[i] = true; u.quip = { k: 'wrong', i: Math.floor(Math.random() * PD.leo.wrong.length) };
       Sound.play('wrong');
     }
     renderQuest(root, q);
     var fb = $('.feedback', root); if (fb) fb.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     if (!u.answered) { var w = $('[data-opt="' + i + '"]', root); if (w) w.classList.add('shake'); }
+    var nf = u.answered ? $('[data-next]', root) : $('.opt:not([disabled])', root);
+    if (nf) nf.focus({ preventScroll: true });
   }
   function copyText(s) {
     if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(s).catch(fallback);
@@ -1412,8 +1473,7 @@
   function resetGame() {
     var lang = S.lang, sound = S.sound;
     S = fresh(); S.lang = lang; S.sound = sound;
-    try { localStorage.removeItem(KEY); } catch (e) { }
-    save();
+    saveNow();
     location.reload();
   }
 
@@ -1449,7 +1509,7 @@
     show(awardEl); awardEl.classList.remove('on'); void awardEl.offsetWidth; awardEl.classList.add('on');
     Sound.play('badge');
     confetti();
-
+    var ok = $('[data-award-ok]', awardEl); if (ok) setTimeout(function () { ok.focus({ preventScroll: true }); }, 0);
   }
   awardEl.addEventListener('click', function (e) { if (e.target.closest('[data-award-ok]')) nextAward(); });
 
@@ -1506,6 +1566,7 @@
     renderTitle(); renderSetup();
     if (mode === 'play') { buildHUD(); lastPrompt = '#'; }
     rerenderModal();
+    if (dialog.open) dialog.show();
     if (!$('#cert').hasAttribute('hidden')) openCertificate();
   }
 
@@ -1593,14 +1654,14 @@
       if (b.getAttribute('data-k') === 'hair' && (draft.hair === 'ghutra') && draft.hairColor !== '#FFFFFF') draft.hairColor = '#FFFFFF';
       if (b.getAttribute('data-k') === 'hair' && draft.hair === 'hijab' && draft.hairColor === '#FFFFFF') draft.hairColor = '#21076C';
       Sound.play('blip');
-      var nm = draft.name; renderSetup(); var inp = $('#setup-name'); if (inp) inp.value = nm;
+      var nm = draft.name; keepFocus(setupEl, renderSetup); var inp = $('#setup-name'); if (inp) inp.value = nm;
       return;
     }
     if (e.target.closest('[data-go-play]')) finishSetup();
   });
   function finishSetup() {
     var input = $('#setup-name');
-    var name = (draft.name || '').trim().split(/\s+/)[0] || '';
+    var name = (draft.name || '').trim().replace(/\s+/g, ' ');
     if (!name) { input.classList.add('err'); input.focus(); Sound.play('wrong'); return; }
     S.name = name.slice(0, 20);
     S.look = { skin: draft.skin, hair: draft.hair, hairColor: draft.hairColor, outfit: draft.outfit, color: draft.color, glasses: draft.glasses };
@@ -1623,7 +1684,7 @@
       setTimeout(function () {
         Sound.play('roar');
         say(PD.leo.intro, {
-          portrait: 'leo', exprs: ['wow', 'happy', 'wink', 'proud', 'happy'], name: ui('leo'),
+          portrait: 'leo', exprs: ['wow', 'happy', 'wink', 'proud', 'happy'], name: PD.ui.leo,
           onDone: function () {
             S.introDone = true; save();
             showBanner('', t(PD.config.title), ui('roomQuest'), '#21076C');
@@ -1646,7 +1707,7 @@
     update(dt, now);
     render(now);
     if (mode === 'play') { drawMini(now); updatePrompt(); }
-    if (mode === 'play' && Math.floor(now / 2000) !== Math.floor((now - dt * 1000) / 2000)) save();
+    if (mode === 'play' && posDirty && Math.floor(now / 2000) !== Math.floor((now - dt * 1000) / 2000)) { posDirty = false; save(); }
     requestAnimationFrame(frame);
   }
 
@@ -1673,5 +1734,5 @@
   boot();
 
   // a tiny debug hook for testing in the browser console
-  PD.game = { S: function () { return S; }, player: player, world: world, openQuest: openQuest, setLang: setLang, claimBadge: claimBadge };
+  PD.game = { S: function () { return S; }, player: player, world: world, cam: cam, V: V, openQuest: openQuest, setLang: setLang, claimBadge: claimBadge };
 })();

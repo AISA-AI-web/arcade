@@ -387,7 +387,7 @@ PD.quests = [
     ],
     kit: [
       { en: 'Sign in to Google Classroom with your AISA account.', ar: 'سجّل الدخول إلى Google Classroom بحساب AISA.' },
-      { en: 'Pick a lesson you teach in the next two weeks. Have the topic, grade and any unit Doc or slides in Drive.', ar: 'اختر درساً خلال الأسبوعين القادمين. جهّز الموضوع والصف وأي ملف أو شرائح للوحدة في Drive.' },
+      { en: 'Pick a lesson you teach in the next two weeks. Have the topic, grade and any unit Doc or slides in Drive.', ar: 'اختر درساً ستدرّسه خلال الأسبوعين القادمين. جهّز الموضوع والصف وأي ملف أو شرائح للوحدة في Drive.' },
       { en: 'Describe your class in general terms ("mixed-ability, several EAL students"), never by name.', ar: 'صف صفّك بعبارات عامة («قدرات متنوعة، عدة طلاب يتعلمون الإنجليزية لغةً إضافية»)، ولا تذكر أسماء أبداً.' }
     ],
     missions: [
@@ -444,7 +444,7 @@ PD.quests = [
         title: { en: 'Make it doable, then draft it', ar: 'اجعلها قابلة للتنفيذ ثم احفظها مسودة' },
         goal: {
           en: 'Cut any activity you can\'t resource, then use Add to class to save it as a draft.',
-          ar: 'احذف أي نشاط لا تتوفر موارده، ثم استخدم Add to class لحفظه كمسودة.'
+          ar: 'احذف أي نشاط لا تتوفر موارده، ثم استخدم Add to class لحفظ اللوحة كمسودة.'
         },
         how: [
           { en: 'Read **Approx time** and **Materials needed** on each card. Swap anything you can\'t resource (Alka-Seltzer, Play-Doh…).', ar: 'اقرأ **Approx time** و**Materials needed** في كل بطاقة. استبدل ما لا تتوفر موارده.' },
@@ -536,7 +536,7 @@ PD.quests = [
       },
       {
         en: 'Bring headphones. Forty laptops narrating at once sounds like a very confused choir.',
-        ar: 'أحضر سماعات. أربعون حاسوباً يتحدث في الوقت نفسه تبدو كجوقة مرتبكة جداً.'
+        ar: 'أحضر سماعات؛ فأربعون حاسوباً تتحدث في الوقت نفسه تبدو كجوقة مرتبكة جداً.'
       }
     ],
     kit: [
@@ -584,7 +584,7 @@ PD.quests = [
           ar: 'امنح شريحة واحدة صوتاً مختلفاً، أو حوّلها إلى لغة يتحدثها طلابك في البيت.'
         },
         how: [
-          { en: 'In **AI voiceover**, click **Change** under Voiceover. Preview voices, pick one, click **Select**. With **Current scene** selected it applies to that slide only.', ar: 'في **AI voiceover** انقر **Change** تحت Voiceover. استمع إلى الأصوات، اختر واحداً، ثم **Select**. مع تحديد **Current scene** يُطبَّق على هذه الشريحة فقط.' },
+          { en: 'In **AI voiceover**, click **Change** under Voiceover. Preview voices, pick one, click **Select**. With **Current scene** selected it applies to that slide only. Then click **Update voiceover** › **Replace** so the new voice is used.', ar: 'في **AI voiceover** انقر **Change** تحت Voiceover. استمع إلى الأصوات، اختر واحداً، ثم **Select**. مع تحديد **Current scene** يُطبَّق على هذه الشريحة فقط. ثم انقر **Update voiceover** › **Replace** ليُستخدم الصوت الجديد.' },
           { en: 'For Arabic: translate the script (Translate text from Station 1 works), paste it over the English, then **Update voiceover** › **Replace**. The voice speaks whatever language the script is in.', ar: 'للعربية: ترجم النص (أداة Translate text من المحطة 1 مناسبة)، والصقه مكان الإنجليزي، ثم **Update voiceover** › **Replace**. الصوت يتحدث بلغة النص المكتوب.' },
           { en: 'Have a fluent speaker check any non-English scene before students or families hear it.', ar: 'اطلب من متحدث بطلاقة مراجعة أي مشهد بغير الإنجليزية قبل أن يسمعه الطلاب أو الأسر.' }
         ],
@@ -596,7 +596,7 @@ PD.quests = [
         title: { en: 'Fix the music, then watch it all', ar: 'اضبط الموسيقى ثم شاهده كاملاً' },
         goal: {
           en: 'Set the music to Background ducking at about 30% volume, then watch it all the way through with headphones.',
-          ar: 'اضبط الموسيقى على خفض Background بمستوى صوت 30% تقريباً، ثم شاهد الفيديو كاملاً بالسماعات.'
+          ar: 'اضبط الخفض التلقائي للموسيقى على Background ومستوى صوتها على 30% تقريباً، ثم شاهد الفيديو كاملاً بالسماعات.'
         },
         how: [
           { en: 'Click the long music bar at the bottom of the timeline, then the speaker icon. Set **Volume** to about 30%.', ar: 'انقر شريط الموسيقى الطويل أسفل الخط الزمني، ثم أيقونة السماعة. اضبط **Volume** على 30% تقريباً.' },
@@ -652,7 +652,7 @@ PD.quests = [
     },
     done: {
       en: 'And the award for Best Picture goes to… you! Please keep your speech under two minutes.',
-      ar: 'وجائزة أفضل فيلم تذهب إلى… أنت! رجاءً اجعل كلمتك أقل من دقيقتين.'
+      ar: 'وجائزة أفضل فيلم تذهب… إليك أنت! رجاءً اجعل كلمتك أقل من دقيقتين.'
     }
   },
 
@@ -671,10 +671,10 @@ PD.quests = [
       ar: 'اصنع لعبة من دون كتابة سطر برمجي، وشاركها برمز QR.'
     },
     time: { en: '~20 min', ar: 'نحو 20 دقيقة' },
-    tools: { en: 'Gemini Canvas · AISA Activity Hub', ar: 'Gemini Canvas · منصة أنشطة AISA' },
+    tools: { en: 'Gemini Canvas · AISA Activity Hub', ar: 'منصة أنشطة AISA · Gemini Canvas' },
     links: [
       { label: { en: 'Gemini', ar: 'Gemini' }, url: 'https://gemini.google.com/app' },
-      { label: { en: 'AISA EduSim Gem', ar: 'Gem ‏AISA EduSim' }, url: 'https://gemini.google.com/gem/11QD4AkTJjpXVgEGw8SJ74nq99ntDfv8V?usp=sharing' },
+      { label: { en: 'AISA EduSim Gem', ar: 'AISA EduSim Gem' }, url: 'https://gemini.google.com/gem/11QD4AkTJjpXVgEGw8SJ74nq99ntDfv8V?usp=sharing' },
       { label: { en: 'Activity Hub: Create', ar: 'منصة الأنشطة: إنشاء' }, url: 'https://aisa-ai-web.github.io/code-uploader/index.html' },
       { label: { en: 'Activity Hub: Library', ar: 'منصة الأنشطة: المكتبة' }, url: 'https://aisa-ai-web.github.io/code-uploader/library.html' }
     ],
@@ -682,7 +682,7 @@ PD.quests = [
       label: { en: 'Prompt recipe · change the words in [brackets]', ar: 'وصفة الطلب · غيّر الكلمات بين [القوسين]' },
       text: {
         en: 'Make a single self-contained HTML file: a [sorting game / quiz / matching game / flashcards] for Grade [X] [subject] called "[title]". [Say what students do, one step at a time.] After each answer, explain in one sentence why. Show a score and a Play again button at the end. Clear, simple English for EAL learners, big buttons that work on a laptop, iPad or phone, no external images or links.',
-        ar: 'اصنع ملف HTML واحداً مستقلاً بذاته (a single self-contained HTML file): [لعبة تصنيف / اختبار / لعبة مطابقة / بطاقات تعليمية] للصف [X] في مادة [المادة] بعنوان «[العنوان]». [اشرح ما يفعله الطلاب خطوة بخطوة.] بعد كل إجابة، اشرح السبب في جملة واحدة. اعرض النتيجة وزر «العب مرة أخرى» في النهاية. استخدم لغة عربية فصحى واضحة وبسيطة، واجعل الواجهة من اليمين إلى اليسار (RTL)، مع أزرار كبيرة تعمل على الحاسوب المحمول والآيباد والهاتف، ومن دون صور أو روابط خارجية.'
+        ar: 'اصنع ملف HTML واحداً مستقلاً بذاته (a single self-contained HTML file): [لعبة تصنيف / اختبار / لعبة مطابقة / بطاقات تعليمية] للصف [X] في مادة [المادة] بعنوان «[العنوان]». [اشرح ما يفعله الطلاب خطوة بخطوة.] بعد كل إجابة، اشرح السبب في جملة واحدة. اعرض النتيجة وزر «العب مرة أخرى» في النهاية. استخدم [لغة إنجليزية واضحة وبسيطة تناسب متعلمي الإنجليزية لغةً إضافية / لغة عربية فصحى واضحة وبسيطة مع واجهة من اليمين إلى اليسار (RTL)]، مع أزرار كبيرة تعمل على الحاسوب المحمول والآيباد والهاتف، ومن دون صور أو روابط خارجية.'
       }
     },
     briefing: [
@@ -714,7 +714,7 @@ PD.quests = [
           ar: 'استخدم وصفة الطلب أو EduSim Gem لبناء نشاط لدرس قريب.'
         },
         how: [
-          { en: 'In Gemini, click **+** › **More tools** › **Canvas**. A Canvas chip appears in the chat box.', ar: 'في Gemini انقر **+** › **More tools** › **Canvas**. تظهر شارة Canvas في مربع الكتابة.' },
+          { en: 'In Gemini, click **+** › **More tools** › **Canvas**. A Canvas chip appears in the chat box. No Canvas? Widen the browser window, or end your prompt with "Build it in Canvas".', ar: 'في Gemini انقر **+** › **More tools** › **Canvas**. تظهر شارة Canvas في مربع الكتابة. لا ترى Canvas؟ وسّع نافذة المتصفح، أو اختم طلبك بعبارة «Build it in Canvas».' },
           { en: 'Paste the prompt recipe, change the words in [brackets], and send. Not sure where to start? Use the AISA EduSim Gem instead.', ar: 'الصق وصفة الطلب، وغيّر ما بين [القوسين]، ثم أرسل. لا تعرف من أين تبدأ؟ استخدم AISA EduSim Gem.' },
           { en: 'Play it like a student in **Preview**. Get some wrong on purpose. Ask for changes in plain language ("Make the buttons bigger").', ar: 'العبها كطالب في **Preview**، وأخطئ عمداً في بعض الإجابات. اطلب التعديلات بلغة بسيطة («اجعل الأزرار أكبر»).' },
           { en: 'Seeing "Something went wrong" or "Pro is in high demand"? Send: Please try again and build it in Canvas.', ar: 'ظهرت «Something went wrong» أو «Pro is in high demand»؟ أرسل: Please try again and build it in Canvas.' }
@@ -730,8 +730,8 @@ PD.quests = [
           ar: 'انسخ الملف كاملاً بالخيار A، وإن لم يُلصق شيء فاستخدم الخيار B.'
         },
         how: [
-          { en: 'Option A: the share icon in the Canvas toolbar › **Copy contents**. Look for "Copied to clipboard".', ar: 'الخيار A: أيقونة المشاركة في شريط Canvas › **Copy contents**. ابحث عن «Copied to clipboard».' },
-          { en: 'Option B: click **Code**, click inside the code, press ⌘A then ⌘C (Ctrl+A, Ctrl+C on Windows).', ar: 'الخيار B: انقر **Code**، ثم داخل الشيفرة، واضغط ⌘A ثم ⌘C (أو Ctrl+A ثم Ctrl+C في Windows).' }
+          { en: 'Option A: the share icon in the Canvas toolbar › **Copy contents**. Look for "Copied to clipboard". Don\'t click **Share**: it makes a public Gemini link straight away.', ar: 'الخيار A: أيقونة المشاركة في شريط Canvas › **Copy contents**. ابحث عن «Copied to clipboard». لا تنقر **Share**: فهو ينشئ رابط Gemini عاماً فوراً.' },
+          { en: 'Option B: click **Code**, click inside the code, press ⌘A then ⌘C (Ctrl+A, Ctrl+C on Windows).', ar: 'الخيار B: انقر **Code**، ثم داخل الشيفرة، واضغط \u200E⌘A ثم \u200E⌘C (أو Ctrl+A ثم Ctrl+C في Windows).' }
         ],
         imgs: ['img/k_02_share.jpg', 'img/k_04_selected.jpg']
       },
@@ -744,7 +744,7 @@ PD.quests = [
           ar: 'الصقها في منصة الأنشطة، وصحّح التفاصيل المكتشفة تلقائياً، ثم انشر.'
         },
         how: [
-          { en: 'In the Hub, click **Create an activity**, click inside **Paste your HTML here** and press ⌘V (or click **Paste**).', ar: 'في المنصة انقر **Create an activity**، ثم داخل **Paste your HTML here** واضغط ⌘V (أو **Paste**).' },
+          { en: 'In the Hub, click **Create an activity**, click inside **Paste your HTML here** and press ⌘V (or click **Paste**).', ar: 'في المنصة انقر **Create an activity**، ثم داخل **Paste your HTML here** واضغط \u200E⌘V (أو **Paste**).' },
           { en: 'Check the preview at phone size. Only a handful of lines under the code? Only part was copied, so copy again.', ar: 'راجع المعاينة بحجم الهاتف. عدد أسطر قليل جداً تحت الشيفرة؟ نُسخ جزء فقط، فانسخ مجدداً.' },
           { en: 'Fix the AUTO-DETECTED fields: activity type, every grade it suits, a one-sentence description, tags, and **Shown as**.', ar: 'صحّح الحقول AUTO-DETECTED: نوع النشاط، وكل الصفوف المناسبة، ووصفاً من جملة واحدة، والوسوم، و**Shown as**.' },
           { en: 'Click **Publish & get link**.', ar: 'انقر **Publish & get link**.' }
@@ -775,7 +775,7 @@ PD.quests = [
           ar: 'ابحث عن نشاط لزميل في المكتبة وأعد مزجه ليناسب صفّك.'
         },
         how: [
-          { en: 'In the Library, search by topic, title, tag or teacher, or filter by grade.', ar: 'في المكتبة ابحث بالموضوع أو العنوان أو الوسم أو اسم المعلم، أو صفِّ حسب الصف.' },
+          { en: 'In the Library, search by topic, title, tag or teacher, or filter by grade.', ar: 'في المكتبة ابحث بالموضوع أو العنوان أو الوسم أو اسم المعلم، أو صفِّ النتائج حسب الصف الدراسي.' },
           { en: 'Click the **Remix** icon on a card, or **Remix (make my own copy)** in the **…** menu.', ar: 'انقر أيقونة **Remix** على البطاقة، أو **Remix (make my own copy)** من قائمة **…**.' },
           { en: 'Change the code or details, then publish your own copy. The original stays as it is.', ar: 'عدّل الشيفرة أو التفاصيل، ثم انشر نسختك. يبقى الأصل كما هو.' }
         ],
@@ -799,7 +799,7 @@ PD.quests = [
         why: { en: 'It puts everything into one file, which is exactly what the Hub needs.', ar: 'تضع كل شيء في ملف واحد، وهذا بالضبط ما تحتاجه المنصة.' }
       },
       {
-        q: { en: 'You paste into the Hub and it says "12 lines · 1 KB". What happened?', ar: 'ألصقت في المنصة فظهر «12 lines · 1 KB». ماذا حدث؟' },
+        q: { en: 'You paste into the Hub and it says "12 lines · 1 KB". What happened?', ar: 'ألصقت في المنصة فظهر «\u200E12 lines · 1 KB». ماذا حدث؟' },
         options: [
           { en: 'I built a very efficient game', ar: 'صنعت لعبة فائقة الكفاءة' },
           { en: 'Only part of the code was copied, so copy it again (try Option B)', ar: 'نُسخ جزء من الشيفرة فقط، فأنسخها مجدداً (أجرّب الخيار B)' },
@@ -883,7 +883,7 @@ PD.quests = [
         how: [
           { en: 'Open the Student Data Anonymizer. New here? Start with **Watch the video tutorial**.', ar: 'افتح أداة إخفاء الهوية. جديد عليها؟ ابدأ بـ**Watch the video tutorial**.' },
           { en: 'Click **Try it with a made-up class list** to practise on fictional students.', ar: 'انقر **Try it with a made-up class list** للتدرب على طلاب وهميين.' },
-          { en: 'With real data later, drop a CSV or Excel (.xlsx) file onto **Drop a spreadsheet here, or click to choose one**.', ar: 'لاحقاً مع البيانات الحقيقية، أسقط ملف CSV أو Excel ‏(.xlsx) في **Drop a spreadsheet here, or click to choose one**.' }
+          { en: 'With real data later, drop a CSV or Excel (.xlsx) file onto **Drop a spreadsheet here, or click to choose one**.', ar: 'لاحقاً مع البيانات الحقيقية، أسقط ملف CSV أو Excel (.xlsx) في **Drop a spreadsheet here, or click to choose one**.' }
         ]
       },
       {
@@ -904,14 +904,14 @@ PD.quests = [
         id: 'download',
         title: { en: 'Check, then download two files', ar: 'راجع، ثم نزّل ملفين' },
         goal: {
-          en: 'Complete the checklist and download the anonymized file and the key file.',
-          ar: 'أكمل قائمة التحقق ونزّل الملف المُخفى الهوية وملف المفتاح.'
+          en: 'Complete the checklist, then download the key file and the anonymized file.',
+          ar: 'أكمل قائمة التحقق، ثم نزّل ملف المفتاح والملف المُخفى الهوية.'
         },
         how: [
           { en: 'Read the warnings, e.g. **Some students could still be singled out** by a combination like gender + nationality + section.', ar: 'اقرأ التحذيرات، مثل **Some students could still be singled out** بسبب تركيبة كالجنس والجنسية والشعبة.' },
           { en: 'Confirm each point under **Before you share anything, confirm each point**.', ar: 'أكّد كل بند في **Before you share anything, confirm each point**.' },
-          { en: 'Download the anonymized file (CSV works with every AI tool). This is the ONLY file that goes to the AI.', ar: 'نزّل الملف المُخفى الهوية (CSV يعمل مع كل الأدوات). هذا هو الملف الوحيد الذي يذهب إلى الذكاء الاصطناعي.' },
-          { en: 'Download the key file and lock it with a passphrase. **Keep private**: never upload it to an AI tool.', ar: 'نزّل ملف المفتاح واحمه بعبارة مرور. **Keep private**: لا ترفعه أبداً إلى أداة ذكاء اصطناعي.' }
+          { en: 'Under **Keep private**, type a passphrase (at least 8 characters, twice) first, then click **Download key file**. Never upload the key to an AI tool.', ar: 'تحت **Keep private** اكتب عبارة مرور (8 أحرف على الأقل، مرتين) أولاً، ثم انقر **Download key file**. لا ترفع المفتاح أبداً إلى أداة ذكاء اصطناعي.' },
+          { en: 'Click **Download anonymized file** (CSV works with every AI tool). This is the ONLY file that goes to the AI.', ar: 'انقر **Download anonymized file** (CSV يعمل مع كل الأدوات). هذا هو الملف الوحيد الذي يذهب إلى الذكاء الاصطناعي.' }
         ]
       },
       {
@@ -1048,7 +1048,7 @@ PD.leo = {
     },
     {
       en: 'Finish the missions, pass my (extremely fair) pop quiz, and earn a badge. Collect all six to become Leader of the Pride.',
-      ar: 'أنجز المهام، واجتز اختباري القصير (العادل جداً)، واحصل على وسام. اجمع الأوسمة الستة لتصبح «قائد العرين».'
+      ar: 'أنجز التحديات، واجتز اختباري القصير (العادل جداً)، واحصل على وسام. اجمع الأوسمة الستة لتصبح «قائد العرين».'
     },
     {
       en: 'Move with the arrow keys or WASD, or just click where you want to go. Press E or Space to talk to people and things. Shall we?',
@@ -1143,7 +1143,7 @@ PD.objects = {
     name: { en: 'Lost & found', ar: 'المفقودات' },
     lines: [
       { en: 'One left shoe, eleven water bottles and a whiteboard marker that actually works. (Legendary loot!)', ar: 'فردة حذاء يسرى، وإحدى عشرة قارورة ماء، وقلم سبورة يعمل فعلاً. (غنيمة أسطورية!)' },
-      { en: 'A lanyard, a single AirPod and somebody\'s good mood from Monday morning.', ar: 'شريط بطاقة، وسماعة AirPod واحدة، ومزاج أحدهم الجيد من صباح الإثنين.' }
+      { en: 'A lanyard, a single AirPod and somebody\'s good mood from Monday morning.', ar: 'شريط بطاقة، وسماعة AirPod واحدة، ومزاج أحدهم الجيد من صباح الاثنين.' }
     ]
   },
   exit: {
@@ -1214,7 +1214,7 @@ PD.npcs = [
     role: { en: 'An Arabic teacher', ar: 'معلّمة اللغة العربية' },
     lines: [
       { en: 'Did you know you can switch this whole game into Arabic? Try the globe button at the top!', ar: 'هل تعلم أنك تستطيع تحويل اللعبة كلها إلى العربية أو الإنجليزية؟ جرّب زر الكرة الأرضية في الأعلى!' },
-      { en: 'At the Hook Arena, try Think-Pair-Share as a custom engagement type. It works beautifully in Arabic and Islamic Studies.', ar: 'في ساحة التشويق جرّب «فكّر-زاوج-شارك» كنوع تفاعل مخصّص؛ ينجح رائعاً في دروس اللغة العربية والتربية الإسلامية.' }
+      { en: 'At the Hook Arena, try Think-Pair-Share as a custom engagement type. It works beautifully in Arabic and Islamic Studies.', ar: 'في ساحة التشويق جرّب «فكّر-زاوج-شارك» كنوع تفاعل مخصّص؛ فهو ينجح نجاحاً رائعاً في دروس اللغة العربية والتربية الإسلامية.' }
     ]
   },
   {
@@ -1274,7 +1274,7 @@ PD.ui = {
   pat: { en: 'Pat Leo', ar: 'ربّت على ليو' },
   pressKey: { en: 'E', ar: 'E' },
   tabBriefing: { en: 'Briefing', ar: 'الإحاطة' },
-  tabMissions: { en: 'Missions', ar: 'المهام' },
+  tabMissions: { en: 'Missions', ar: 'التحديات' },
   tabQuiz: { en: 'Leo\'s quiz', ar: 'اختبار ليو' },
   goTo: { en: 'Go to Station {n}', ar: 'اذهب إلى المحطة {n}' },
   goToText: {
@@ -1291,12 +1291,12 @@ PD.ui = {
   },
   copy: { en: 'Copy', ar: 'نسخ' },
   copied: { en: 'Copied!', ar: 'تم النسخ!' },
-  startMissions: { en: 'I\'m at the station: show me the missions', ar: 'أنا في المحطة: أرني المهام' },
-  missionsIntro: { en: 'Tick each mission off as you finish it at your station.', ar: 'ضع علامة على كل مهمة عند إنجازها في محطتك.' },
+  startMissions: { en: 'I\'m at the station: show me the missions', ar: 'أنا في المحطة: أرني التحديات' },
+  missionsIntro: { en: 'Tick each mission off as you finish it at your station.', ar: 'ضع علامة على كل تحدٍّ عند إنجازه في محطتك.' },
   showHow: { en: 'Show me how', ar: 'أرني الطريقة' },
   hideHow: { en: 'Hide steps', ar: 'إخفاء الخطوات' },
   inGuide: { en: 'This step in the full guide', ar: 'هذه الخطوة في الدليل الكامل' },
-  markDone: { en: 'Done', ar: 'أنجزتها' },
+  markDone: { en: 'Done', ar: 'أنجزته' },
   coop: { en: 'Co-op bonus', ar: 'مكافأة التعاون' },
   coopDone: { en: 'We did it', ar: 'أنجزناها' },
   coopNote: { en: 'Optional. Three co-op bonuses earn the Pride Player badge.', ar: 'اختياري. ثلاث مكافآت تعاون تمنحك وسام «روح الفريق».' },
@@ -1307,7 +1307,7 @@ PD.ui = {
   nextQuestion: { en: 'Next question', ar: 'السؤال التالي' },
   quizPassed: { en: 'Quiz complete!', ar: 'أكملت الاختبار!' },
   claim: { en: 'Claim your badge', ar: 'احصل على وسامك' },
-  needMissions: { en: 'Finish every mission to unlock the badge. You\'ve done {d} of {n}.', ar: 'أكمل كل المهام لفتح الوسام. أنجزت {d} من {n}.' },
+  needMissions: { en: 'Finish every mission to unlock the badge. You\'ve done {d} of {n}.', ar: 'أكمل كل التحديات لفتح الوسام. أنجزت {d} من {n}.' },
   needQuiz: { en: 'Pass Leo\'s quiz to unlock the badge.', ar: 'اجتز اختبار ليو لفتح الوسام.' },
   badgeEarned: { en: 'Badge earned!', ar: 'حصلت على وسام!' },
   awesome: { en: 'Roar-some!', ar: 'رائع!' },
@@ -1327,8 +1327,8 @@ PD.ui = {
   earned: { en: 'Earned', ar: 'حصلت عليه' },
   certificate: { en: 'Print my certificate', ar: 'اطبع شهادتي' },
   certTitle: { en: 'Certificate of Achievement', ar: 'شهادة إنجاز' },
-  certLine: { en: 'This certifies that', ar: 'نشهد بأنّ' },
-  certBody: { en: 'took part in pD-Day 2026, the AISA AI PD quest, and earned these badges:', ar: 'شارك في يوم التطوير المهني 2026، رحلة AISA في الذكاء الاصطناعي، وحصل على الأوسمة التالية:' },
+  certLine: { en: 'This certifies that', ar: 'تُمنح هذه الشهادة إلى' },
+  certBody: { en: 'took part in pD-Day 2026, the AISA AI PD quest, and earned these badges:', ar: 'تقديراً للمشاركة في يوم التطوير المهني 2026، رحلة AISA في الذكاء الاصطناعي، والحصول على الأوسمة التالية:' },
   certSign: { en: 'Leo, Chief Morale Officer', ar: 'ليو، مسؤول الروح المعنوية' },
   certTeam: { en: 'AI & Innovation Team', ar: 'فريق الذكاء الاصطناعي والابتكار' },
   print: { en: 'Print / save as PDF', ar: 'طباعة / حفظ PDF' },
@@ -1345,12 +1345,12 @@ PD.ui = {
   helpAct: { en: 'Talk / interact', ar: 'التحدث / التفاعل' },
   helpActKeys: { en: 'E, Space or Enter, or click on it', ar: 'E أو المسافة أو Enter، أو انقر عليه' },
   helpPanels: { en: 'Quests · Badges · Map', ar: 'المهمات · الأوسمة · الخريطة' },
-  helpPanelsKeys: { en: 'Q · B · M', ar: 'Q · B · M' },
+  helpPanelsKeys: { en: 'Q · B · M', ar: 'Q للمهمات · B للأوسمة · M للخريطة' },
   helpClose: { en: 'Close a window', ar: 'إغلاق نافذة' },
   helpCloseKeys: { en: 'Esc', ar: 'Esc' },
   helpHow: {
     en: 'Each glowing station in the school is a quest, and each quest matches a real station table in the PD room. Read the briefing, go to that table, work through the missions with the people there, then pass Leo\'s quiz to earn the badge. Your progress saves automatically on this laptop.',
-    ar: 'كل محطة مضيئة في المدرسة مهمة، وكل مهمة تقابل طاولة محطة حقيقية في قاعة التطوير المهني. اقرأ الإحاطة، واذهب إلى تلك الطاولة، وأنجز المهام مع من هناك، ثم اجتز اختبار ليو لتحصل على الوسام. يُحفظ تقدّمك تلقائياً على هذا الحاسوب.'
+    ar: 'كل محطة مضيئة في المدرسة مهمة، وكل مهمة تقابل طاولة محطة حقيقية في قاعة التطوير المهني. اقرأ الإحاطة، واذهب إلى تلك الطاولة، وأنجز التحديات مع من هناك، ثم اجتز اختبار ليو لتحصل على الوسام. يُحفظ تقدّمك تلقائياً على هذا الحاسوب.'
   },
   allStations: { en: 'All station guides', ar: 'كل أدلة المحطات' },
   reset: { en: 'Start over', ar: 'ابدأ من جديد' },

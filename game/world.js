@@ -652,7 +652,7 @@
     fillRR(c, 3, 5, w - 6, h - 10, 3, rgba(col, 0.9));
     rr(c, 6, 8, w - 12, h - 16, 2); c.strokeStyle = 'rgba(255,255,255,0.4)'; c.lineWidth = 1; c.stroke();
     if (p.station) text(c, String(p.station), w / 2, h / 2 + 0.5, 12, '#FFFFFF', 800);
-    else text(c, 'WELCOME', w / 2, h / 2 + 0.5, 8, 'rgba(255,255,255,0.85)', 800);
+    else text(c, PD.lang === 'ar' ? 'أهلاً وسهلاً' : 'WELCOME', w / 2, h / 2 + 0.5, 8, 'rgba(255,255,255,0.85)', 800);
   };
   P.frontdoor = function (c, p) {
     var w = p.w * T;
