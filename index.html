@@ -1,29 +1,56 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AI PD Stations</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,700&display=swap" rel="stylesheet">
-<style>
-:root{--purple:#21076C;--gold:#D8B664;--bg:#fff;--ink:#1A1A1A;--muted:#555;--line:#C8BEE8;--tint:#F2EFFA;--heading:#21076C}
-@media (prefers-color-scheme:dark){:root{--bg:#0E0920;--ink:#ECE9F7;--muted:#ABA4C8;--line:#3A2F6B;--tint:#1C1540;--heading:#CFC4FF}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 'DM Sans',system-ui,sans-serif}
-header{background:var(--purple);color:#fff;padding:36px 16px}
-.wrap{max-width:900px;margin:0 auto;padding:0 16px}
-.mark{color:var(--gold);font-weight:700;letter-spacing:.08em}
-h1{margin:8px 0 6px;font-size:clamp(2rem,6vw,2.8rem);line-height:1.1}
-header p{margin:0;color:#E4DEFA}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:28px auto 48px}
-a.card{display:grid;gap:6px;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:18px;background:var(--bg)}
-a.card:hover{border-color:var(--heading);background:var(--tint)}
-.n{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7A5C14}
-@media (prefers-color-scheme:dark){.n{color:#E6C97E}}
-a.card b{color:var(--heading);font-size:1.15rem}
-a.card span:last-child{color:var(--muted);font-size:.92rem}
-</style></head><body>
-<header><div class="wrap"><span class="mark">AISA</span><h1>AI PD Stations</h1><p>PD days, 19–20 October 2026. Open a station to start.</p></div></header>
-<main class="wrap grid">
-<a class="card" href="Station-1-Differentiation/index.html"><span class="n">Station 1</span><b>Differentiation &amp; Scaffolding</b><span>Re-level text, translate and vocabulary lists in the Classroom Gemini tab.</span></a>
-<a class="card" href="Station-2-Lesson-Decks/index.html"><span class="n">Station 2</span><b>Polished Lesson Decks, Fast</b><span>Three routes to a Google Slides deck with Gemini.</span></a>
-<a class="card" href="Station-3-Engagement/index.html"><span class="n">Station 3</span><b>Engagement &amp; Active Participation</b><span>A lesson hook and a choice board for Grade 8 science.</span></a>
-<a class="card" href="Station-4-Lesson-Video/index.html"><span class="n">Station 4</span><b>Turn Your Slides into a Video</b><span>Google Vids: script, voices, language and music.</span></a>
-<a class="card" href="Station-5-Coding-Activities/index.html"><span class="n">Station 5</span><b>Code Your Own Class Activities</b><span>Gemini Canvas to the AISA Activity Hub: link, QR code and Classroom.</span></a>
-</main></body></html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>pD-Day 2026 · AISA</title>
+<meta name="description" content="pD-Day 2026: explore the school with Leo the lion, complete AI quests at each PD station and earn badges. In English and Arabic.">
+<meta name="theme-color" content="#21076C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A6%81%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..1000&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="game/styles.css">
+</head>
+<body>
+<canvas id="game" aria-label="The school: walk around to find the quests"></canvas>
+<div id="vignette" aria-hidden="true"></div>
+
+<div id="hud" hidden></div>
+<canvas id="minimap" hidden title="Map"></canvas>
+<button id="prompt" type="button"></button>
+<div id="banner" aria-live="polite"></div>
+<div id="bubble" aria-live="polite"></div>
+<div id="toasts" aria-live="polite"></div>
+
+<div id="dialog" hidden>
+  <div class="dlg-card">
+    <div class="dlg-portrait"></div>
+    <div class="dlg-body">
+      <div class="dlg-name"></div>
+      <div class="dlg-text"></div>
+      <div class="dlg-actions">
+        <button class="dlg-skip" type="button"></button>
+        <button class="dlg-next" type="button"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="screen-title" class="screen"></div>
+<div id="screen-setup" class="screen" hidden></div>
+
+<div id="modal" hidden><div class="modal-card" tabindex="-1" role="dialog" aria-modal="true"></div></div>
+<div id="award" hidden role="dialog" aria-modal="true"></div>
+<div id="lightbox" hidden></div>
+<div id="cert" hidden></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<noscript><div class="noscript">pD-Day 2026 needs JavaScript. You can still use the <a href="stations.html">station guides</a>.</div></noscript>
+
+<script src="game/content.js"></script>
+<script src="game/art.js"></script>
+<script src="game/world.js"></script>
+<script src="game/game.js"></script>
+</body>
+</html>
