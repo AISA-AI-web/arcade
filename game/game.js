@@ -719,8 +719,8 @@
     var secs = Math.ceil(left / 1000);
     if (secs !== boostShown) {
       boostShown = secs;
-      boostEl.innerHTML = '<span class="boost-cup" aria-hidden="true">☕</span><span class="boost-label">' + uiH('boostLabel') + '</span><b dir="ltr">' + secs + 's</b><i style="--p:' + (left / BOOST_MS) + '"></i>';
-      boostEl.setAttribute('aria-label', ui('boostLabel') + ' ' + secs + 's');
+      boostEl.innerHTML = '<span class="boost-cup" aria-hidden="true">☕</span><span class="boost-label">' + uiH('boostLabel') + '</span><b>' + uiH('seconds', { s: secs }) + '</b><i style="--p:' + (left / BOOST_MS) + '"></i>';
+      boostEl.setAttribute('aria-label', ui('boostLabel') + ' ' + ui('seconds', { s: secs }));
       boostEl.classList.add('on');
     } else boostEl.querySelector('i').style.setProperty('--p', left / BOOST_MS);
   }

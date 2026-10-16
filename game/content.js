@@ -1364,5 +1364,6 @@ PD.ui = {
   coffeeRefillTitle: { en: 'Refill!', ar: 'كوب إضافي!' },
   coffeeRefill: { en: 'Speed boost back to 30 seconds.', ar: 'تجدّدت دفعة السرعة لـ30 ثانية.' },
   coffeeOver: { en: 'The caffeine wore off. Back to regular teacher speed.', ar: 'انتهى مفعول الكافيين. عادت سرعتك إلى طبيعتها.' },
-  boostLabel: { en: 'Speed boost', ar: 'دفعة سرعة' }
+  boostLabel: { en: 'Speed boost', ar: 'دفعة سرعة' },
+  seconds: { en: '{s}s', ar: '{s} ث' }
 };
