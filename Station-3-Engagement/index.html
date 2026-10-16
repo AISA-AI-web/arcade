@@ -1,0 +1,348 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Engagement &amp; Participation Station</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+/* Layout: purple station band, sticky tool switcher, one stepper card per tool, shared "share with students" stepper, checklist + links */
+:root{
+  --purple:#21076C; --gold:#D8B664; --bg:#FFFFFF; --ink:#1A1A1A; --muted:#555555;
+  --tint:#F2EFFA; --line:#C8BEE8; --surface:#FFFFFF; --heading:#21076C; --gold-ink:#7A5C14;
+  --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(33,7,108,.06),0 8px 24px rgba(33,7,108,.08);
+  --font:'DM Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E0920; --ink:#ECE9F7; --muted:#ABA4C8; --tint:#1C1540; --line:#3A2F6B; --surface:#150F30;
+  --heading:#CFC4FF; --gold-ink:#E6C97E; --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E0920; --ink:#ECE9F7; --muted:#ABA4C8; --tint:#1C1540; --line:#3A2F6B; --surface:#150F30;
+  --heading:#CFC4FF; --gold-ink:#E6C97E; --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35); color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--heading);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-weight:700;text-wrap:balance;margin:0;color:var(--heading)}
+p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
+
+/* Band */
+.band{background:var(--band);color:var(--band-ink)}
+.band .wrap{padding-block:32px 36px;display:grid;gap:14px}
+.band .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.mark{font-weight:700;letter-spacing:.08em;color:var(--gold)}
+.sign{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(216,182,100,.6);color:var(--gold);border-radius:999px;padding:4px 12px;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.band h1{color:#fff;font-size:clamp(2rem,6vw,3.1rem);line-height:1.05;letter-spacing:-.01em}
+.band .lede{max-width:62ch;color:#E4DEFA;font-size:1.06rem}
+.meta{display:flex;gap:10px 22px;flex-wrap:wrap;font-size:.9rem;color:#CFC6F2}
+.meta b{color:var(--gold);font-weight:700}
+
+/* Quick start */
+.quick{margin-top:-18px;position:relative}
+.quick .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 20px;display:grid;gap:12px}
+.quick ol{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:.92rem;border-radius:999px;padding:9px 16px;border:1.5px solid var(--heading);color:var(--heading);background:transparent;cursor:pointer;font-family:inherit}
+.btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
+:root[data-theme="dark"] .btn.primary{border-color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{border-color:var(--gold)}}
+.btn .arr{font-weight:400}
+
+/* Nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-top:28px}
+.nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.nav a{flex:none;text-decoration:none;font-size:.9rem;font-weight:500;color:var(--muted);padding:7px 14px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.nav a.on{color:var(--heading);background:var(--tint);border-color:var(--line);font-weight:700}
+
+/* Tool sections */
+section.tool{padding-block:44px 8px;scroll-margin-top:64px}
+.toolhead{display:grid;gap:8px;margin-bottom:18px}
+.toolhead h2{font-size:clamp(1.6rem,4.4vw,2.1rem);line-height:1.15}
+.toolhead p.why{max-width:66ch;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.chip{font-size:.8rem;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.chip b{color:var(--heading)}
+.chip a{font-weight:700}
+
+/* Stepper */
+.stepper{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.sbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--tint);flex-wrap:wrap}
+.count{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.count b{color:var(--heading)}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dot{width:22px;height:6px;border-radius:3px;background:var(--line);border:0;padding:0;cursor:pointer}
+.dot.on{background:var(--gold)}
+.dot.done{background:var(--heading);opacity:.55}
+.toggle{background:none;border:0;color:var(--heading);font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;padding:4px 2px;text-decoration:underline;text-underline-offset:3px}
+ol.steps{list-style:none;margin:0;padding:0}
+.step{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;padding:20px}
+.step+.step{border-top:1px solid var(--line)}
+.stepper.paged .step+.step{border-top:0}
+.shot{margin:0;min-width:0}
+.shot button{display:block;width:100%;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:zoom-in;background:var(--tint)}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{font-size:.78rem;color:var(--muted);margin-top:6px}
+.shot + .shot{margin-top:12px}
+.txt{min-width:0;display:grid;align-content:start;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--purple);color:#fff;font-weight:700;font-size:.95rem}
+.step h3{font-size:1.2rem;line-height:1.25}
+.txt p,.txt li{font-size:.98rem}
+.txt ul{margin:0;padding-left:1.1em;display:grid;gap:4px}
+.tip{border-left:3px solid var(--gold);background:var(--tint);padding:9px 12px;border-radius:0 8px 8px 0;font-size:.9rem}
+.tip b{color:var(--heading)}
+.ui{font-weight:700;color:var(--heading);white-space:nowrap}
+.snav{display:flex;justify-content:space-between;gap:10px;padding:12px 16px;border-top:1px solid var(--line)}
+.snav[hidden]{display:none!important}
+.snav .btn[disabled]{opacity:.35;cursor:default}
+
+/* Ideas + checks */
+.ideas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.idea{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;align-content:start}
+.idea h4{margin:0;font-size:.95rem;color:var(--heading)}
+.idea p{font-size:.9rem;color:var(--ink)}
+.challenge{background:var(--purple);color:#fff;border-radius:var(--r);padding:24px;display:grid;gap:12px;margin-top:48px}
+.challenge h2{color:#fff;font-size:1.5rem}
+.challenge .eyebrow{color:var(--gold)}
+.challenge ol{margin:0;padding-left:1.2em;display:grid;gap:6px;color:#ECE7FF}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.check{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;background:var(--surface)}
+.check h4{margin:0;color:var(--heading);font-size:1rem}
+.check p{font-size:.92rem}
+.links{display:grid;gap:0;margin-top:16px;border-top:1px solid var(--line)}
+.links a{display:flex;justify-content:space-between;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.links a span:first-child{font-weight:700;color:var(--heading)}
+.links a span:last-child{color:var(--muted);font-size:.85rem;text-align:right;overflow-wrap:anywhere}
+footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
+.sect{padding-block:44px 0}
+.sect h2{font-size:1.6rem}
+
+/* Lightbox */
+.lb{position:fixed;inset:0;background:rgba(10,4,30,.92);z-index:20;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));cursor:zoom-out}
+.lb img{max-width:100%;max-height:100%;border-radius:8px;background:#fff}
+.lb button{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));background:var(--gold);color:#21076C;border:0;border-radius:999px;font:700 .9rem var(--font);padding:8px 14px;cursor:pointer}
+
+@media (max-width:760px){
+  .step{grid-template-columns:1fr;gap:14px;padding:16px}
+  .step .txt{order:-1}
+  .ideas,.checks{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:no-preference){.step.enter{animation:in .22s ease-out}@keyframes in{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}}
+</style>
+<header class="band">
+  <div class="wrap">
+    <div class="top"><span class="mark">AISA</span><span class="sign">AI PD Stations &middot; Station 3</span></div>
+    <h1>Engagement &amp; Active Participation</h1>
+    <p class="lede">Open with a hook that gets every student thinking, then give them a choice board instead of a worksheet. The demo is a Grade 8 science lesson, so you can see it working at secondary level.</p>
+    <div class="meta"><span><b>2 tools</b> Hook, Choice board</span><span><b>~15 min</b> to try both</span><span><b>Where</b> Classroom &rsaquo; Gemini tab</span></div>
+  </div>
+</header>
+
+<div class="wrap quick">
+  <div class="card">
+    <span class="eyebrow">Before you start</span>
+    <ol>
+      <li>Sign in to Google Classroom with your AISA account.</li>
+      <li>Pick one lesson you are teaching in the next two weeks. Have the topic and grade ready, and a Doc or slides from that unit in Drive if you have them.</li>
+      <li>Leave out student names and personal details. Describe the class in general terms, for example <em>mixed-ability, several EAL students</em>.</li>
+    </ol>
+    <div class="btnrow">
+      <a class="btn primary" href="https://classroom.google.com/ai" target="_blank" rel="noopener">Open Gemini in Classroom <span class="arr">&nearr;</span></a>
+      <a class="btn" href="https://classroom.google.com/ai/hg" target="_blank" rel="noopener">Hook <span class="arr">&nearr;</span></a>
+      <a class="btn" href="https://classroom.google.com/ai/chb" target="_blank" rel="noopener">Choice board <span class="arr">&nearr;</span></a>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" aria-label="Station sections">
+  <div class="wrap">
+    <a href="#hook" class="on">1 &middot; Hook</a>
+    <a href="#choice">2 &middot; Choice board</a>
+    <a href="#check">Check &amp; links</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- HOOK -->
+<section class="tool" id="hook">
+  <div class="toolhead">
+    <span class="eyebrow">Tool 1 &middot; Planning</span>
+    <h2>Craft a compelling hook</h2>
+    <p class="why">Describe your lesson and pick how you want students to engage. Gemini gives you six ready-to-run openers, each with materials and instructions. Choose one, adapt it, and the first five minutes of your lesson are sorted.</p>
+    <div class="chips"><span class="chip"><b>6 hooks</b> per generation</span><span class="chip">Pick engagement styles or write your own</span><span class="chip"><a href="https://classroom.google.com/ai/hg" target="_blank" rel="noopener">Open tool &nearr;</a></span></div>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/hk_01_planning.jpg" alt="Gemini tab with the Planning filter selected and Craft a compelling hook highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">1</span><h3>Open the hook tool</h3><p>In Google Classroom, click <span class="ui">Gemini</span> in the left menu. Click the <span class="ui">Planning</span> filter, then <span class="ui">Craft a compelling hook</span>.</p><div class="tip"><b>No Gemini tab?</b> Let the AI &amp; Innovation team know so your account can be checked.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/hk_02_filled.jpg" alt="Target grade 8, lesson description filled in, Spark curiosity and Movement and activity selected" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">2</span><h3>Describe your lesson and class</h3><ul><li>Type the <span class="ui">Target grade</span>, for example <em>8</em>.</li><li>In <span class="ui">Describe your lesson and class</span>, say what students will learn and who is in the room.</li><li>Under <span class="ui">How do you want to engage your students?</span>, click one or more styles.</li></ul><div class="tip"><b>Our demo:</b> <em>Grade 8 science lesson introducing chemical reactions and the law of conservation of mass. Mixed-ability class of 22, including several EAL students.</em> The more you say about the class, the better the hooks fit.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/hk_03_custom.jpg" alt="Write custom engagement type field with Think-Pair-Share typed, and the Generate button highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">3</span><h3>Add your own strategy, then generate</h3><p>Click <span class="ui">Write custom engagement type</span> and type a strategy you already use, such as <em>Think-Pair-Share</em>, <em>Four Corners</em> or <em>Cold Call</em>. Then click <span class="ui">Generate</span>.</p><div class="tip"><b>Use your house language.</b> Naming a Teach Like a Champion or Kagan strategy gets you a hook built around a routine your students already know.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/hk_04_result.jpg" alt="Hooks for Gr. 8 class: The Disappearing Soda Mystery, Human Atoms Balancing Act and The Mystery Zip-Bag Reaction" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">4</span><h3>Read the six hooks</h3><p>Each card is labelled with its engagement style and lists the materials and instructions. Scroll inside a card to read all of it, and down the page to see all six.</p><p>Use the copy icon at the bottom of a card to paste one hook into your planner or slides.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/hk_05_check.jpg" alt="Human Atoms Balancing Act card with the line about 6 red Oxygen and 4 blue Hydrogen notes highlighted" loading="lazy"></button><figcaption>From our demo: 6 oxygen and 4 hydrogen can't make whole water molecules (H&#8322;O needs two hydrogen for every oxygen).</figcaption></figure></div>
+        <div class="txt"><span class="num">5</span><h3>Check it before you use it</h3><p>Hooks are first drafts. In our demo, the <em>Human Atoms</em> activity gave numbers that don't balance, which is the exact misconception the lesson is meant to fix.</p><ul><li>Check every fact, number and quantity.</li><li>Check materials are safe and available in your room.</li><li>Check timings: a hook should take five minutes, not twenty.</li></ul></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/hk_06_regen.jpg" alt="Expanded Hooks panel with engagement styles and the Regenerate button highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">6</span><h3>Not quite right? Regenerate</h3><p>Click the arrow at the top right of the <span class="ui">Hooks for Gr. 8 class</span> panel. Change the description or engagement styles, then click <span class="ui">Regenerate</span>.</p><div class="tip"><b>Export first.</b> Regenerating replaces all six hooks, so export the set you like before you try again. Your custom strategy isn't kept, so add it again.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/hk_07_export.jpg" alt="Export to Docs button and the Hooks exported message with View Google Doc link" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/hk_08_doc.jpg" alt="Exported Google Doc titled Hooks for Gr. 8 class with each hook as a heading" loading="lazy"></button><figcaption>The Doc is named after your grade and saved in your Drive.</figcaption></figure></div>
+        <div class="txt"><span class="num">7</span><h3>Export to Docs</h3><p>Click <span class="ui">Export to Docs</span> at the top right. When <em>Hooks exported</em> appears at the bottom left, click <span class="ui">View Google Doc</span>.</p><p>Every hook is in one Doc with its style, title and instructions. Delete the ones you won't use and fix anything you found in step 5.</p><div class="tip"><b>Hooks are for you, not students.</b> There's no Add to class button for this tool. Paste the hook you chose onto your first slide or into your lesson plan.</div></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- CHOICE BOARD -->
+<section class="tool" id="choice">
+  <div class="toolhead">
+    <span class="eyebrow">Tool 2 &middot; Instruction material</span>
+    <h2>Build a choice board</h2>
+    <p class="why">Give a grade and a topic, agree the learning objectives, and Gemini builds six different activities that all hit the same objectives. Students choose how they show what they know, so the comic artist, the experimenter and the video maker are all working on the same science.</p>
+    <div class="chips"><span class="chip"><b>6 activities</b> with time and materials</span><span class="chip">Objectives come first</span><span class="chip">Add to class as a draft</span><span class="chip"><a href="https://classroom.google.com/ai/chb" target="_blank" rel="noopener">Open tool &nearr;</a></span></div>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cb_01_card.jpg" alt="Instruction material filter selected with Build a choice board highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">1</span><h3>Open Build a choice board</h3><p>On the Gemini tab, click the <span class="ui">Instruction material</span> filter, then <span class="ui">Build a choice board</span>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cb_02_form.jpg" alt="Target grade 8 and topic Chemical reactions and the law of conservation of mass filled in" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">2</span><h3>Enter the grade and topic</h3><p>Type a <span class="ui">Target grade</span> and a <span class="ui">Topic</span>. Click <span class="ui">Upload from Drive</span> to add your unit planner or slides so the activities match what you teach.</p><p>Then click <span class="ui">Generate learning objectives</span>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cb_03_objectives.jpg" alt="Suggested learning objectives box with two objectives, Regenerate learning objectives and Generate highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">3</span><h3>Edit the objectives, then generate</h3><p>Gemini suggests objectives in the <span class="ui">Suggested learning objectives</span> box. Click into the box and rewrite them in your own words, or paste in the objectives from your unit plan.</p><p>Click <span class="ui">Generate</span>.</p><div class="tip"><b>This is the step that matters.</b> Every activity on the board is built from these objectives. If they're vague, the board will be too. Use <span class="ui">Regenerate learning objectives</span> if they're off.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cb_04_board.jpg" alt="Choice board for Grade 8 chemical reactions with coloured activity cards: comic strip, closed system lab, 3D molecular models" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">4</span><h3>Look over the board</h3><p>You get six coloured activity cards. In our demo: a comic strip, a closed-system lab, 3D molecule models, a script and video, a simulation task and an Alka-Seltzer investigation.</p><div class="tip"><b>Mix of modes.</b> Check the board has written, practical, visual and digital options, so every student has a way in.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cb_05_detail.jpg" alt="Activity cards with Approx time and Materials needed highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">5</span><h3>Check time and materials</h3><p>Each card ends with <b>Approx time</b> and <b>Materials needed</b>. In our demo these ran from 30 to 60 minutes, so this board covers a lesson or more, not a starter.</p><ul><li>Cut or swap any activity you can't resource, such as Alka-Seltzer or Play-Doh.</li><li>Make the times roughly equal so no choice is the "easy" one.</li><li>Check the science: one demo card mentions carbon atoms in a reaction that makes water.</li></ul></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cb_06_export.jpg" alt="Export to Docs button and Exported choice board to Google Docs message with View Google Doc" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/cb_07_doc.jpg" alt="Exported choice board Google Doc with the coloured activity grid" loading="lazy"></button><figcaption>The Doc keeps the coloured grid, ready to edit or print.</figcaption></figure></div>
+        <div class="txt"><span class="num">6</span><h3>Export to Docs</h3><p>Click <span class="ui">Export to Docs</span>. When <em>Exported choice board to Google Docs</em> appears, click <span class="ui">View Google Doc</span>. The Doc is named after your grade and topic and saved in your Drive.</p><div class="tip"><b>Edit here first.</b> Make your changes from step 5 in the Doc, then attach the Doc to an assignment yourself. That way students only see your checked version.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cb_08_addclass.jpg" alt="Add to class dialog with AI PD Demo selected as the class" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/cb_09_confirm.jpg" alt="Classwork type Assignment selected and Confirm highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">7</span><h3>Or send it straight to a class</h3><p>Click <span class="ui">Add to class</span>. Choose your <span class="ui">Class</span>, set <span class="ui">Classwork type</span> to <span class="ui">Assignment</span>, then click <span class="ui">Confirm</span>.</p><p>Classroom makes a draft assignment with the board attached as a Google Doc. Nothing reaches students until you click <span class="ui">Assign</span>.</p><div class="tip"><b>Tell students how to choose.</b> Add instructions to the draft, such as <em>pick one activity, or any three in a row</em>, and how you will assess it.</div></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="challenge" aria-labelledby="ch">
+  <span class="eyebrow">Your station challenge &middot; 10 minutes</span>
+  <h2 id="ch">Plan an active lesson for next week</h2>
+  <ol>
+    <li>Generate <b>hooks</b> for a lesson you teach next week. Add a strategy you already use as a custom engagement type.</li>
+    <li>Pick one hook, check it, and paste it onto your first slide.</li>
+    <li>Build a <b>choice board</b> for the same topic. Rewrite the objectives before you generate.</li>
+    <li>Cut any activity you can't resource, then use <b>Add to class</b> to save it as a draft. Nothing goes to students yet.</li>
+  </ol>
+</section>
+
+<section class="sect" id="ideas">
+  <span class="eyebrow">Ways to use it</span>
+  <h2>Make it work in your subject</h2>
+  <div class="ideas">
+    <div class="idea"><h4>Arabic &amp; Islamic Studies</h4><p>Type <em>Think-Pair-Share</em> as a custom engagement type, or pick <em>Thought-provoking question</em> for higher-order thinking. Ask for a choice board option that builds discussion in pairs.</p></div>
+    <div class="idea"><h4>Maths</h4><p>Choose <em>Problem solving</em> or <em>Gamification</em> for the hook. On the choice board, ask for one option that is a real-world task and one that is pure practice.</p></div>
+    <div class="idea"><h4>Humanities &amp; English</h4><p>Choose <em>Personal connections</em> or <em>Thought-provoking question</em>. Upload your unit text from Drive so the activities use it.</p></div>
+  </div>
+</section>
+
+<section class="sect" id="check">
+  <span class="eyebrow">Before anything reaches students</span>
+  <h2>Check it</h2>
+  <div class="checks">
+    <div class="check"><h4>Check the content</h4><p>Gemini can make mistakes. Both tools got some science wrong in our demo. Read every fact, number and quantity.</p></div>
+    <div class="check"><h4>Check it's doable</h4><p>Check timings, materials and safety. Swap anything you can't run in your room with your resources.</p></div>
+    <div class="check"><h4>Keep the thinking</h4><p>A fun activity should still meet the objective. Ask what students will learn, not only what they will do.</p></div>
+    <div class="check"><h4>Protect student data</h4><p>Describe your class in general terms. Don't paste student names, reports or personal details into any tool.</p></div>
+  </div>
+
+  <div class="links">
+    <a href="https://classroom.google.com/ai" target="_blank" rel="noopener"><span>Gemini in Classroom</span><span>classroom.google.com/ai</span></a>
+    <a href="https://classroom.google.com/ai/hg" target="_blank" rel="noopener"><span>Craft a compelling hook</span><span>classroom.google.com/ai/hg</span></a>
+    <a href="https://classroom.google.com/ai/chb" target="_blank" rel="noopener"><span>Build a choice board</span><span>classroom.google.com/ai/chb</span></a>
+    <a href="https://support.google.com/edu/classroom/answer/15410566?hl=en" target="_blank" rel="noopener"><span>Google help: Learn about Gemini in Classroom</span><span>support.google.com</span></a>
+  </div>
+</section>
+
+<footer>AISA &middot; AI &amp; Innovation &middot; AI PD Stations. Screenshots taken in a demo class in October 2026; Google may move buttons over time.</footer>
+</main>
+
+<div class="lb" id="lb" hidden><button type="button" id="lbclose">Close</button><img id="lbimg" alt=""></div>
+<script>
+(function(){
+  // Steppers: show one step at a time with Back / Next, or all steps.
+  document.querySelectorAll('.stepper').forEach(function(sp){
+    var steps=[].slice.call(sp.querySelectorAll('.step')); if(!steps.length) return;
+    var i=0, all=false;
+    var bar=document.createElement('div'); bar.className='sbar';
+    var count=document.createElement('span'); count.className='count';
+    var dots=document.createElement('div'); dots.className='dots';
+    var tog=document.createElement('button'); tog.type='button'; tog.className='toggle';
+    steps.forEach(function(s,k){var d=document.createElement('button');d.type='button';d.className='dot';d.setAttribute('aria-label','Go to step '+(k+1));d.onclick=function(){go(k)};dots.appendChild(d)});
+    bar.append(count,dots,tog); sp.prepend(bar);
+    var nav=document.createElement('div'); nav.className='snav';
+    var back=document.createElement('button'); back.type='button'; back.className='btn'; back.textContent='← Back';
+    var next=document.createElement('button'); next.type='button'; next.className='btn primary';
+    nav.append(back,next); sp.append(nav);
+    back.onclick=function(){go(i-1)}; next.onclick=function(){ if(i<steps.length-1) go(i+1); else { var nx=sp.closest('section').nextElementSibling; if(nx) nx.scrollIntoView({behavior:'smooth'}); } };
+    tog.onclick=function(){all=!all;render()};
+    function go(k){ if(k<0||k>=steps.length) return; i=k; render(); steps[i].classList.remove('enter'); void steps[i].offsetWidth; steps[i].classList.add('enter');
+      var r=sp.getBoundingClientRect(); if(r.top<0) sp.scrollIntoView({behavior:'smooth',block:'start'}); }
+    function render(){
+      sp.classList.toggle('paged',!all);
+      steps.forEach(function(s,k){s.hidden=!all&&k!==i});
+      [].forEach.call(dots.children,function(d,k){d.className='dot'+(k===i?' on':k<i?' done':'')});
+      dots.hidden=all; nav.hidden=all;
+      count.innerHTML=all?'<b>'+steps.length+' steps</b>':'Step <b>'+(i+1)+'</b> of '+steps.length;
+      tog.textContent=all?'Show one step at a time':'Show all steps';
+      back.disabled=i===0;
+      next.textContent=i===steps.length-1?'Done ✓':'Next →';
+    }
+    render();
+  });
+
+  // Lightbox for screenshots
+  var lb=document.getElementById('lb'), lbimg=document.getElementById('lbimg');
+  document.querySelectorAll('.shot button').forEach(function(b){
+    var img=b.querySelector('img'); b.setAttribute('aria-label','Enlarge: '+img.alt);
+    b.onclick=function(){lbimg.src=img.src;lbimg.alt=img.alt;lb.hidden=false;document.getElementById('lbclose').focus()};
+  });
+  function close(){lb.hidden=true}
+  lb.onclick=close; document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+
+  // Highlight current section in the sticky nav
+  var links=[].slice.call(document.querySelectorAll('.nav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  function spy(){var y=window.scrollY+120, cur=0; secs.forEach(function(s,k){if(s&&s.offsetTop<=y)cur=k});
+    links.forEach(function(a,k){a.classList.toggle('on',k===cur)});}
+  window.addEventListener('scroll',spy,{passive:true}); spy();
+})();
+</script>
+
+</body></html>

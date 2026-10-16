@@ -1,0 +1,528 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Lesson Video Station</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+/* Layout: purple station band, sticky tool switcher, one stepper card per tool, shared "share with students" stepper, checklist + links */
+:root{
+  --purple:#21076C; --gold:#D8B664; --bg:#FFFFFF; --ink:#1A1A1A; --muted:#555555;
+  --tint:#F2EFFA; --line:#C8BEE8; --surface:#FFFFFF; --heading:#21076C; --gold-ink:#7A5C14;
+  --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(33,7,108,.06),0 8px 24px rgba(33,7,108,.08);
+  --font:'DM Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E0920; --ink:#ECE9F7; --muted:#ABA4C8; --tint:#1C1540; --line:#3A2F6B; --surface:#150F30;
+  --heading:#CFC4FF; --gold-ink:#E6C97E; --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E0920; --ink:#ECE9F7; --muted:#ABA4C8; --tint:#1C1540; --line:#3A2F6B; --surface:#150F30;
+  --heading:#CFC4FF; --gold-ink:#E6C97E; --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35); color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--heading);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-weight:700;text-wrap:balance;margin:0;color:var(--heading)}
+p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
+
+/* Band */
+.band{background:var(--band);color:var(--band-ink)}
+.band .wrap{padding-block:32px 36px;display:grid;gap:14px}
+.band .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.mark{font-weight:700;letter-spacing:.08em;color:var(--gold)}
+.sign{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(216,182,100,.6);color:var(--gold);border-radius:999px;padding:4px 12px;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.band h1{color:#fff;font-size:clamp(2rem,6vw,3.1rem);line-height:1.05;letter-spacing:-.01em}
+.band .lede{max-width:62ch;color:#E4DEFA;font-size:1.06rem}
+.meta{display:flex;gap:10px 22px;flex-wrap:wrap;font-size:.9rem;color:#CFC6F2}
+.meta b{color:var(--gold);font-weight:700}
+
+/* Quick start */
+.quick{margin-top:-18px;position:relative}
+.quick .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 20px;display:grid;gap:12px}
+.quick ol{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:.92rem;border-radius:999px;padding:9px 16px;border:1.5px solid var(--heading);color:var(--heading);background:transparent;cursor:pointer;font-family:inherit}
+.btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
+:root[data-theme="dark"] .btn.primary{border-color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{border-color:var(--gold)}}
+.btn .arr{font-weight:400}
+
+/* Nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-top:28px}
+.nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.nav a{flex:none;text-decoration:none;font-size:.9rem;font-weight:500;color:var(--muted);padding:7px 14px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.nav a.on{color:var(--heading);background:var(--tint);border-color:var(--line);font-weight:700}
+
+/* Tool sections */
+section.tool{padding-block:44px 8px;scroll-margin-top:64px}
+.toolhead{display:grid;gap:8px;margin-bottom:18px}
+.toolhead h2{font-size:clamp(1.6rem,4.4vw,2.1rem);line-height:1.15}
+.toolhead p.why{max-width:66ch;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.chip{font-size:.8rem;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.chip b{color:var(--heading)}
+.chip a{font-weight:700}
+
+/* Stepper */
+.stepper{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.sbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--tint);flex-wrap:wrap}
+.count{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.count b{color:var(--heading)}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dot{width:22px;height:6px;border-radius:3px;background:var(--line);border:0;padding:0;cursor:pointer}
+.dot.on{background:var(--gold)}
+.dot.done{background:var(--heading);opacity:.55}
+.toggle{background:none;border:0;color:var(--heading);font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;padding:4px 2px;text-decoration:underline;text-underline-offset:3px}
+ol.steps{list-style:none;margin:0;padding:0}
+.step{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;padding:20px}
+.step+.step{border-top:1px solid var(--line)}
+.stepper.paged .step+.step{border-top:0}
+.shot{margin:0;min-width:0}
+.shot button{display:block;width:100%;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:zoom-in;background:var(--tint)}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{font-size:.78rem;color:var(--muted);margin-top:6px}
+.shot + .shot{margin-top:12px}
+.txt{min-width:0;display:grid;align-content:start;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--purple);color:#fff;font-weight:700;font-size:.95rem}
+.step h3{font-size:1.2rem;line-height:1.25}
+.txt p,.txt li{font-size:.98rem}
+.txt ul{margin:0;padding-left:1.1em;display:grid;gap:4px}
+.tip{border-left:3px solid var(--gold);background:var(--tint);padding:9px 12px;border-radius:0 8px 8px 0;font-size:.9rem}
+.tip b{color:var(--heading)}
+.ui{font-weight:700;color:var(--heading);white-space:nowrap}
+.snav{display:flex;justify-content:space-between;gap:10px;padding:12px 16px;border-top:1px solid var(--line)}
+.snav[hidden]{display:none!important}
+.snav .btn[disabled]{opacity:.35;cursor:default}
+
+/* Ideas + checks */
+.ideas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.idea{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;align-content:start}
+.idea h4{margin:0;font-size:.95rem;color:var(--heading)}
+.idea p{font-size:.9rem;color:var(--ink)}
+.challenge{background:var(--purple);color:#fff;border-radius:var(--r);padding:24px;display:grid;gap:12px;margin-top:48px}
+.challenge h2{color:#fff;font-size:1.5rem}
+.challenge .eyebrow{color:var(--gold)}
+.challenge ol{margin:0;padding-left:1.2em;display:grid;gap:6px;color:#ECE7FF}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.check{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;background:var(--surface)}
+.check h4{margin:0;color:var(--heading);font-size:1rem}
+.check p{font-size:.92rem}
+.links{display:grid;gap:0;margin-top:16px;border-top:1px solid var(--line)}
+.links a{display:flex;justify-content:space-between;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.links a span:first-child{font-weight:700;color:var(--heading)}
+.links a span:last-child{color:var(--muted);font-size:.85rem;text-align:right;overflow-wrap:anywhere}
+footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
+.sect{padding-block:44px 0}
+.sect h2{font-size:1.6rem}
+
+/* Lightbox */
+.lb{position:fixed;inset:0;background:rgba(10,4,30,.92);z-index:20;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));cursor:zoom-out}
+.lb img{max-width:100%;max-height:100%;border-radius:8px;background:#fff}
+.lb button{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));background:var(--gold);color:#21076C;border:0;border-radius:999px;font:700 .9rem var(--font);padding:8px 14px;cursor:pointer}
+
+@media (max-width:760px){
+  .step{grid-template-columns:1fr;gap:14px;padding:16px}
+  .step .txt{order:-1}
+  .ideas,.checks{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:no-preference){.step.enter{animation:in .22s ease-out}@keyframes in{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}}
+</style>
+<style>
+/* Flipbook (animated screenshot sequence) + typing mock, extending the shared station styles */
+.flip{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--tint);display:grid}
+.fstage{position:relative;aspect-ratio:var(--ar,16/10);cursor:zoom-in;background:#F1F3F8;border:0;padding:0;width:100%;display:block}
+.fstage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .45s ease}
+.fstage img.on{opacity:1}
+.fbar{display:flex;align-items:center;gap:8px;padding:8px 10px;border-top:1px solid var(--line);background:var(--surface);flex-wrap:wrap}
+.fnum{flex:none;display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--gold);color:#21076C;font-weight:700;font-size:.75rem}
+.fcap{flex:1 1 160px;min-width:0;font-size:.85rem;font-weight:500;color:var(--ink)}
+.fctl{display:flex;gap:4px;align-items:center}
+.fctl button{background:none;border:1px solid var(--line);border-radius:999px;color:var(--heading);font:700 .78rem var(--font);padding:3px 9px;cursor:pointer;min-width:30px}
+.fprog{height:3px;background:var(--line);position:relative}
+.fprog i{position:absolute;left:0;top:0;bottom:0;background:var(--gold);width:0}
+@media (prefers-reduced-motion:no-preference){.fprog i.run{transition:width linear}}
+.fstage img{max-width:100%}
+/* Vids script-row mock */
+:root{--mk-bg:#FFFFFF;--mk-row:#E8EEF8;--mk-ink:#1F1F1F;--mk-sel:#B4CCF4;--mk-caret:#0B57D0;--mk-line:#0B57D0}
+.vmock{background:var(--mk-bg);border:1px solid var(--line);border-radius:8px;padding:14px;display:grid;gap:10px;color:var(--mk-ink);font-family:'Google Sans',Roboto,Arial,sans-serif}
+.vmock .vlab{justify-self:start;font:700 .72rem var(--font);letter-spacing:.12em;text-transform:uppercase;color:#21076C;background:#D8B664;border-radius:999px;padding:3px 10px}
+.vrow{display:grid;grid-template-columns:120px minmax(0,1fr);gap:12px;align-items:start;background:var(--mk-row);border:2px solid var(--mk-line);border-radius:10px;padding:8px}
+.vrow img{width:120px;border-radius:6px;display:block}
+.vtext{font-size:.95rem;line-height:1.45;min-height:4.4em}
+.vtext .sel{background:var(--mk-sel)}
+.vcaret{display:inline-block;width:2px;height:1em;background:var(--mk-caret);vertical-align:-.12em;margin-left:1px;animation:vblink 1s steps(1) infinite}
+@keyframes vblink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.vcaret{animation:none}}
+
+.vmock + .shot,.flip + .flip,.shot + .flip,.flip + .shot{margin-top:12px}
+@media (max-width:520px){.vrow{grid-template-columns:72px minmax(0,1fr)}.vrow img{width:72px}}
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <div class="top"><span class="mark">AISA</span><span class="sign">AI PD Stations &middot; Station 4</span></div>
+    <h1>Turn Your Slides into a Video</h1>
+    <p class="lede">Use the Transform button in Google Slides to turn a deck into a narrated video in Google Vids, then make it yours: rewrite the script, give a slide its own voice, switch a scene into Arabic, and fix the music. The demo uses the Grade 10 English deck from Station 2.</p>
+    <div class="meta"><span><b>From</b> Any Google Slides deck</span><span><b>~20 min</b> for a first video</span><span><b>Output</b> A Vids video in your Drive, or an MP4</span></div>
+  </div>
+</header>
+
+<div class="wrap quick">
+  <div class="card">
+    <span class="eyebrow">Before you start</span>
+    <ol>
+      <li>Open a Google Slides deck you've already checked. A video can only be as accurate as its slides.</li>
+      <li>Bring headphones so you can listen to the voiceover at your desk.</li>
+      <li>Keep student names, photos and voices out of the deck and the script.</li>
+    </ol>
+    <div class="btnrow">
+      <a class="btn primary" href="https://docs.google.com/presentation/u/0/" target="_blank" rel="noopener">Open Google Slides <span class="arr">&nearr;</span></a>
+      <a class="btn" href="https://docs.google.com/videos/u/0/" target="_blank" rel="noopener">Open Google Vids <span class="arr">&nearr;</span></a>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" aria-label="Station sections">
+  <div class="wrap">
+    <a href="#make" class="on">1 &middot; Make the video</a>
+    <a href="#voice">2 &middot; Script, voice &amp; language</a>
+    <a href="#music">3 &middot; Music &amp; volume</a>
+    <a href="#share">4 &middot; Share it</a>
+    <a href="#check">Check &amp; links</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- PART 1 -->
+<section class="tool" id="make">
+  <div class="toolhead">
+    <span class="eyebrow">Part 1 &middot; Google Slides &rarr; Google Vids</span>
+    <h2>Make the video with Transform</h2>
+    <p class="why">One button sends your slides to Vids. Gemini writes a script for each slide, adds a voiceover, background music and simple animations, and you can edit the script before it builds anything.</p>
+    <div class="chips"><span class="chip"><b>10 slides</b> became a 1 min 43 s video</span><span class="chip">Your deck isn't changed</span></div>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/v_01_transform.jpg" alt="Google Slides with the Transform button on the right and the Turn into video panel open, Turn into video highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">1</span><h3>Click Transform, then Turn into video</h3><p>In your deck, click <span class="ui">Transform</span> at the bottom of the right-hand menu. The <em>Turn into video</em> panel opens. Click <span class="ui">Turn into video</span>.</p><p>Google Vids opens in a new tab.</p><div class="tip"><b>No Transform button?</b> Your account may not have Vids AI features yet. Let the AI &amp; Innovation team know.</div></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2600" style="--ar:1500/693">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/v_02a_select.jpg" data-cap="All 11 slides are ticked. Keep the AI voiceover switch on." alt="Select slides screen showing 11 out of 11 slides selected and the AI voiceover, script, music and animation switch on">
+              <img src="img/v_02b_untick.jpg" data-cap="Untick slides you don't need, like an image credits slide." alt="The Image Sources slide unticked at the bottom of the list" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">2</span><h3>Choose the slides</h3><p>Every slide starts ticked. Untick any you don't want in the video, such as an image credits slide or a long activity slide.</p><p>Leave <span class="ui">Include AI voiceover, script, background music and animation</span> switched on, then click <span class="ui">Next</span>.</p><div class="tip"><b>Shorter is better.</b> Aim for 4 to 8 slides. Our 10 slides made a video of almost two minutes.</div></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="vmock" role="img" aria-label="Animation: the script for slide 1 is selected and replaced with a new, friendlier welcome">
+            <span class="vlab" id="vlab">Gemini's script</span>
+            <div class="vrow"><img src="img/v_thumb1.jpg" alt=""><div class="vtext" id="vtext"></div></div>
+          </div>
+          <figure class="shot"><button type="button"><img src="img/v_03_script.jpg" alt="Edit script and customize video screen with one script box per slide" loading="lazy"></button><figcaption>One script box per slide. Click any box to edit it.</figcaption></figure>
+        </div>
+        <div class="txt"><span class="num">3</span><h3>Read and rewrite the script</h3><p>After a few seconds Gemini writes a script for each slide. This is the easiest place to fix it, before any audio is made.</p><p>Click into a box and type over it. In our demo we replaced a formal opening with one written for our own class.</p><div class="tip"><b>Write for the ear.</b> Short sentences, your students' names for things, and no more than two or three sentences per slide.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/v_04b_narration.jpg" alt="Narration options: AI avatar and voiceover, or Voiceover only, with Create the draft video highlighted" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/v_04a_narrator.jpg" alt="The Narrator voice, Smooth, medium pitch, with a play button and an edit pencil" loading="lazy"></button><figcaption>Press play to hear the narrator. The pencil changes the voice for the whole video.</figcaption></figure></div>
+        <div class="txt"><span class="num">4</span><h3>Choose the narration, then create</h3><p>Under <span class="ui">Narration</span>, choose <span class="ui">Voiceover only</span> or <span class="ui">AI avatar and voiceover</span>. Scroll down to hear the narrator and check <span class="ui">Animations</span> is on.</p><p>Click <span class="ui">Create the draft video</span>. It takes about a minute.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/v_05_draft.jpg" alt="The draft video in Google Vids with the Documentary music track and the voiceover clips highlighted on the timeline" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">5</span><h3>Meet your draft</h3><p>The video opens in the Vids editor. Each slide is a scene along the timeline. Underneath are:</p><ul><li><b>Green bars:</b> text that animates in.</li><li><b>A long music bar:</b> the background track.</li><li><b>One voiceover clip per scene</b>, labelled with its first words and the voice.</li></ul><p>Click <span class="ui">Play</span> at the top to watch it all the way through.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- PART 2 -->
+<section class="tool" id="voice">
+  <div class="toolhead">
+    <span class="eyebrow">Part 2 &middot; AI voiceover panel</span>
+    <h2>Change the script, the voice and the language</h2>
+    <p class="why">Every scene has its own voiceover, so you can rewrite one slide, give a quotation its own voice, or switch one scene into Arabic without touching the rest.</p>
+    <div class="chips"><span class="chip"><b>30+ voices</b></span><span class="chip">Arabic and 20+ other languages</span><span class="chip">Change one scene or all</span></div>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2600" style="--ar:1040/633">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/e_01a_clip.jpg" data-cap="Click a voiceover clip, then the voiceover icon." alt="A voiceover clip selected on the timeline with a small toolbar of three icons">
+              <img src="img/e_01b_panel.jpg" data-cap="The AI voiceover panel opens on that scene." alt="AI voiceover panel showing Scene 2 of 10 with its script" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">1</span><h3>Open the AI voiceover panel</h3><p>On the timeline, click the voiceover clip for the scene you want to change. A small toolbar appears. Click the first icon to open <span class="ui">AI voiceover</span>.</p><p>Or click <span class="ui">Voiceover</span> in the right-hand menu. Use the arrows next to <em>Scene 2 / 10</em> to move between scenes.</p></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2600" style="--ar:800/633">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/e_02a_select.jpg" data-cap="Select the old script." alt="Scene 2 script selected in the panel">
+              <img src="img/e_02b_new.jpg" data-cap="Type the new script." alt="Scene 2 script replaced with a new sentence" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">2</span><h3>Rewrite a scene's script</h3><p>Click into the script box, select the text and type your own. The scene is marked <em>Voiceover outdated</em> until you update it in step 4.</p><div class="tip"><b>Our demo:</b> <em>By the end of this video, you'll be able to spot the three persuasive appeals, explain how they make an audience feel, and judge which one works best.</em></div></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2400" style="--ar:1440/693">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/e_03a_change.jpg" data-cap="Click Change next to the voice." alt="Voiceover section showing the Nyla voice and the Change link">
+              <img src="img/e_03b_list.jpg" data-cap="Press play on any voice to hear it." alt="Select a voice window listing voices such as Nyla, Elio, Knox and Jett" loading="lazy">
+              <img src="img/e_03c_pick.jpg" data-cap="Click a voice, then Select." alt="Elio selected in the voice list and the Select button highlighted" loading="lazy">
+              <img src="img/e_03d_elio.jpg" data-cap="This scene now uses Elio." alt="Voiceover section now showing Elio, with Update voiceover highlighted" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">3</span><h3>Give this slide its own voice</h3><p>Under <span class="ui">Voiceover</span>, click <span class="ui">Change</span>. Press play to preview voices, click the one you want, then <span class="ui">Select</span>.</p><p>With <span class="ui">Current scene</span> selected, the new voice applies to this slide only.</p><div class="tip"><b>Use it for a reason.</b> A second voice works well for a quotation, a counter-argument, or a "student" asking a question.</div></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2600" style="--ar:1040/633">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/e_04a_replace.jpg" data-cap="Click Update voiceover, then Replace." alt="Replace existing voiceover dialog with the Replace button highlighted">
+              <img src="img/e_04b_done.jpg" data-cap="Scene 1: Narrator. Scene 2: Elio." alt="Timeline showing Welcome, Grade 10 by Narrator and By the end by Elio" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">4</span><h3>Update the voiceover</h3><p>Click <span class="ui">Update voiceover</span>, then <span class="ui">Replace</span>. After a few seconds <em>Voiceovers were successfully replaced</em> appears and the clip on the timeline shows the new script and voice.</p><div class="tip"><b>One scene or all?</b> <span class="ui">Current scene</span> changes one slide. <span class="ui">All scenes</span> shows every script and has <span class="ui">Update all voiceovers</span>. Use it when you want one voice for the whole video.</div></div>
+      </li>
+      <li class="step">
+        <div>
+          <figure class="shot"><button type="button"><img src="img/e_05a_langs.jpg" alt="Language list: conversational voices support English, Spanish, Arabic, Hindi, French and others" loading="lazy"></button><figcaption>Click the globe next to <em>Voiceover</em> to see the supported languages.</figcaption></figure>
+          <div class="flip" data-ms="2600" style="--ar:800/633">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/e_05b_english.jpg" data-cap="The scene's English script." alt="Scene 3 script in English">
+              <img src="img/e_05c_arabic.jpg" data-cap="Replace it with the Arabic version." alt="Scene 3 script replaced with Arabic text" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">5</span><h3>Switch a scene into Arabic</h3><p>The voice speaks whatever language the script is written in. To change the language:</p><ul><li>Translate the script, for example with <span class="ui">Translate text</span> in the Classroom Gemini tab (Station 1).</li><li>Paste the translation over the English script.</li><li>Click <span class="ui">Update voiceover</span> &rsaquo; <span class="ui">Replace</span>.</li></ul><div class="tip"><b>Get a second listener.</b> Ask an Arabic-speaking colleague to check the translation and how the voice says it. The text on the slide itself stays in English unless you change it.</div></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- PART 3 -->
+<section class="tool" id="music">
+  <div class="toolhead">
+    <span class="eyebrow">Part 3 &middot; Sound</span>
+    <h2>Change the music or turn it down</h2>
+    <p class="why">The draft comes with a stock music track that can compete with the voice. Turn it down, make it duck under the narration, or create a new track that fits your subject.</p>
+    <div class="chips"><span class="chip"><b>Volume</b> per track</span><span class="chip">Automatic ducking</span><span class="chip">Generate new music</span></div>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2400" style="--ar:1040/633">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/m_01a_track.jpg" data-cap="Click the music bar, then the speaker icon." alt="The music track selected with a speaker icon above it">
+              <img src="img/m_01b_65.jpg" data-cap="The Sound panel: volume starts at 65%." alt="Sound panel with Volume at 65 percent" loading="lazy">
+              <img src="img/m_01c_30.jpg" data-cap="Type 30 and press Enter." alt="Sound panel with Volume at 30 percent" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">1</span><h3>Lower the music volume</h3><p>Click the long music bar at the bottom of the timeline, then the speaker icon that appears. In the <span class="ui">Sound</span> panel, drag the <span class="ui">Volume</span> slider or type a number and press <b>Enter</b>.</p><div class="tip"><b>Try 20 to 30%.</b> Students should hear the music start, then forget about it. Tick <span class="ui">Mute</span> to remove it completely.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/m_02_duck.jpg" alt="Automatic ducking options with Background selected: lower the volume of this clip while narrative clips play" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">2</span><h3>Let it duck under the voice</h3><p>Scroll down the Sound panel to <span class="ui">Automatic ducking</span>. For music, choose <span class="ui">Background</span>: the music dips whenever the voiceover speaks and comes back up in the gaps.</p><p>The draft music in our demo already had Background set. Music you add yourself may not, so check this every time.</p></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2600" style="--ar:800/633">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/m_03a_panel.jpg" data-cap="Click Music in the right-hand menu." alt="Generate a song panel open, with the Music button highlighted">
+              <img src="img/m_03b_instr.jpg" data-cap="Open the settings and switch on Instrumental." alt="Settings menu with Duration Full and the Instrumental switch on" loading="lazy">
+              <img src="img/m_03c_prompt.jpg" data-cap="Describe the music, then Generate." alt="Music description typed in and the Generate button highlighted" loading="lazy">
+              <img src="img/m_03d_result.jpg" data-cap="Play it. Insert it, or Recreate for another try." alt="A generated 2 minute 59 second track with Insert and Recreate" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">3</span><h3>Create new music</h3><p>Click <span class="ui">Music</span> in the right-hand menu. Describe the mood and instruments, open the settings to switch on <span class="ui">Instrumental</span>, and click <span class="ui">Generate</span>.</p><div class="tip"><b>Our demo prompt:</b> <em>Calm, focused background music for a high school English lesson video. Soft piano and light strings, steady tempo, nothing distracting.</em></div><p>Press play to listen. If it's wrong, click <span class="ui">Recreate</span>.</p></div>
+      </li>
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2500" style="--ar:1040/633">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/m_04a_nomusic.jpg" data-cap="Delete the old music: click it and press Delete." alt="Timeline with the old music track removed">
+              <img src="img/m_04b_inserted.jpg" data-cap="Playhead at 0:00, then Insert. The new track starts at the beginning." alt="New music track inserted along the bottom of the timeline from the start" loading="lazy">
+              <img src="img/m_04c_duckoff.jpg" data-cap="New music has ducking Off..." alt="Automatic ducking set to Off for the new track" loading="lazy">
+              <img src="img/m_04d_duckbg.jpg" data-cap="...so choose Background." alt="Automatic ducking set to Background" loading="lazy">
+              <img src="img/m_04e_100.jpg" data-cap="New music plays at 100%..." alt="Volume at 100 percent" loading="lazy">
+              <img src="img/m_04f_30.jpg" data-cap="...so turn it down to 30%." alt="Volume at 30 percent" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">4</span><h3>Swap the old music for the new</h3><ol style="margin:0;padding-left:1.1em;display:grid;gap:4px"><li>Click the old music bar and press <b>Delete</b>.</li><li>Click the time under the preview so the playhead jumps to <em>00:00.0</em>.</li><li>In the Music panel, click <span class="ui">Insert</span>.</li><li>Click the new bar, then the speaker icon. Set ducking to <span class="ui">Background</span> and volume to about 30%.</li></ol><div class="tip"><b>Watch the playhead.</b> <span class="ui">Insert</span> puts the music wherever the playhead is. If it lands halfway through, press <b>Ctrl+Z</b> and try again.</div></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- PART 4 -->
+<section class="tool" id="share">
+  <div class="toolhead">
+    <span class="eyebrow">Part 4 &middot; Share</span>
+    <h2>Get it to your students</h2>
+    <p class="why">The video saves itself to your Drive as a Vids file. Share it like any Drive file, or download an MP4.</p>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div>
+          <div class="flip" data-ms="2600" style="--ar:800/693">
+            <button type="button" class="fstage" aria-label="Enlarge the current frame">
+              <img class="on" src="img/s_01a_file.jpg" data-cap="File: Share, Download, Export to Drive." alt="Vids File menu with Share, Download, Export to Drive and Export to YouTube highlighted">
+              <img src="img/s_01b_download.jpg" data-cap="Download as an MP4 video or a GIF." alt="Download submenu with MP4 video and GIF animation" loading="lazy">
+            </button>
+          </div>
+        </div>
+        <div class="txt"><span class="num">1</span><h3>Share or download</h3><ul><li><b>In Classroom:</b> attach the Vids file from Drive to a Material or Assignment, like a Doc or Slides.</li><li><b>As a file:</b> <span class="ui">File</span> &rsaquo; <span class="ui">Download</span> &rsaquo; <span class="ui">MP4 video</span>.</li><li><b>To Drive as a video:</b> <span class="ui">File</span> &rsaquo; <span class="ui">Export to Drive</span>.</li></ul><div class="tip"><b>Name it first.</b> Vids names the file after your deck. Rename it so students can find it, for example <em>Persuasion recap &ndash; Grade 10</em>.</div></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="challenge" aria-labelledby="ch">
+  <span class="eyebrow">Your station challenge &middot; 15 minutes</span>
+  <h2 id="ch">Make a 60 to 90 second recap video</h2>
+  <ol>
+    <li>Use the deck you built at Station 2, or any checked deck. Keep 4 to 6 slides.</li>
+    <li>Rewrite the first slide's script so it sounds like you talking to your class.</li>
+    <li>Give one slide a different voice, or switch one slide into a language your students speak at home.</li>
+    <li>Set the music to Background ducking and about 30% volume. Watch it all the way through with headphones.</li>
+  </ol>
+</section>
+
+<section class="sect" id="check">
+  <span class="eyebrow">Before students watch it</span>
+  <h2>Check it</h2>
+  <div class="checks">
+    <div class="check"><h4>Listen to every scene</h4><p>AI voices can mispronounce names, Arabic terms and abbreviations. Rewrite the script spelling if a word sounds wrong.</p></div>
+    <div class="check"><h4>Check the script matches the slide</h4><p>Gemini writes the narration from your slides. Make sure it says what the slide shows and nothing extra.</p></div>
+    <div class="check"><h4>Check translations</h4><p>Have a fluent speaker check any non-English scene before it reaches students or families.</p></div>
+    <div class="check"><h4>Keep it short</h4><p>Under two minutes holds attention. Cut slides rather than speeding up the voice.</p></div>
+  </div>
+
+  <div class="links">
+    <a href="https://docs.google.com/presentation/u/0/" target="_blank" rel="noopener"><span>Google Slides (Transform &rsaquo; Turn into video)</span><span>docs.google.com/presentation</span></a>
+    <a href="https://docs.google.com/videos/u/0/" target="_blank" rel="noopener"><span>Google Vids</span><span>docs.google.com/videos</span></a>
+  </div>
+</section>
+
+<footer>AISA &middot; AI &amp; Innovation &middot; AI PD Stations. Screenshots taken in October 2026; Google may move buttons over time.</footer>
+</main>
+
+<div class="lb" id="lb" hidden><button type="button" id="lbclose">Close</button><img id="lbimg" alt=""></div>
+
+<script>
+// Flipbooks: cycle real screenshots with a caption, step counter and controls
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.flip').forEach(function(f){
+    var stage=f.querySelector('.fstage'), imgs=[].slice.call(stage.querySelectorAll('img')), ms=+f.dataset.ms||2500, i=0, timer=null, paused=reduce, hover=false;
+    var prog=document.createElement('div'); prog.className='fprog'; var bar=document.createElement('i'); prog.appendChild(bar);
+    var fb=document.createElement('div'); fb.className='fbar';
+    var num=document.createElement('span'); num.className='fnum';
+    var cap=document.createElement('span'); cap.className='fcap'; cap.setAttribute('aria-live','polite');
+    var ctl=document.createElement('span'); ctl.className='fctl';
+    function mk(t,l){var b=document.createElement('button');b.type='button';b.textContent=t;b.setAttribute('aria-label',l);ctl.appendChild(b);return b}
+    var prev=mk('‹','Previous frame'), pp=mk(paused?'Play':'Pause','Play or pause'), next=mk('›','Next frame');
+    fb.append(num,cap,ctl); f.append(prog,fb);
+    function show(k){ i=(k+imgs.length)%imgs.length; imgs.forEach(function(im,n){im.classList.toggle('on',n===i)}); num.textContent=i+1; cap.textContent=imgs[i].dataset.cap||''; run(); }
+    function run(){ clearTimeout(timer); bar.classList.remove('run'); bar.style.transitionDuration='0ms'; bar.style.width='0';
+      if(paused||hover) return; void bar.offsetWidth; bar.classList.add('run'); bar.style.transitionDuration=ms+'ms'; bar.style.width='100%';
+      timer=setTimeout(function(){show(i+1)},ms); }
+    prev.onclick=function(){show(i-1)}; next.onclick=function(){show(i+1)};
+    pp.onclick=function(){paused=!paused; pp.textContent=paused?'Play':'Pause'; run();};
+    f.addEventListener('mouseenter',function(){hover=true;run()}); f.addEventListener('mouseleave',function(){hover=false;run()});
+    stage.addEventListener('click',function(){var lb=document.getElementById('lb'),li=document.getElementById('lbimg');li.src=imgs[i].src;li.alt=imgs[i].alt;lb.hidden=false;document.getElementById('lbclose').focus();});
+    show(0);
+  });
+})();
+// Typing mock: select Gemini's script, replace with the teacher's version
+(function(){
+  var t=document.getElementById('vtext'), lab=document.getElementById('vlab'); if(!t) return;
+  var OLD='Welcome to our deep dive into the art of persuasion. Today, we’ll explore how to master rhetorical strategies by analyzing ethos, pathos, and logos in communication.';
+  var NEW='Welcome, Grade 10! Today we’re finding out how great speakers win people over, using three tools: ethos, pathos and logos.';
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+  function set(html){t.innerHTML=html}
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ set(esc(NEW)); lab.textContent='Your script'; return; }
+  function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
+  (async function loop(){ for(;;){
+    lab.textContent='Gemini’s script'; set(esc(OLD)+'<span class="vcaret"></span>'); await wait(1800);
+    lab.textContent='Select it'; set('<span class="sel">'+esc(OLD)+'</span>'); await wait(1100);
+    lab.textContent='Type your own'; for(var k=1;k<=NEW.length;k++){ set(esc(NEW.slice(0,k))+'<span class="vcaret"></span>'); await wait(38); }
+    lab.textContent='Your script'; await wait(3000);
+  }})();
+})();
+</script>
+<script>
+(function(){
+  // Steppers: show one step at a time with Back / Next, or all steps.
+  document.querySelectorAll('.stepper').forEach(function(sp){
+    var steps=[].slice.call(sp.querySelectorAll('.step')); if(!steps.length) return;
+    var i=0, all=false;
+    var bar=document.createElement('div'); bar.className='sbar';
+    var count=document.createElement('span'); count.className='count';
+    var dots=document.createElement('div'); dots.className='dots';
+    var tog=document.createElement('button'); tog.type='button'; tog.className='toggle';
+    steps.forEach(function(s,k){var d=document.createElement('button');d.type='button';d.className='dot';d.setAttribute('aria-label','Go to step '+(k+1));d.onclick=function(){go(k)};dots.appendChild(d)});
+    bar.append(count,dots,tog); sp.prepend(bar);
+    var nav=document.createElement('div'); nav.className='snav';
+    var back=document.createElement('button'); back.type='button'; back.className='btn'; back.textContent='← Back';
+    var next=document.createElement('button'); next.type='button'; next.className='btn primary';
+    nav.append(back,next); sp.append(nav);
+    back.onclick=function(){go(i-1)}; next.onclick=function(){ if(i<steps.length-1) go(i+1); else { var nx=sp.closest('section').nextElementSibling; if(nx) nx.scrollIntoView({behavior:'smooth'}); } };
+    tog.onclick=function(){all=!all;render()};
+    function go(k){ if(k<0||k>=steps.length) return; i=k; render(); steps[i].classList.remove('enter'); void steps[i].offsetWidth; steps[i].classList.add('enter');
+      var r=sp.getBoundingClientRect(); if(r.top<0) sp.scrollIntoView({behavior:'smooth',block:'start'}); }
+    function render(){
+      sp.classList.toggle('paged',!all);
+      steps.forEach(function(s,k){s.hidden=!all&&k!==i});
+      [].forEach.call(dots.children,function(d,k){d.className='dot'+(k===i?' on':k<i?' done':'')});
+      dots.hidden=all; nav.hidden=all;
+      count.innerHTML=all?'<b>'+steps.length+' steps</b>':'Step <b>'+(i+1)+'</b> of '+steps.length;
+      tog.textContent=all?'Show one step at a time':'Show all steps';
+      back.disabled=i===0;
+      next.textContent=i===steps.length-1?'Done ✓':'Next →';
+    }
+    render();
+  });
+
+  // Lightbox for screenshots
+  var lb=document.getElementById('lb'), lbimg=document.getElementById('lbimg');
+  document.querySelectorAll('.shot button').forEach(function(b){
+    var img=b.querySelector('img'); b.setAttribute('aria-label','Enlarge: '+img.alt);
+    b.onclick=function(){lbimg.src=img.src;lbimg.alt=img.alt;lb.hidden=false;document.getElementById('lbclose').focus()};
+  });
+  function close(){lb.hidden=true}
+  lb.onclick=close; document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+
+  // Highlight current section in the sticky nav
+  var links=[].slice.call(document.querySelectorAll('.nav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  function spy(){var y=window.scrollY+120, cur=0; secs.forEach(function(s,k){if(s&&s.offsetTop<=y)cur=k});
+    links.forEach(function(a,k){a.classList.toggle('on',k===cur)});}
+  window.addEventListener('scroll',spy,{passive:true}); spy();
+})();
+</script>
+
+</body></html>
