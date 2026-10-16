@@ -108,6 +108,7 @@
         case 'roar': s.tone(220, 0.45, 'sawtooth', 0.05, 0, 110); s.tone(330, 0.35, 'square', 0.02, 0.02, 160); break;
         case 'voice': s.tone(380 + Math.random() * 160, 0.045, 'triangle', 0.018); break;
         case 'step': s.tone(90, 0.03, 'sine', 0.02); break;
+        case 'zoom': s.tone(260, 0.3, 'square', 0.035, 0, 980); s.tone(520, 0.22, 'triangle', 0.03, 0.12, 1560); break;
       }
     }
   };
@@ -646,7 +647,7 @@
     var o = PD.objects[id]; if (!o) return;
     var c = S.counters.obj[id] || 0; S.counters.obj[id] = c + 1; save();
     var line = o.lines ? o.lines[c % o.lines.length] : null;
-    if (id === 'coffee') unlockSecret('coffee');
+    if (id === 'coffee') { unlockSecret('coffee'); startBoost(); }
     if (id === 'fridge') unlockSecret('fridge');
     if (id === 'copier') { S.counters.copier = (S.counters.copier || 0) + 1; if (S.counters.copier >= 3) unlockSecret('jam'); }
     if (id === 'bell') { Sound.play('bell'); shake = 0.5; unlockSecret('bell'); }
@@ -699,13 +700,38 @@
      ================================================================= */
   var last = performance.now(), shake = 0, hearts = [], currentZone = null;
   var bumpState = false, bumpCooldown = 0, stepTimer = 0, posDirty = false;
+  /* ---- coffee: walk 50% faster for 30 seconds ---- */
+  var BOOST_MS = 30000, BOOST_MULT = 1.5, boostUntil = 0, boostShown = -1;
+  function boosted(now) { return (now || performance.now()) < boostUntil; }
+  function startBoost() {
+    var refill = boosted();
+    boostUntil = performance.now() + BOOST_MS;
+    Sound.play('zoom');
+    toast('<div class="toast-cup" aria-hidden="true">☕</div><div><div class="toast-eyebrow">' + uiH(refill ? 'coffeeRefillTitle' : 'coffeeBoostTitle') + '</div><b>' + uiH(refill ? 'coffeeRefill' : 'coffeeBoost') + '</b></div>', 3800);
+  }
+  var boostEl = $('#boost');
+  function updateBoost(now) {
+    var left = boostUntil - now;
+    if (left <= 0) {
+      if (boostShown !== -1) { boostShown = -1; boostEl.classList.remove('on'); if (mode === 'play') bubble(ui('coffeeOver'), 3600); }
+      return;
+    }
+    var secs = Math.ceil(left / 1000);
+    if (secs !== boostShown) {
+      boostShown = secs;
+      boostEl.innerHTML = '<span class="boost-cup" aria-hidden="true">☕</span><span class="boost-label">' + uiH('boostLabel') + '</span><b dir="ltr">' + secs + 's</b><i style="--p:' + (left / BOOST_MS) + '"></i>';
+      boostEl.setAttribute('aria-label', ui('boostLabel') + ' ' + secs + 's');
+      boostEl.classList.add('on');
+    } else boostEl.querySelector('i').style.setProperty('--p', left / BOOST_MS);
+  }
   function canStand(x, y) {
     if (!footClear(x, y)) return false;
     for (var i = 0; i < npcs.length; i++) if (Math.abs(npcs[i].x - x) < 0.5 && Math.abs(npcs[i].y - y) < 0.32) return false;
     return true;
   }
   function update(dt, now) {
-    var mx = 0, my = 0, speed = 4.8;
+    var mult = boosted(now) ? BOOST_MULT : 1;
+    var mx = 0, my = 0, speed = 4.8 * mult;
     if (mode === 'play' && !paused) {
       if (keys.arrowleft || keys.a) mx -= 1;
       if (keys.arrowright || keys.d) mx += 1;
@@ -714,7 +740,7 @@
       if (!mx && !my && path && path.length) {
         var wp = path[0], dx = wp.x - player.x, dy = wp.y - player.y, d = Math.sqrt(dx * dx + dy * dy);
         if (d < 0.08) { path.shift(); if (!path.length) { path = null; if (pendingTarget) { var tg = pendingTarget; pendingTarget = null; if (rectDist(player.x, player.y - 0.15, tg.rect) <= tg.range + 0.25) interact(tg); } } }
-        else { speed = 6.2; var stepLen = Math.min(speed * dt, d); mx = dx / d * stepLen / (speed * dt); my = dy / d * stepLen / (speed * dt); }
+        else { speed = 6.2 * mult; var stepLen = Math.min(speed * dt, d); mx = dx / d * stepLen / (speed * dt); my = dy / d * stepLen / (speed * dt); }
       }
     }
     var len = Math.sqrt(mx * mx + my * my);
@@ -740,7 +766,7 @@
     } else bumpState = false;
     bumpCooldown -= dt;
     player.moving = moved;
-    if (moved) { player.phase += dt * 13; player.idle = 0; stepTimer -= dt; if (stepTimer <= 0) { stepTimer = 0.32; } }
+    if (moved) { player.phase += dt * 13 * mult; player.idle = 0; stepTimer -= dt; if (stepTimer <= 0) { stepTimer = 0.32; } }
     else { player.idle += dt; player.phase = 0; }
 
     // Leo follows a trail of the player's footsteps
@@ -754,7 +780,7 @@
     if (target && ld > 1.05) {
       var ldx = target.x - leo.x, ldy = target.y - leo.y, l2 = Math.hypot(ldx, ldy);
       if (l2 > 0.05) {
-        var ls = Math.min(l2 * 6, 7.5) * dt;
+        var ls = Math.min(l2 * 6, 7.5 * mult) * dt;
         leo.x += ldx / l2 * Math.min(ls, l2); leo.y += ldy / l2 * Math.min(ls, l2);
         leo.moving = true; leo.phase += dt * 14;
         leo.dir = Math.abs(ldx) > Math.abs(ldy) ? (ldx > 0 ? 'right' : 'left') : (ldy > 0 ? 'down' : 'up');
@@ -882,6 +908,16 @@
         H.text(c, '!', mx, by + 0.5, 13, '#21076C', 900);
       }
     });
+    // coffee boost: little dust puffs behind the player
+    if (boosted(now) && player.moving && mode === 'play') {
+      var bx = player.dir === 'left' ? 1 : player.dir === 'right' ? -1 : 0, by = player.dir === 'up' ? 1 : player.dir === 'down' ? -1 : 0;
+      for (var pf = 0; pf < 4; pf++) {
+        var pph = ((now / 260) + pf / 4) % 1;
+        c.globalAlpha = (1 - pph) * 0.55;
+        H.circle(c, player.x * T + bx * (6 + pph * 16) + Math.sin(pf * 2.1) * 4, player.y * T - 2 + by * (4 + pph * 12) - pph * 6, 2.5 + pph * 3.5, '#FFFFFF');
+      }
+      c.globalAlpha = 1;
+    }
     // hearts from patting Leo
     hearts.forEach(function (h) {
       var a = (now - h.t) / 1200;
@@ -1706,7 +1742,7 @@
     var dt = Math.min(0.05, (now - last) / 1000); last = now; dtLast = dt;
     update(dt, now);
     render(now);
-    if (mode === 'play') { drawMini(now); updatePrompt(); }
+    if (mode === 'play') { drawMini(now); updatePrompt(); updateBoost(now); }
     if (mode === 'play' && posDirty && Math.floor(now / 2000) !== Math.floor((now - dt * 1000) / 2000)) { posDirty = false; save(); }
     requestAnimationFrame(frame);
   }
@@ -1734,5 +1770,5 @@
   boot();
 
   // a tiny debug hook for testing in the browser console
-  PD.game = { S: function () { return S; }, player: player, world: world, cam: cam, V: V, openQuest: openQuest, setLang: setLang, claimBadge: claimBadge };
+  PD.game = { S: function () { return S; }, player: player, world: world, cam: cam, V: V, openQuest: openQuest, setLang: setLang, claimBadge: claimBadge, boostLeft: function () { return Math.max(0, boostUntil - performance.now()); } };
 })();

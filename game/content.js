@@ -1020,7 +1020,7 @@ PD.metaBadges = [
 ];
 
 PD.secrets = [
-  { id: 'coffee', icon: 'coffee', color: '#8B5A2B', name: { en: 'Caffeinated', ar: 'مُفعم بالكافيين' }, how: { en: 'Visit the staff-room coffee machine.', ar: 'زُر آلة القهوة في غرفة المعلمين.' } },
+  { id: 'coffee', icon: 'coffee', color: '#8B5A2B', name: { en: 'Caffeinated', ar: 'مُفعم بالكافيين' }, how: { en: 'Drink a coffee in the staff lounge. (You walk 50% faster for 30 seconds.)', ar: 'اشرب قهوة في غرفة المعلمين. (تزيد سرعتك 50% لمدة 30 ثانية.)' } },
   { id: 'jam', icon: 'paper', color: '#6C7A89', name: { en: 'Paper Jam Survivor', ar: 'الناجي من انحشار الورق' }, how: { en: 'Try the photocopier three times. It never works.', ar: 'جرّب آلة التصوير ثلاث مرات. لا تعمل أبداً.' } },
   { id: 'fridge', icon: 'fridge', color: '#3A9AD9', name: { en: 'Fridge Archaeologist', ar: 'عالِم آثار الثلاجة' }, how: { en: 'Open the staff fridge and live to tell the tale.', ar: 'افتح ثلاجة المعلمين واخرج سالماً.' } },
   { id: 'bestie', icon: 'heart', color: '#E0567A', name: { en: 'Leo\'s Bestie', ar: 'صديق ليو المقرّب' }, how: { en: 'Pat Leo five times.', ar: 'ربّت على ليو خمس مرات.' } },
@@ -1358,5 +1358,11 @@ PD.ui = {
   roomQuest: { en: 'Find the glowing station to start the quest.', ar: 'ابحث عن المحطة المضيئة لتبدأ المهمة.' },
   badgeCount: { en: '{d}/{n} badges', ar: '{d}/{n} أوسمة' },
   footer: { en: 'AISA · AI & Innovation', ar: 'AISA · الذكاء الاصطناعي والابتكار' },
-  loading: { en: 'Loading the school…', ar: 'جارٍ تحميل المدرسة…' }
+  loading: { en: 'Loading the school…', ar: 'جارٍ تحميل المدرسة…' },
+  coffeeBoostTitle: { en: 'Caffeine rush!', ar: 'دفعة كافيين!' },
+  coffeeBoost: { en: 'You walk 50% faster for 30 seconds.', ar: 'سرعتك تزيد 50% لمدة 30 ثانية.' },
+  coffeeRefillTitle: { en: 'Refill!', ar: 'كوب إضافي!' },
+  coffeeRefill: { en: 'Speed boost back to 30 seconds.', ar: 'تجدّدت دفعة السرعة لـ30 ثانية.' },
+  coffeeOver: { en: 'The caffeine wore off. Back to regular teacher speed.', ar: 'انتهى مفعول الكافيين. عادت سرعتك إلى طبيعتها.' },
+  boostLabel: { en: 'Speed boost', ar: 'دفعة سرعة' }
 };

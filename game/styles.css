@@ -182,6 +182,16 @@ html[dir="rtl"] #prompt { padding: .55em .6em .55em 1.2em; }
 #prompt.on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 #prompt span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+/* coffee speed boost timer */
+#boost { position: fixed; top: 74px; inset-inline-start: 14px; z-index: 20; display: flex; align-items: center; gap: 8px; padding: 6px 14px 6px 8px; border-radius: 999px; background: #3B2417; color: #FFF6E0; font-weight: 700; font-size: .9rem; box-shadow: 0 6px 18px rgba(20, 8, 60, .3); overflow: hidden; opacity: 0; transform: translateY(-8px) scale(.95); transition: opacity .2s, transform .25s cubic-bezier(.2, 1.4, .4, 1); pointer-events: none; }
+html[dir="rtl"] #boost { padding: 6px 8px 6px 14px; }
+#boost.on { opacity: 1; transform: none; }
+#boost .boost-cup { font-size: 1.2rem; animation: nudge .6s ease-in-out infinite; }
+#boost b { color: var(--gold); min-width: 2.4em; }
+#boost i { position: absolute; inset-inline-start: 0; bottom: 0; height: 3px; width: calc(var(--p, 1) * 100%); background: var(--gold); }
+.toast-cup { width: 48px; height: 48px; flex: none; display: grid; place-items: center; font-size: 1.7rem; border-radius: 50%; background: #FFF3D6; }
+@media (max-width: 640px) { #boost .boost-label { display: none; } }
+
 /* room banner */
 #banner { position: fixed; top: 16%; left: 50%; z-index: 15; transform: translate(-50%, -12px); opacity: 0; pointer-events: none; text-align: center; transition: opacity .3s, transform .3s; width: min(620px, calc(100vw - 32px)); }
 #banner.on { opacity: 1; transform: translate(-50%, 0); animation: bannerOut .5s ease 2.8s forwards; }
