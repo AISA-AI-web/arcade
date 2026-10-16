@@ -1,0 +1,413 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Differentiation &amp; Scaffolding Station</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+/* Layout: purple station band, sticky tool switcher, one stepper card per tool, shared "share with students" stepper, checklist + links */
+:root{
+  --purple:#21076C; --gold:#D8B664; --bg:#FFFFFF; --ink:#1A1A1A; --muted:#555555;
+  --tint:#F2EFFA; --line:#C8BEE8; --surface:#FFFFFF; --heading:#21076C; --gold-ink:#7A5C14;
+  --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(33,7,108,.06),0 8px 24px rgba(33,7,108,.08);
+  --font:'DM Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E0920; --ink:#ECE9F7; --muted:#ABA4C8; --tint:#1C1540; --line:#3A2F6B; --surface:#150F30;
+  --heading:#CFC4FF; --gold-ink:#E6C97E; --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E0920; --ink:#ECE9F7; --muted:#ABA4C8; --tint:#1C1540; --line:#3A2F6B; --surface:#150F30;
+  --heading:#CFC4FF; --gold-ink:#E6C97E; --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35); color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--heading);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-weight:700;text-wrap:balance;margin:0;color:var(--heading)}
+p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
+
+/* Band */
+.band{background:var(--band);color:var(--band-ink)}
+.band .wrap{padding-block:32px 36px;display:grid;gap:14px}
+.band .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.mark{font-weight:700;letter-spacing:.08em;color:var(--gold)}
+.sign{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(216,182,100,.6);color:var(--gold);border-radius:999px;padding:4px 12px;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.band h1{color:#fff;font-size:clamp(2rem,6vw,3.1rem);line-height:1.05;letter-spacing:-.01em}
+.band .lede{max-width:62ch;color:#E4DEFA;font-size:1.06rem}
+.meta{display:flex;gap:10px 22px;flex-wrap:wrap;font-size:.9rem;color:#CFC6F2}
+.meta b{color:var(--gold);font-weight:700}
+
+/* Quick start */
+.quick{margin-top:-18px;position:relative}
+.quick .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 20px;display:grid;gap:12px}
+.quick ol{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:.92rem;border-radius:999px;padding:9px 16px;border:1.5px solid var(--heading);color:var(--heading);background:transparent;cursor:pointer;font-family:inherit}
+.btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
+:root[data-theme="dark"] .btn.primary{border-color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{border-color:var(--gold)}}
+.btn .arr{font-weight:400}
+
+/* Nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-top:28px}
+.nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.nav a{flex:none;text-decoration:none;font-size:.9rem;font-weight:500;color:var(--muted);padding:7px 14px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.nav a.on{color:var(--heading);background:var(--tint);border-color:var(--line);font-weight:700}
+
+/* Tool sections */
+section.tool{padding-block:44px 8px;scroll-margin-top:64px}
+.toolhead{display:grid;gap:8px;margin-bottom:18px}
+.toolhead h2{font-size:clamp(1.6rem,4.4vw,2.1rem);line-height:1.15}
+.toolhead p.why{max-width:66ch;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.chip{font-size:.8rem;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.chip b{color:var(--heading)}
+.chip a{font-weight:700}
+
+/* Stepper */
+.stepper{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.sbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--tint);flex-wrap:wrap}
+.count{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.count b{color:var(--heading)}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dot{width:22px;height:6px;border-radius:3px;background:var(--line);border:0;padding:0;cursor:pointer}
+.dot.on{background:var(--gold)}
+.dot.done{background:var(--heading);opacity:.55}
+.toggle{background:none;border:0;color:var(--heading);font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;padding:4px 2px;text-decoration:underline;text-underline-offset:3px}
+ol.steps{list-style:none;margin:0;padding:0}
+.step{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;padding:20px}
+.step+.step{border-top:1px solid var(--line)}
+.stepper.paged .step+.step{border-top:0}
+.shot{margin:0;min-width:0}
+.shot button{display:block;width:100%;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:zoom-in;background:var(--tint)}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{font-size:.78rem;color:var(--muted);margin-top:6px}
+.shot + .shot{margin-top:12px}
+.txt{min-width:0;display:grid;align-content:start;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--purple);color:#fff;font-weight:700;font-size:.95rem}
+.step h3{font-size:1.2rem;line-height:1.25}
+.txt p,.txt li{font-size:.98rem}
+.txt ul{margin:0;padding-left:1.1em;display:grid;gap:4px}
+.tip{border-left:3px solid var(--gold);background:var(--tint);padding:9px 12px;border-radius:0 8px 8px 0;font-size:.9rem}
+.tip b{color:var(--heading)}
+.ui{font-weight:700;color:var(--heading);white-space:nowrap}
+.snav{display:flex;justify-content:space-between;gap:10px;padding:12px 16px;border-top:1px solid var(--line)}
+.snav[hidden]{display:none!important}
+.snav .btn[disabled]{opacity:.35;cursor:default}
+
+/* Ideas + checks */
+.ideas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.idea{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;align-content:start}
+.idea h4{margin:0;font-size:.95rem;color:var(--heading)}
+.idea p{font-size:.9rem;color:var(--ink)}
+.challenge{background:var(--purple);color:#fff;border-radius:var(--r);padding:24px;display:grid;gap:12px;margin-top:48px}
+.challenge h2{color:#fff;font-size:1.5rem}
+.challenge .eyebrow{color:var(--gold)}
+.challenge ol{margin:0;padding-left:1.2em;display:grid;gap:6px;color:#ECE7FF}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.check{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;background:var(--surface)}
+.check h4{margin:0;color:var(--heading);font-size:1rem}
+.check p{font-size:.92rem}
+.links{display:grid;gap:0;margin-top:16px;border-top:1px solid var(--line)}
+.links a{display:flex;justify-content:space-between;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.links a span:first-child{font-weight:700;color:var(--heading)}
+.links a span:last-child{color:var(--muted);font-size:.85rem;text-align:right;overflow-wrap:anywhere}
+footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
+.sect{padding-block:44px 0}
+.sect h2{font-size:1.6rem}
+
+/* Lightbox */
+.lb{position:fixed;inset:0;background:rgba(10,4,30,.92);z-index:20;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));cursor:zoom-out}
+.lb img{max-width:100%;max-height:100%;border-radius:8px;background:#fff}
+.lb button{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));background:var(--gold);color:#21076C;border:0;border-radius:999px;font:700 .9rem var(--font);padding:8px 14px;cursor:pointer}
+
+@media (max-width:760px){
+  .step{grid-template-columns:1fr;gap:14px;padding:16px}
+  .step .txt{order:-1}
+  .ideas,.checks{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:no-preference){.step.enter{animation:in .22s ease-out}@keyframes in{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}}
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <div class="top"><span class="mark">AISA</span><span class="sign">AI PD Stations &middot; Station 1</span></div>
+    <h1>Differentiation &amp; Scaffolding</h1>
+    <p class="lede">Use Gemini inside Google Classroom to rewrite a text at a different reading level, build a vocabulary list for a unit, and translate instructions into your students' home languages. Everything stays a draft until you choose to assign it.</p>
+    <div class="meta"><span><b>3 tools</b> Re-level, Vocabulary, Translate</span><span><b>~15 min</b> to try all three</span><span><b>Where</b> Classroom &rsaquo; Gemini tab</span></div>
+  </div>
+</header>
+
+<div class="wrap quick">
+  <div class="card">
+    <span class="eyebrow">Before you start</span>
+    <ol>
+      <li>Sign in to Google Classroom with your AISA account.</li>
+      <li>Open the <span class="ui">Gemini</span> tab in the left menu, or use a button below to jump straight to a tool.</li>
+      <li>Have a text from your next unit ready to paste, or a file in Drive. Leave out anything with student names or personal details.</li>
+    </ol>
+    <div class="btnrow">
+      <a class="btn primary" href="https://classroom.google.com/ai" target="_blank" rel="noopener">Open Gemini in Classroom <span class="arr">&nearr;</span></a>
+      <a class="btn" href="https://classroom.google.com/ai/rlv" target="_blank" rel="noopener">Re-level text <span class="arr">&nearr;</span></a>
+      <a class="btn" href="https://classroom.google.com/ai/vl" target="_blank" rel="noopener">Vocabulary list <span class="arr">&nearr;</span></a>
+      <a class="btn" href="https://classroom.google.com/ai/tr" target="_blank" rel="noopener">Translate text <span class="arr">&nearr;</span></a>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" aria-label="Station sections">
+  <div class="wrap">
+    <a href="#relevel" class="on">1 &middot; Re-level text</a>
+    <a href="#vocab">2 &middot; Vocabulary list</a>
+    <a href="#translate">3 &middot; Translate text</a>
+    <a href="#share">Share with students</a>
+    <a href="#check">Check &amp; links</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- RE-LEVEL -->
+<section class="tool" id="relevel">
+  <div class="toolhead">
+    <span class="eyebrow">Tool 1 &middot; Support students</span>
+    <h2>Re-level a text</h2>
+    <p class="why">Paste any reading and Gemini rewrites it for the grade level you choose, keeping the subject words you tell it to keep. Make two or three versions of the same text so every group reads the same content at an accessible level.</p>
+    <div class="chips"><span class="chip"><b>Up to 9,000</b> characters</span><span class="chip">Paste text or upload from Drive</span><span class="chip"><a href="https://classroom.google.com/ai/rlv" target="_blank" rel="noopener">Open tool &nearr;</a></span></div>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/00_gemini_tab.jpg" alt="Classroom left menu with the Gemini tab highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">1</span><h3>Open the Gemini tab</h3><p>In Google Classroom, click <span class="ui">Gemini</span> in the left menu. This opens <em>Explore AI tools for educators</em>.</p><div class="tip"><b>No Gemini tab?</b> Let the AI &amp; Innovation team know so your account can be checked.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/01_support_students.jpg" alt="Support students filter selected, showing Re-level text and Translate text" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">2</span><h3>Choose Re-level text</h3><p>Click the <span class="ui">Support students</span> filter, then click <span class="ui">Re-level text</span>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/rl_01_form.jpg" alt="Re-level text form with Target grade, text box and Upload from Drive highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">3</span><h3>Set the grade and add your text</h3><ul><li>Type a <span class="ui">Target grade</span>, for example <em>5</em>.</li><li>Paste your text into the box, or click <span class="ui">Upload from Drive</span> to use a Doc or PDF.</li></ul></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/rl_02_filled.jpg" alt="Keywords photosynthesis and chlorophyll added, Generate button highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">4</span><h3>Keep key vocabulary, then generate</h3><p>In <span class="ui">Keywords to keep in the generated text</span>, type a subject term and press <b>Enter</b>. Repeat for each term students must still learn. Then click <span class="ui">Generate</span>.</p><div class="tip"><b>Why keywords?</b> Without them, Gemini may swap technical terms for simpler words. Keywords protect the vocabulary you are assessing.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/rl_03_result.jpg" alt="Original text beside the generated grade 5 version" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/rl_05_legend.jpg" alt="Legend: green highlight means adjusted for target grade, dotted underline means keyword" loading="lazy"></button><figcaption>Green = adjusted for the target grade. Dotted underline = a keyword you kept.</figcaption></figure></div>
+        <div class="txt"><span class="num">5</span><h3>Compare the two versions</h3><p>The original sits on the left and the new version on the right. Green highlights show what changed; your keywords are underlined.</p><ul><li>Use the pencil icon to edit the original.</li><li>Use the copy icon to copy either version.</li></ul><div class="tip"><b>Read it first.</b> The tool's grade estimate can differ from Flesch-Kincaid and other readability scores, so check it suits your students.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/rl_13_export.jpg" alt="Export to Docs button and the Content exported message with a View Google Doc link" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/rl_14_doc.jpg" alt="Exported Google Doc showing Adjust text to: Target grade 5, Keywords to retain, and the Original text heading" loading="lazy"></button><figcaption>The Doc lists your settings, then the original text.</figcaption></figure><figure class="shot"><button type="button"><img src="img/rl_15_doc_generated.jpg" alt="Generated text section further down the exported Doc" loading="lazy"></button><figcaption>Scroll down for the re-levelled version under Generated text.</figcaption></figure></div>
+        <div class="txt"><span class="num">6</span><h3>Export to Docs</h3><p>Click <span class="ui">Export to Docs</span> at the top right. When <em>Content exported</em> appears at the bottom left, click <span class="ui">View Google Doc</span>. The Doc opens in a new tab and is saved in your Drive.</p><p>The Doc contains:</p><ul><li><b>Adjust text to</b> and <b>Keywords to retain</b>: the settings you used</li><li><b>Original text</b>: your text, unchanged</li><li><b>Generated text</b>: the re-levelled version</li></ul><div class="tip"><b>Rename it straight away.</b> The Doc is called <em>Untitled document</em>, so give it a name like <em>Photosynthesis &ndash; Grade 5</em> to find it later. The green highlights don't carry over into the Doc.</div><p>Delete the Original text section if students should only see the new version, then share or attach the Doc as you normally would.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/rl_06_regenerate.jpg" alt="Expanded panel with Target grade and Regenerate button highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">7</span><h3>Make another level</h3><p>Click the arrow at the top right of the <span class="ui">Re-level text</span> panel to open it. Change the <span class="ui">Target grade</span> and click <span class="ui">Regenerate</span>.</p><div class="tip"><b>Keep each version.</b> Export or add a version to class <em>before</em> you regenerate, so you don't lose it. Then follow <a href="#share">Share with students</a>.</div></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- VOCAB -->
+<section class="tool" id="vocab">
+  <div class="toolhead">
+    <span class="eyebrow">Tool 2 &middot; Instruction material</span>
+    <h2>Create a vocabulary list</h2>
+    <p class="why">Give a grade and a topic and Gemini builds a table of key terms with the part of speech, a student-friendly definition and an example sentence. Use it to pre-teach words before students read the re-levelled text.</p>
+    <div class="chips"><span class="chip"><b>Output</b> Term &middot; Grammatical category &middot; Definition &middot; Example</span><span class="chip"><a href="https://classroom.google.com/ai/vl" target="_blank" rel="noopener">Open tool &nearr;</a></span></div>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/02_instruction_material.jpg" alt="Instruction material filter with Create a vocabulary list highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">1</span><h3>Choose Create a vocabulary list</h3><p>On the Gemini tab, click the <span class="ui">Instruction material</span> filter, then <span class="ui">Create a vocabulary list</span>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/vl_02_filled.jpg" alt="Target grade 5, topic Photosynthesis, Generate button highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">2</span><h3>Enter the grade and topic</h3><p>Type a <span class="ui">Target grade</span> and a <span class="ui">Topic</span>. A specific topic gives better words: <em>Photosynthesis: how plants make their own food</em> works better than <em>Plants</em>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/vl_03_drive.jpg" alt="Insert files using Google Drive picker" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">3</span><h3>Optional: add your unit materials</h3><p>Click <span class="ui">Upload from Drive</span> and choose your unit reading, slides or planner. Gemini will pull terms from what you actually teach.</p><p>Then click <span class="ui">Generate</span>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/vl_04_result.jpg" alt="Generated vocabulary table with Term, Grammatical Category, Definition and Example columns" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">4</span><h3>Review the list</h3><p>Check every definition and example. Remove terms you won't teach and note any that are missing.</p><div class="tip"><b>Scaffold it.</b> Generate one list at grade level and a second at a lower grade for students who need more support.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/vl_06_exported.jpg" alt="Export to Docs button and the Vocabulary list exported message with View Google Doc link" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/vl_07_doc.jpg" alt="Exported vocabulary list as an editable Google Doc table" loading="lazy"></button><figcaption>The export is a normal Google Doc you can edit.</figcaption></figure></div>
+        <div class="txt"><span class="num">5</span><h3>Export to Docs</h3><p>Click <span class="ui">Export to Docs</span>, wait for <em>Vocabulary list exported</em>, then click <span class="ui">View Google Doc</span>. The Doc is saved in your Drive.</p><ul><li>Add a column for home-language translations or pictures.</li><li>Turn it into a word wall, flashcards or a glossary handout.</li></ul></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/vl_08_regenerate.jpg" alt="Expanded panel with Target grade and Regenerate highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">6</span><h3>Adjust and regenerate</h3><p>Click the arrow at the top right of the panel to change the grade, topic or uploaded file, then click <span class="ui">Regenerate</span>. To send the list straight to a class, use <span class="ui">Add to class</span> and follow <a href="#share">Share with students</a>.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- TRANSLATE -->
+<section class="tool" id="translate">
+  <div class="toolhead">
+    <span class="eyebrow">Tool 3 &middot; Support students</span>
+    <h2>Translate text</h2>
+    <p class="why">Translate instructions, a reading or a parent note into one or more languages in a single step. Useful for newcomer EAL students, home-language support and family communication.</p>
+    <div class="chips"><span class="chip"><b>Several languages</b> at once</span><span class="chip">Source language detected automatically</span><span class="chip"><a href="https://classroom.google.com/ai/tr" target="_blank" rel="noopener">Open tool &nearr;</a></span></div>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/01b_translate_card.jpg" alt="Support students filter with Translate text highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">1</span><h3>Choose Translate text</h3><p>On the Gemini tab, click <span class="ui">Support students</span>, then <span class="ui">Translate text</span>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/tr_01_form.jpg" alt="Quick language chips and the All languages dropdown highlighted" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/tr_03_languages.jpg" alt="Arabic selected and All languages dropdown open" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">2</span><h3>Pick your languages</h3><p>Click a quick option (<em>Spanish, Hindi, English, Arabic, French</em>) or open <span class="ui">All languages</span> to find another. You can select more than one; each gets a tick.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/tr_04_filled.jpg" alt="Homework instructions pasted, Arabic and Korean selected, Translate button highlighted" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/tr_02_autodetect.jpg" alt="Tooltip: Language of this text is auto-detected" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">3</span><h3>Paste your text and translate</h3><p>Paste the text into the box. You don't need to say what language it is in; Classroom detects it. Click <span class="ui">Translate</span>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/tr_05_arabic.jpg" alt="Original English beside the Arabic translation" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/tr_06_korean.jpg" alt="Korean tab selected showing the Korean translation" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">4</span><h3>Check each language</h3><p>Switch between the language buttons above the translation to see each version beside the original.</p><div class="tip"><b>Get a second reader.</b> Ask a colleague or family member who speaks the language to check anything important before it goes home.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/tr_07_doc.jpg" alt="Exported Doc with an Arabic Translation section and a Korean Translation section, original beside translation" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">5</span><h3>Export or add to class</h3><p><span class="ui">Export to Docs</span> creates one Doc with a section for each language, with the original beside the translation. Or use <span class="ui">Add to class</span> and follow <a href="#share">Share with students</a>.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- SHARE -->
+<section class="tool" id="share">
+  <div class="toolhead">
+    <span class="eyebrow">All three tools</span>
+    <h2>Share with students</h2>
+    <p class="why">Every tool has an <span class="ui">Add to class</span> button. It turns the result into a Google Doc, attaches it to new classwork and saves it as a draft. Nothing reaches students until you click Assign.</p>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/rl_07_addtoclass.jpg" alt="Add to class dialog with Class and Classwork type dropdowns" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">1</span><h3>Click Add to class</h3><p>At the top right of your result, click <span class="ui">Add to class</span>. Choose the <span class="ui">Class</span>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/rl_08_types.jpg" alt="Classwork type options: Assignment, Quiz assignment, Question, Material" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/rl_09_confirm.jpg" alt="Class and Assignment selected, Confirm highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">2</span><h3>Choose the classwork type</h3><p>Pick <span class="ui">Assignment</span>, <span class="ui">Quiz assignment</span>, <span class="ui">Question</span> or <span class="ui">Material</span>, then click <span class="ui">Confirm</span>.</p><div class="tip"><b>Rule of thumb.</b> Use Material for a reading or vocabulary list students keep; use Assignment when they hand something in.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/rl_10_draft.jpg" alt="New assignment with the Gemini output attached as a Google Doc, and Assign to highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">3</span><h3>Finish the draft</h3><p>A new classwork page opens with your result attached as a Google Doc. Add a title and instructions.</p><ul><li>Under <span class="ui">File sharing options</span>, choose whether students can view the file, edit it or get their own copy.</li><li>Close the <em>Create a rubric</em> tip if it appears.</li></ul></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/rl_11_groups.jpg" alt="Assign to dialog with the Groups tab and Create group highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">4</span><h3>Send each version to the right students</h3><p>Click <span class="ui">All students</span> under <span class="ui">Assign to</span>. Tick individual students, or open the <span class="ui">Groups</span> tab and click <span class="ui">Create group</span> to set up reading groups you can reuse.</p><div class="tip"><b>Differentiate quietly.</b> Post the grade 3 version to one group and the grade 6 version to another. Students only see their own.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/rl_12_savedraft.jpg" alt="Assign menu open with Assign, Schedule, Save draft and Discard draft" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">5</span><h3>Assign, schedule or save as a draft</h3><p>Click the arrow beside <span class="ui">Assign</span> to choose <span class="ui">Schedule</span> or <span class="ui">Save draft</span>. Classroom then takes you back to your Gemini result so you can make the next version.</p></div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="ideas">
+    <div class="idea"><h4>Tiered reading</h4><p>One text, three grade levels, same keywords. Assign each version to a group and run one shared discussion.</p></div>
+    <div class="idea"><h4>Pre-teach, then read</h4><p>Export a vocabulary list at the lower level and use it as a starter before students open the re-levelled text.</p></div>
+    <div class="idea"><h4>Home-language bridge</h4><p>Translate the task instructions so newcomer students can start straight away, then move to the English text.</p></div>
+  </div>
+</section>
+
+<section class="challenge" aria-labelledby="ch">
+  <span class="eyebrow">Your station challenge &middot; 10 minutes</span>
+  <h2 id="ch">Build a scaffolded set for your next lesson</h2>
+  <ol>
+    <li>Paste a text from your next unit into <b>Re-level text</b> and make two versions at different grades.</li>
+    <li>Make a <b>vocabulary list</b> for the same topic at the lower grade and export it to Docs.</li>
+    <li><b>Translate</b> the task instructions into a home language spoken in your class.</li>
+    <li>Use <b>Add to class</b> and save everything as drafts. Nothing goes to students yet.</li>
+  </ol>
+</section>
+
+<section class="sect" id="check">
+  <span class="eyebrow">Before anything reaches students</span>
+  <h2>Check it</h2>
+  <div class="checks">
+    <div class="check"><h4>Read every word</h4><p>Gemini can make mistakes. Check facts, definitions and that the meaning of the original survived.</p></div>
+    <div class="check"><h4>Protect student data</h4><p>Don't paste student names, reports or personal details into any tool.</p></div>
+    <div class="check"><h4>Check the context</h4><p>Make sure examples and wording suit our community and the UAE context.</p></div>
+    <div class="check"><h4>Keep the challenge</h4><p>A simpler text should still carry the key ideas. Use keywords so the subject vocabulary stays.</p></div>
+  </div>
+
+  <div class="links">
+    <a href="https://classroom.google.com/ai" target="_blank" rel="noopener"><span>Gemini in Classroom</span><span>classroom.google.com/ai</span></a>
+    <a href="https://classroom.google.com/ai/rlv" target="_blank" rel="noopener"><span>Re-level text</span><span>classroom.google.com/ai/rlv</span></a>
+    <a href="https://classroom.google.com/ai/vl" target="_blank" rel="noopener"><span>Create a vocabulary list</span><span>classroom.google.com/ai/vl</span></a>
+    <a href="https://classroom.google.com/ai/tr" target="_blank" rel="noopener"><span>Translate text</span><span>classroom.google.com/ai/tr</span></a>
+    <a href="https://support.google.com/edu/classroom/answer/15410566?hl=en" target="_blank" rel="noopener"><span>Google help: Learn about Gemini in Classroom</span><span>support.google.com</span></a>
+  </div>
+</section>
+
+<footer>AISA &middot; AI &amp; Innovation &middot; AI PD Stations. Screenshots taken in a demo class in October 2026; Google may move buttons over time.</footer>
+</main>
+
+<div class="lb" id="lb" hidden><button type="button" id="lbclose">Close</button><img id="lbimg" alt=""></div>
+
+<script>
+(function(){
+  // Steppers: show one step at a time with Back / Next, or all steps.
+  document.querySelectorAll('.stepper').forEach(function(sp){
+    var steps=[].slice.call(sp.querySelectorAll('.step')); if(!steps.length) return;
+    var i=0, all=false;
+    var bar=document.createElement('div'); bar.className='sbar';
+    var count=document.createElement('span'); count.className='count';
+    var dots=document.createElement('div'); dots.className='dots';
+    var tog=document.createElement('button'); tog.type='button'; tog.className='toggle';
+    steps.forEach(function(s,k){var d=document.createElement('button');d.type='button';d.className='dot';d.setAttribute('aria-label','Go to step '+(k+1));d.onclick=function(){go(k)};dots.appendChild(d)});
+    bar.append(count,dots,tog); sp.prepend(bar);
+    var nav=document.createElement('div'); nav.className='snav';
+    var back=document.createElement('button'); back.type='button'; back.className='btn'; back.textContent='← Back';
+    var next=document.createElement('button'); next.type='button'; next.className='btn primary';
+    nav.append(back,next); sp.append(nav);
+    back.onclick=function(){go(i-1)}; next.onclick=function(){ if(i<steps.length-1) go(i+1); else { var nx=sp.closest('section').nextElementSibling; if(nx) nx.scrollIntoView({behavior:'smooth'}); } };
+    tog.onclick=function(){all=!all;render()};
+    function go(k){ if(k<0||k>=steps.length) return; i=k; render(); steps[i].classList.remove('enter'); void steps[i].offsetWidth; steps[i].classList.add('enter');
+      var r=sp.getBoundingClientRect(); if(r.top<0) sp.scrollIntoView({behavior:'smooth',block:'start'}); }
+    function render(){
+      sp.classList.toggle('paged',!all);
+      steps.forEach(function(s,k){s.hidden=!all&&k!==i});
+      [].forEach.call(dots.children,function(d,k){d.className='dot'+(k===i?' on':k<i?' done':'')});
+      dots.hidden=all; nav.hidden=all;
+      count.innerHTML=all?'<b>'+steps.length+' steps</b>':'Step <b>'+(i+1)+'</b> of '+steps.length;
+      tog.textContent=all?'Show one step at a time':'Show all steps';
+      back.disabled=i===0;
+      next.textContent=i===steps.length-1?'Done ✓':'Next →';
+    }
+    render();
+  });
+
+  // Lightbox for screenshots
+  var lb=document.getElementById('lb'), lbimg=document.getElementById('lbimg');
+  document.querySelectorAll('.shot button').forEach(function(b){
+    var img=b.querySelector('img'); b.setAttribute('aria-label','Enlarge: '+img.alt);
+    b.onclick=function(){lbimg.src=img.src;lbimg.alt=img.alt;lb.hidden=false;document.getElementById('lbclose').focus()};
+  });
+  function close(){lb.hidden=true}
+  lb.onclick=close; document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+
+  // Highlight current section in the sticky nav
+  var links=[].slice.call(document.querySelectorAll('.nav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  function spy(){var y=window.scrollY+120, cur=0; secs.forEach(function(s,k){if(s&&s.offsetTop<=y)cur=k});
+    links.forEach(function(a,k){a.classList.toggle('on',k===cur)});}
+  window.addEventListener('scroll',spy,{passive:true}); spy();
+})();
+</script>
+
+</body></html>

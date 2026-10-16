@@ -1,0 +1,450 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Lesson Decks Station</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+/* Layout: purple station band, sticky tool switcher, one stepper card per tool, shared "share with students" stepper, checklist + links */
+:root{
+  --purple:#21076C; --gold:#D8B664; --bg:#FFFFFF; --ink:#1A1A1A; --muted:#555555;
+  --tint:#F2EFFA; --line:#C8BEE8; --surface:#FFFFFF; --heading:#21076C; --gold-ink:#7A5C14;
+  --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(33,7,108,.06),0 8px 24px rgba(33,7,108,.08);
+  --font:'DM Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E0920; --ink:#ECE9F7; --muted:#ABA4C8; --tint:#1C1540; --line:#3A2F6B; --surface:#150F30;
+  --heading:#CFC4FF; --gold-ink:#E6C97E; --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E0920; --ink:#ECE9F7; --muted:#ABA4C8; --tint:#1C1540; --line:#3A2F6B; --surface:#150F30;
+  --heading:#CFC4FF; --gold-ink:#E6C97E; --band:#21076C; --band-ink:#FFFFFF; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35); color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--heading);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-weight:700;text-wrap:balance;margin:0;color:var(--heading)}
+p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
+
+/* Band */
+.band{background:var(--band);color:var(--band-ink)}
+.band .wrap{padding-block:32px 36px;display:grid;gap:14px}
+.band .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.mark{font-weight:700;letter-spacing:.08em;color:var(--gold)}
+.sign{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(216,182,100,.6);color:var(--gold);border-radius:999px;padding:4px 12px;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.band h1{color:#fff;font-size:clamp(2rem,6vw,3.1rem);line-height:1.05;letter-spacing:-.01em}
+.band .lede{max-width:62ch;color:#E4DEFA;font-size:1.06rem}
+.meta{display:flex;gap:10px 22px;flex-wrap:wrap;font-size:.9rem;color:#CFC6F2}
+.meta b{color:var(--gold);font-weight:700}
+
+/* Quick start */
+.quick{margin-top:-18px;position:relative}
+.quick .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 20px;display:grid;gap:12px}
+.quick ol{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:.92rem;border-radius:999px;padding:9px 16px;border:1.5px solid var(--heading);color:var(--heading);background:transparent;cursor:pointer;font-family:inherit}
+.btn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
+:root[data-theme="dark"] .btn.primary{border-color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{border-color:var(--gold)}}
+.btn .arr{font-weight:400}
+
+/* Nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-top:28px}
+.nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.nav a{flex:none;text-decoration:none;font-size:.9rem;font-weight:500;color:var(--muted);padding:7px 14px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.nav a.on{color:var(--heading);background:var(--tint);border-color:var(--line);font-weight:700}
+
+/* Tool sections */
+section.tool{padding-block:44px 8px;scroll-margin-top:64px}
+.toolhead{display:grid;gap:8px;margin-bottom:18px}
+.toolhead h2{font-size:clamp(1.6rem,4.4vw,2.1rem);line-height:1.15}
+.toolhead p.why{max-width:66ch;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.chip{font-size:.8rem;border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.chip b{color:var(--heading)}
+.chip a{font-weight:700}
+
+/* Stepper */
+.stepper{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.sbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--tint);flex-wrap:wrap}
+.count{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.count b{color:var(--heading)}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dot{width:22px;height:6px;border-radius:3px;background:var(--line);border:0;padding:0;cursor:pointer}
+.dot.on{background:var(--gold)}
+.dot.done{background:var(--heading);opacity:.55}
+.toggle{background:none;border:0;color:var(--heading);font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;padding:4px 2px;text-decoration:underline;text-underline-offset:3px}
+ol.steps{list-style:none;margin:0;padding:0}
+.step{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;padding:20px}
+.step+.step{border-top:1px solid var(--line)}
+.stepper.paged .step+.step{border-top:0}
+.shot{margin:0;min-width:0}
+.shot button{display:block;width:100%;padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:zoom-in;background:var(--tint)}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{font-size:.78rem;color:var(--muted);margin-top:6px}
+.shot + .shot{margin-top:12px}
+.txt{min-width:0;display:grid;align-content:start;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--purple);color:#fff;font-weight:700;font-size:.95rem}
+.step h3{font-size:1.2rem;line-height:1.25}
+.txt p,.txt li{font-size:.98rem}
+.txt ul{margin:0;padding-left:1.1em;display:grid;gap:4px}
+.tip{border-left:3px solid var(--gold);background:var(--tint);padding:9px 12px;border-radius:0 8px 8px 0;font-size:.9rem}
+.tip b{color:var(--heading)}
+.ui{font-weight:700;color:var(--heading);white-space:nowrap}
+.snav{display:flex;justify-content:space-between;gap:10px;padding:12px 16px;border-top:1px solid var(--line)}
+.snav[hidden]{display:none!important}
+.snav .btn[disabled]{opacity:.35;cursor:default}
+
+/* Ideas + checks */
+.ideas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.idea{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;align-content:start}
+.idea h4{margin:0;font-size:.95rem;color:var(--heading)}
+.idea p{font-size:.9rem;color:var(--ink)}
+.challenge{background:var(--purple);color:#fff;border-radius:var(--r);padding:24px;display:grid;gap:12px;margin-top:48px}
+.challenge h2{color:#fff;font-size:1.5rem}
+.challenge .eyebrow{color:var(--gold)}
+.challenge ol{margin:0;padding-left:1.2em;display:grid;gap:6px;color:#ECE7FF}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.check{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;background:var(--surface)}
+.check h4{margin:0;color:var(--heading);font-size:1rem}
+.check p{font-size:.92rem}
+.links{display:grid;gap:0;margin-top:16px;border-top:1px solid var(--line)}
+.links a{display:flex;justify-content:space-between;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.links a span:first-child{font-weight:700;color:var(--heading)}
+.links a span:last-child{color:var(--muted);font-size:.85rem;text-align:right;overflow-wrap:anywhere}
+footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
+.sect{padding-block:44px 0}
+.sect h2{font-size:1.6rem}
+
+/* Lightbox */
+.lb{position:fixed;inset:0;background:rgba(10,4,30,.92);z-index:20;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));cursor:zoom-out}
+.lb img{max-width:100%;max-height:100%;border-radius:8px;background:#fff}
+.lb button{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));background:var(--gold);color:#21076C;border:0;border-radius:999px;font:700 .9rem var(--font);padding:8px 14px;cursor:pointer}
+
+@media (max-width:760px){
+  .step{grid-template-columns:1fr;gap:14px;padding:16px}
+  .step .txt{order:-1}
+  .ideas,.checks{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:no-preference){.step.enter{animation:in .22s ease-out}@keyframes in{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}}
+</style>
+<style>
+/* Route chooser + copyable house-rules box (extends the shared station styles) */
+.routes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.route{display:grid;gap:6px;align-content:start;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:var(--r);padding:16px;background:var(--surface)}
+.route:hover{border-color:var(--heading)}
+.route .rn{font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-ink)}
+.route h3{font-size:1.1rem}
+.route p{font-size:.9rem}
+.route .go{font-size:.85rem;font-weight:700;color:var(--heading)}
+.rules{border:1px dashed var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:10px;background:var(--tint);margin-top:16px}
+.rules code{font-family:inherit;font-size:.95rem;color:var(--ink);display:block;white-space:pre-wrap}
+.rules .btnrow{justify-content:flex-start}
+.copied{font-size:.85rem;color:var(--muted);align-self:center}
+@media (max-width:760px){.routes{grid-template-columns:1fr}}
+/* Typing demo: a light mock of Gemini's prompt box, kept light in both themes like the screenshots */
+:root{--mock-bg:#F8FAFD;--mock-box:#FFFFFF;--mock-line:#C4C7C5;--mock-ink:#1F1F1F;--mock-icon:#444746;--mock-hl:#FBE7A6;--mock-caret:#0B57D0;--mock-send:#D3E3FD}
+.typedemo{background:var(--mock-bg);border:1px solid var(--line);border-radius:8px;padding:18px 16px 16px;display:grid;gap:10px;font-family:'Google Sans',Roboto,Arial,sans-serif;color:var(--mock-ink)}
+.tlabel{justify-self:start;font:700 .72rem var(--font);letter-spacing:.12em;text-transform:uppercase;color:#21076C;background:#D8B664;border-radius:999px;padding:3px 10px}
+.tbox{background:var(--mock-box);border:1px solid var(--mock-line);border-radius:14px 14px 0 0;border-bottom:0;padding:14px 16px 6px;font-size:clamp(1rem,2.6vw,1.2rem);min-height:2.2em;white-space:nowrap;overflow:hidden}
+.tword{border-radius:3px;padding:0 1px}
+.tword.hl{background:var(--mock-hl)}
+.tcaret{display:inline-block;width:2px;height:1.1em;background:var(--mock-caret);vertical-align:-.15em;margin-left:1px;animation:blink 1s steps(1) infinite}
+.ticons{display:flex;gap:18px;align-items:center;background:var(--mock-box);border:1px solid var(--mock-line);border-top:0;border-radius:0 0 14px 14px;margin-top:-10px;padding:6px 16px 10px;color:var(--mock-icon);font-size:1rem}
+.tsend{margin-left:auto;width:30px;height:30px;border-radius:50%;background:var(--mock-send);display:grid;place-items:center;color:var(--mock-caret);font-weight:700}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.tcaret{animation:none}}
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <div class="top"><span class="mark">AISA</span><span class="sign">AI PD Stations &middot; Station 2</span></div>
+    <h1>Polished Lesson Decks, Fast</h1>
+    <p class="lede">Three ways to get a professional, editable Google Slides deck for a real lesson in a few minutes: from a topic, from a lesson plan you already have, or inside Slides itself. The demo is a Grade 10 English lesson on persuasive speeches.</p>
+    <div class="meta"><span><b>3 routes</b> Topic, Your file, Inside Slides</span><span><b>~15 min</b> to finish one deck</span><span><b>Output</b> A Google Slides deck in your Drive</span></div>
+  </div>
+</header>
+
+<div class="wrap quick">
+  <div class="card">
+    <span class="eyebrow">Before you start</span>
+    <ol>
+      <li>Sign in to Google Classroom and Google Slides with your AISA account.</li>
+      <li>Pick a lesson you teach in the next two weeks. For Route 2, have its lesson plan, worksheet or notes in Drive.</li>
+      <li>Leave out student names and personal details.</li>
+    </ol>
+    <div class="btnrow">
+      <a class="btn primary" href="https://classroom.google.com/ai" target="_blank" rel="noopener">Open Gemini in Classroom <span class="arr">&nearr;</span></a>
+      <a class="btn" href="https://docs.google.com/presentation/create" target="_blank" rel="noopener">New Google Slides deck <span class="arr">&nearr;</span></a>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" aria-label="Station sections">
+  <div class="wrap">
+    <a href="#choose" class="on">Choose a route</a>
+    <a href="#topic">1 &middot; From a topic</a>
+    <a href="#file">2 &middot; From your file</a>
+    <a href="#slides">3 &middot; Inside Slides</a>
+    <a href="#check">Check &amp; links</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section class="sect" id="choose">
+  <span class="eyebrow">Pick one to start</span>
+  <h2>Which route fits you?</h2>
+  <div class="routes">
+    <a class="route" href="#topic"><span class="rn">Route 1</span><h3>I have a topic</h3><p>Fill in a short form in Classroom. Gemini designs the deck, then you export it to Slides.</p><span class="go">About 5 minutes &rarr;</span></a>
+    <a class="route" href="#file"><span class="rn">Route 2</span><h3>I have a lesson plan</h3><p>Turn a Doc or PDF you already wrote into slides that follow your lesson stage by stage.</p><span class="go">About 5 minutes &rarr;</span></a>
+    <a class="route" href="#slides"><span class="rn">Route 3</span><h3>I want to stay in Slides</h3><p>Start a new deck and let Gemini build every slide inside it, after agreeing a plan with you.</p><span class="go">About 8 minutes &rarr;</span></a>
+  </div>
+  <div class="rules">
+    <span class="eyebrow">AISA house rules &middot; paste these into any route</span>
+    <code id="rulesText">Push beyond recall to DOK 2-3. Use examples that suit a school in the UAE. Keep text on each slide short.</code>
+    <div class="btnrow"><button type="button" class="btn" id="copyRules">Copy house rules</button><span class="copied" id="copiedMsg" aria-live="polite"></span></div>
+  </div>
+</section>
+
+<!-- ROUTE 1 -->
+<section class="tool" id="topic">
+  <div class="toolhead">
+    <span class="eyebrow">Route 1 &middot; Classroom Gemini tab</span>
+    <h2>Create a presentation from a topic</h2>
+    <p class="why">A short form in Classroom sends a detailed prompt to Gemini, which designs a full deck with images. You review it, then export it as a normal Google Slides file you can edit.</p>
+    <div class="chips"><span class="chip"><b>11 slides</b> in our demo</span><span class="chip">Export to Slides, PDF or PowerPoint</span><span class="chip"><a href="https://classroom.google.com/ai" target="_blank" rel="noopener">Open Gemini tab &nearr;</a></span></div>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cp_01_chip.jpg" alt="Gemini tab with Instruction material selected and the Create a presentation prompt highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">1</span><h3>Open Create a presentation</h3><p>In Classroom, click <span class="ui">Gemini</span> in the left menu, then the <span class="ui">Instruction material</span> filter. Scroll down to <em>Start with a prompt in Gemini for Education</em> and click <span class="ui">Create a presentation</span>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cp_02_form.jpg" alt="Create a presentation form with grade 10, the topic and the learning goal filled in" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">2</span><h3>Fill in the form</h3><ul><li><span class="ui">Target grade level</span>: <em>10</em></li><li><span class="ui">Describe the concept, topic, or activity directions</span>: what the lesson covers.</li><li><span class="ui">Describe the learning goal</span>: what students should be able to do.</li><li><span class="ui">Instructional style</span>: how the lesson runs, for example <em>short teacher input, then Think-Pair-Share and a group task</em>.</li></ul></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cp_03_other.jpg" alt="Other requests field filled in and the Ask Gemini button highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">3</span><h3>Add the house rules, then Ask Gemini</h3><p>In <span class="ui">Other requests</span>, say how many slides you want and what to include, then paste the <a href="#choose">AISA house rules</a>. Click <span class="ui">Ask Gemini</span>.</p><div class="tip"><b>Our demo:</b> <em>8-10 slides. Include a short speech extract to analyse, discussion questions and an exit ticket.</em> plus the house rules.</div><p>Generating takes a minute or two. Gemini then opens in a new tab with your deck.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cp_04_canvas.jpg" alt="Gemini Canvas showing The Art of Persuasion, slide 1 of 11, with the slide arrows and Export highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">4</span><h3>Review the deck in Gemini</h3><p>The deck appears in a Canvas panel. Use the arrows to flip through the slides.</p><p>To change something, type it in the prompt box under the deck, for example <em>Make slide 4 shorter</em> or <em>Add a slide with sentence starters for EAL students</em>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cp_05_export.jpg" alt="Export menu open with Slides, PDF and PPTX" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">5</span><h3>Export to Slides</h3><p>Click <span class="ui">Export</span>, then <span class="ui">Slides</span>. You can also choose <span class="ui">PDF</span> or <span class="ui">PPTX</span> for PowerPoint.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cp_06_toast.jpg" alt="New slides created message with Open Slides button" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/cp_07_grid.jpg" alt="The exported deck in Google Slides grid view: title, goals, rhetorical triangle, ethos, pathos versus logos, devices, Think-Pair-Share, group task" loading="lazy"></button><figcaption>The exported deck in Google Slides, with images and editable text.</figcaption></figure></div>
+        <div class="txt"><span class="num">6</span><h3>Open it in Slides</h3><p>When <em>New slides created</em> appears at the bottom left, click <span class="ui">Open Slides</span>. The deck is saved in your Drive and every box is editable.</p><div class="tip"><b>Images.</b> Our demo deck ended with an <em>Image Sources</em> slide. Keep it, and check each photo suits our community.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cp_08_check.jpg" alt="Emotion versus Evidence slide with the line Recycling reduces our total campus waste output by 40% annually highlighted" loading="lazy"></button><figcaption>From our demo: a statistic Gemini made up.</figcaption></figure></div>
+        <div class="txt"><span class="num">7</span><h3>Check every fact</h3><p>Our demo deck used <em>Recycling reduces our total campus waste output by 40% annually</em> as an example of logos. The number is invented. That is a problem on a slide that teaches students to judge evidence.</p><ul><li>Replace made-up numbers with real, sourced ones.</li><li>Check quotes are real and correctly attributed.</li><li>Check the deck matches your success criteria.</li></ul></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ROUTE 2 -->
+<section class="tool" id="file">
+  <div class="toolhead">
+    <span class="eyebrow">Route 2 &middot; Classroom Gemini tab</span>
+    <h2>Convert a file to Google Slides</h2>
+    <p class="why">Already have a lesson plan, worksheet or study guide? Gemini turns it into slides and keeps your own content, so the deck matches what you planned.</p>
+    <div class="chips"><span class="chip"><b>Docs or PDFs</b> from Drive</span><span class="chip">Keeps your wording</span><span class="chip"><a href="https://classroom.google.com/ai" target="_blank" rel="noopener">Open Gemini tab &nearr;</a></span></div>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cf_01_chip.jpg" alt="Gemini tab with Instruction material selected and Convert a file to Google slides highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">1</span><h3>Open Convert a file to Google slides</h3><p>On the Gemini tab, click <span class="ui">Instruction material</span>, scroll to <em>Start with a prompt in Gemini for Education</em>, and click <span class="ui">Convert a file to Google slides</span>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cf_03_picker.jpg" alt="Insert files using Google Drive with the demo lesson plan selected and the Add button highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">2</span><h3>Choose your file</h3><p>Click <span class="ui">Upload from Drive</span>. Search for your file, click it, then click <span class="ui">Add</span>.</p><div class="tip"><b>Best results</b> come from a plan with clear stages and timings, like the one in our demo.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cf_04_goal.jpg" alt="Form with the lesson plan attached, grade 10 and the presentation goal filled in, Ask Gemini highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">3</span><h3>Say what the deck is for, then Ask Gemini</h3><p>Check the <span class="ui">Target grade level</span>, then describe the goal of the presentation and click <span class="ui">Ask Gemini</span>.</p><div class="tip"><b>Our demo goal:</b> <em>Turn this lesson plan into the slides I teach from: one slide per lesson stage, with the speech extract on its own slide and the exit ticket at the end.</em></div><p>For a student revision deck, try <em>make a self-paced review of this file</em> instead.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cf_05_canvas.jpg" alt="Gemini Canvas showing Voices that Persuade, slide 1 of 8, with Export highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">4</span><h3>Review and export</h3><p>Gemini opens in a new tab with the deck. Flip through it, ask for changes in the prompt box, then click <span class="ui">Export</span> &rsaquo; <span class="ui">Slides</span> and <span class="ui">Open Slides</span>, as in <a href="#topic">Route 1</a>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/cf_06_grid.jpg" alt="Converted deck in Slides: title, Do Now, persuasive appeals, class annotation, the speech extract, Think-Pair-Share, group task and exit ticket" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">5</span><h3>Check it against your plan</h3><p>Our 8-slide deck followed the plan in order: Do Now, teacher input, modelling, the full speech extract, Think-Pair-Share, group task and exit ticket.</p><div class="tip"><b>Why this route is safer.</b> Gemini works from your text, so there's less invented content. Still read every slide, and add images or your own examples where it feels thin.</div></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ROUTE 3 -->
+<section class="tool" id="slides">
+  <div class="toolhead">
+    <span class="eyebrow">Route 3 &middot; Google Slides</span>
+    <h2>Create the whole deck inside Slides</h2>
+    <p class="why">Start a new deck and Gemini asks a few questions, shows you a slide-by-slide plan, then builds every slide in the file. Nothing to export.</p>
+    <div class="chips"><span class="chip"><b>10 slides</b> in our demo</span><span class="chip">You approve the plan first</span><span class="chip"><a href="https://docs.google.com/presentation/create" target="_blank" rel="noopener">New deck &nearr;</a></span></div>
+  </div>
+  <div class="stepper">
+    <ol class="steps">
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/sl_01_start.jpg" alt="New Slides deck showing the Let's start creating window with the Slides option highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">1</span><h3>Start a new deck</h3><p>Open Google Slides and click <span class="ui">Blank presentation</span>. In the <em>Let's start creating</em> window, click <span class="ui">Slides</span>: <em>Create fully editable slides from simple text prompts</em>.</p><div class="tip"><b>No window, or no Slides option?</b> Your account may not have this feature yet. Use Route 1 or 2, and let the AI &amp; Innovation team know.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/sl_02_panel.jpg" alt="Gemini side panel with the Create a presentation suggestion highlighted" loading="lazy"></button></figure><figure class="shot"><div class="typedemo" role="img" aria-label="Animation: in the Gemini prompt box, the word slide in Create a slide about is deleted and presentation is typed in its place"><div class="tlabel" id="tlabel">Before</div><div class="tbox"><span>Create a </span><span class="tword" id="tword">slide</span><span class="tcaret" aria-hidden="true"></span><span> about</span></div><div class="ticons" aria-hidden="true"><span>+</span><span>&#8645;</span><span>&#9673;</span><span class="tsend">&uarr;</span></div></div><figcaption>Delete <em>slide</em> and type <em>presentation</em> before you write the rest.</figcaption></figure></div>
+        <div class="txt"><span class="num">2</span><h3>Choose Create a presentation</h3><p>The Gemini panel opens on the right. Click <span class="ui">Create a presentation</span>.</p><div class="tip"><b>Watch the prompt box.</b> It still starts with <em>Create a slide about</em>. Change the word <em>slide</em> to <em>presentation</em>, or delete it and write your own prompt in step 3. If you leave it, Gemini may make one slide instead of a whole deck.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/sl_03_prompt.jpg" alt="Prompt describing a 10-slide Grade 10 English lesson typed into the Gemini panel, with the send arrow highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">3</span><h3>Describe the lesson, then send</h3><p>Make sure the prompt starts with <em>Create a presentation</em>, not <em>Create a slide</em>. Then write one prompt with the grade, topic, number of slides and the activities you want, plus the <a href="#choose">house rules</a>. Click the send arrow.</p><div class="tip"><b>Our demo:</b> <em>Create a 10-slide presentation for a Grade 10 English lesson on persuasive speeches. Cover ethos, pathos and logos, and three rhetorical devices. Include a Do Now, a speech extract to annotate, a Think-Pair-Share task, a group evaluation task and an exit ticket.</em></div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/sl_04_style.jpg" alt="Gemini questions with Vibrant and Engaging style and Balanced density selected" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/sl_05_goals.jpg" alt="Key learning goals all ticked and the Next button highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">4</span><h3>Answer Gemini's questions</h3><p>Gemini asks about visual style, how much text you want, and the key learning goals. Pick your answers and click <span class="ui">Next</span>.</p><div class="tip"><b>Text density.</b> <em>Balanced</em> works for teaching slides. Choose <em>Concise</em> if you'll talk over them.</div></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/sl_06_plan.jpg" alt="Slide-by-slide plan in the Gemini panel with the Approve button highlighted" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">5</span><h3>Check the plan, then Approve</h3><p>Gemini lists every slide it will make. Read the list. If something is missing, type the change in the prompt box first. Then click <span class="ui">Approve</span>.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/sl_07_building.jpg" alt="Slide thumbnails appearing down the left side as Gemini builds the deck" loading="lazy"></button></figure></div>
+        <div class="txt"><span class="num">6</span><h3>Let it build</h3><p>Slides appear down the left side one at a time and Gemini names the file for you. Our 10-slide deck took about four minutes.</p><p>When the panel says <em>Your slides are ready</em>, close the panel to see the deck.</p></div>
+      </li>
+      <li class="step">
+        <div><figure class="shot"><button type="button"><img src="img/sl_08_grid.jpg" alt="Finished deck in grid view with slides 6 and 7 highlighted" loading="lazy"></button></figure><figure class="shot"><button type="button"><img src="img/sl_09_slide.jpg" alt="Exit ticket slide open for editing" loading="lazy"></button><figcaption>Every slide is ordinary Slides content you can edit.</figcaption></figure></div>
+        <div class="txt"><span class="num">7</span><h3>Check what's missing</h3><p>In our demo, slides 6 and 7 tell students to annotate <em>a short excerpt</em> and <em>the provided transcript</em>, but neither text is in the deck.</p><ul><li>Add the text students need on its own slide.</li><li>Check examples, numbers and any text inside images.</li><li>Trim slides that are too wordy to read from the back of the room.</li></ul></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="challenge" aria-labelledby="ch">
+  <span class="eyebrow">Your station challenge &middot; 15 minutes</span>
+  <h2 id="ch">Make the deck for a lesson you teach next week</h2>
+  <ol>
+    <li>Pick the route that fits what you have: a topic, a lesson plan, or a blank deck.</li>
+    <li>Add the <b>AISA house rules</b> to your prompt.</li>
+    <li>Get the deck into Google Slides and fix at least three things: a fact, a slide that's too wordy, and something missing.</li>
+    <li>If you use Chalkie or another tool, open your last deck from it next to this one and compare the thinking each one asks of students.</li>
+  </ol>
+</section>
+
+<section class="sect" id="check">
+  <span class="eyebrow">Before you teach from it</span>
+  <h2>Check it</h2>
+  <div class="checks">
+    <div class="check"><h4>Facts and numbers</h4><p>All three demo decks had something to fix. Check statistics, quotes and examples, and replace anything you can't source.</p></div>
+    <div class="check"><h4>Images</h4><p>Check every photo and AI image suits our community and the UAE context, and keep the image credits.</p></div>
+    <div class="check"><h4>The thinking</h4><p>A good-looking deck can still be all recall. Check there's at least one task that asks students to analyse or evaluate.</p></div>
+    <div class="check"><h4>Student data</h4><p>Don't upload files with student names, grades or reports to any route.</p></div>
+  </div>
+
+  <div class="links">
+    <a href="https://classroom.google.com/ai" target="_blank" rel="noopener"><span>Gemini in Classroom (Routes 1 and 2)</span><span>classroom.google.com/ai</span></a>
+    <a href="https://docs.google.com/presentation/create" target="_blank" rel="noopener"><span>New Google Slides deck (Route 3)</span><span>docs.google.com/presentation</span></a>
+    <a href="https://support.google.com/edu/classroom/answer/15410566?hl=en" target="_blank" rel="noopener"><span>Google help: Learn about Gemini in Classroom</span><span>support.google.com</span></a>
+  </div>
+</section>
+
+<footer>AISA &middot; AI &amp; Innovation &middot; AI PD Stations. Screenshots taken in October 2026; Google may move buttons over time.</footer>
+</main>
+
+<div class="lb" id="lb" hidden><button type="button" id="lbclose">Close</button><img id="lbimg" alt=""></div>
+
+<script>
+(function(){
+  var b=document.getElementById('copyRules'), msg=document.getElementById('copiedMsg'), t=document.getElementById('rulesText');
+  function selectText(){var r=document.createRange();r.selectNodeContents(t);var s=window.getSelection();s.removeAllRanges();s.addRange(r);}
+  b.addEventListener('click',function(){
+    var text=t.textContent;
+    try{
+      navigator.clipboard.writeText(text).then(function(){msg.textContent='Copied';},function(){selectText();msg.textContent='Selected. Press Ctrl+C to copy.';});
+    }catch(e){selectText();msg.textContent='Selected. Press Ctrl+C to copy.';}
+  });
+})();
+// Typing demo: erase "slide", type "presentation", pause, repeat
+(function(){
+  var w=document.getElementById('tword'), lab=document.getElementById('tlabel'); if(!w) return;
+  var FROM='slide', TO='presentation';
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ w.textContent=TO; w.classList.add('hl'); lab.textContent='After'; return; }
+  function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
+  async function loop(){
+    for(;;){
+      w.textContent=FROM; w.classList.remove('hl'); lab.textContent='Before';
+      await wait(1400);
+      w.classList.add('hl'); lab.textContent='Delete "slide"';
+      await wait(700);
+      for(var i=FROM.length;i>0;i--){ w.textContent=FROM.slice(0,i-1); await wait(140); }
+      lab.textContent='Type "presentation"';
+      await wait(300);
+      for(var j=1;j<=TO.length;j++){ w.textContent=TO.slice(0,j); await wait(95); }
+      lab.textContent='After';
+      await wait(2600);
+    }
+  }
+  loop();
+})();
+</script>
+<script>
+(function(){
+  // Steppers: show one step at a time with Back / Next, or all steps.
+  document.querySelectorAll('.stepper').forEach(function(sp){
+    var steps=[].slice.call(sp.querySelectorAll('.step')); if(!steps.length) return;
+    var i=0, all=false;
+    var bar=document.createElement('div'); bar.className='sbar';
+    var count=document.createElement('span'); count.className='count';
+    var dots=document.createElement('div'); dots.className='dots';
+    var tog=document.createElement('button'); tog.type='button'; tog.className='toggle';
+    steps.forEach(function(s,k){var d=document.createElement('button');d.type='button';d.className='dot';d.setAttribute('aria-label','Go to step '+(k+1));d.onclick=function(){go(k)};dots.appendChild(d)});
+    bar.append(count,dots,tog); sp.prepend(bar);
+    var nav=document.createElement('div'); nav.className='snav';
+    var back=document.createElement('button'); back.type='button'; back.className='btn'; back.textContent='← Back';
+    var next=document.createElement('button'); next.type='button'; next.className='btn primary';
+    nav.append(back,next); sp.append(nav);
+    back.onclick=function(){go(i-1)}; next.onclick=function(){ if(i<steps.length-1) go(i+1); else { var nx=sp.closest('section').nextElementSibling; if(nx) nx.scrollIntoView({behavior:'smooth'}); } };
+    tog.onclick=function(){all=!all;render()};
+    function go(k){ if(k<0||k>=steps.length) return; i=k; render(); steps[i].classList.remove('enter'); void steps[i].offsetWidth; steps[i].classList.add('enter');
+      var r=sp.getBoundingClientRect(); if(r.top<0) sp.scrollIntoView({behavior:'smooth',block:'start'}); }
+    function render(){
+      sp.classList.toggle('paged',!all);
+      steps.forEach(function(s,k){s.hidden=!all&&k!==i});
+      [].forEach.call(dots.children,function(d,k){d.className='dot'+(k===i?' on':k<i?' done':'')});
+      dots.hidden=all; nav.hidden=all;
+      count.innerHTML=all?'<b>'+steps.length+' steps</b>':'Step <b>'+(i+1)+'</b> of '+steps.length;
+      tog.textContent=all?'Show one step at a time':'Show all steps';
+      back.disabled=i===0;
+      next.textContent=i===steps.length-1?'Done ✓':'Next →';
+    }
+    render();
+  });
+
+  // Lightbox for screenshots
+  var lb=document.getElementById('lb'), lbimg=document.getElementById('lbimg');
+  document.querySelectorAll('.shot button').forEach(function(b){
+    var img=b.querySelector('img'); b.setAttribute('aria-label','Enlarge: '+img.alt);
+    b.onclick=function(){lbimg.src=img.src;lbimg.alt=img.alt;lb.hidden=false;document.getElementById('lbclose').focus()};
+  });
+  function close(){lb.hidden=true}
+  lb.onclick=close; document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+
+  // Highlight current section in the sticky nav
+  var links=[].slice.call(document.querySelectorAll('.nav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  function spy(){var y=window.scrollY+120, cur=0; secs.forEach(function(s,k){if(s&&s.offsetTop<=y)cur=k});
+    links.forEach(function(a,k){a.classList.toggle('on',k===cur)});}
+  window.addEventListener('scroll',spy,{passive:true}); spy();
+})();
+</script>
+
+</body></html>
