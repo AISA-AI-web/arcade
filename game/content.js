@@ -671,7 +671,7 @@ PD.quests = [
       ar: 'اصنع لعبة من دون كتابة سطر برمجي، وشاركها برمز QR.'
     },
     time: { en: '~20 min', ar: 'نحو 20 دقيقة' },
-    tools: { en: 'Gemini Canvas · AISA Activity Hub', ar: 'منصة أنشطة AISA · Gemini Canvas' },
+    tools: { en: 'Gemini Canvas · AISA Activity Hub', ar: 'منصة أنشطة AISA\u200F · Gemini Canvas' },
     links: [
       { label: { en: 'Gemini', ar: 'Gemini' }, url: 'https://gemini.google.com/app' },
       { label: { en: 'AISA EduSim Gem', ar: 'AISA EduSim Gem' }, url: 'https://gemini.google.com/gem/11QD4AkTJjpXVgEGw8SJ74nq99ntDfv8V?usp=sharing' },

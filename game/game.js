@@ -57,7 +57,9 @@
       var lang = S.lang;
       S = Object.assign(fresh(), p); S.counters = Object.assign(fresh().counters, S.counters || {}); S.lang = lang;
       if (S.look) player.look = S.look;
-      updateHUD(); rerenderModal();
+      if (mode === 'title') keepFocus(titleEl, renderTitle);
+      else if (mode === 'play') keepFocus(hud, buildHUD);
+      rerenderModal();
     } catch (err) { }
   });
   function qs(id) { if (!S.q[id]) S.q[id] = { m: {}, coop: false, quiz: false, qi: 0, badge: false, seen: false }; return S.q[id]; }
@@ -458,7 +460,14 @@
     var hw = 0.27, hh = 0.2;
     return !world.isSolid(x - hw, y - hh) && !world.isSolid(x + hw, y - hh) && !world.isSolid(x - hw, y - 0.02) && !world.isSolid(x + hw, y - 0.02);
   }
-  if (S.pos && footClear(S.pos.x, S.pos.y)) { player.x = S.pos.x; player.y = S.pos.y; }
+  if (S.pos) {
+    // older saves rounded the position, which can land a hair inside a wall: try tiny nudges
+    var NUDGES = [[0, 0], [-0.01, 0], [0, -0.01], [-0.01, -0.01], [0.01, 0], [0, 0.01], [0.01, 0.01], [-0.01, 0.01], [0.01, -0.01]];
+    for (var ni = 0; ni < NUDGES.length; ni++) {
+      var nx = S.pos.x + NUDGES[ni][0], ny = S.pos.y + NUDGES[ni][1];
+      if (footClear(nx, ny)) { player.x = nx; player.y = ny; break; }
+    }
+  }
   var leo = { x: world.leoSpawn.x, y: world.leoSpawn.y, dir: 'down', moving: false, phase: 0, state: 'sit', trail: [], hopUntil: 0 };
   var npcs = (PD.npcs || []).map(function (n) {
     var L = world.L, cz = world.zones.corridor, pos;
@@ -593,7 +602,8 @@
     if (hit) return hit;
     for (var ri = 0; ri < world.rooms.length; ri++) {
       var kp = world.rooms[ri].kiosk;
-      if (Math.abs(tx - (kp.x + kp.w / 2)) <= 0.6 && ty >= kp.y - 3.6 && ty <= kp.y + kp.h) return { type: 'prop', p: kp, rect: { x: kp.x, y: kp.y, w: kp.w, h: kp.h }, range: 1.15 };
+      var colTop = questDone(world.rooms[ri].quest) ? kp.y - 2.7 : kp.y - 3.6;
+      if (Math.abs(tx - (kp.x + kp.w / 2)) <= 0.6 && ty >= colTop && ty <= kp.y + kp.h) return { type: 'prop', p: kp, rect: { x: kp.x, y: kp.y, w: kp.w, h: kp.h }, range: 1.15 };
     }
     world.interactables.forEach(function (p) {
       var top = p.layer === 'stand' ? Math.max(p.top || 0, WD.KIND_TOP[p.kind] || 0) : 0;
@@ -801,7 +811,7 @@
       near = paused ? null : findNear();
       var z = world.zoneAt(player.x, player.y - 0.1);
       if (z && z !== currentZone) { enterZone(z, currentZone); currentZone = z; }
-      if (moved) { S.pos = { x: +player.x.toFixed(2), y: +player.y.toFixed(2) }; posDirty = true; }
+      if (moved) { S.pos = { x: player.x, y: player.y }; posDirty = true; }
     }
     hearts = hearts.filter(function (h) { return now - h.t < 1200; });
     if (shake > 0) shake = Math.max(0, shake - dt);
@@ -1189,7 +1199,7 @@
     var sc2 = $('.scroll', modalCard); if (sc2) sc2.scrollTop = top;
   }
   // Re-rendering replaces buttons; put keyboard focus back on the same control.
-  var FOCUS_ATTRS = ['data-toggle', 'data-tab', 'data-how', 'data-opt', 'data-coop', 'data-next', 'data-claim', 'data-copy', 'data-k', 'data-v', 'data-act', 'data-q', 'data-open', 'data-walk', 'data-go-play', 'data-cert'];
+  var FOCUS_ATTRS = ['data-toggle', 'data-tab', 'data-how', 'data-opt', 'data-coop', 'data-next', 'data-claim', 'data-copy', 'data-k', 'data-v', 'data-act', 'data-q', 'data-open', 'data-walk', 'data-go-play', 'data-cert', 'data-lang', 'data-l'];
   function focusKey(el) {
     if (!el || !el.getAttribute || !window.CSS || !CSS.escape) return null;
     var parts = FOCUS_ATTRS.filter(function (a) { return el.hasAttribute(a); }).map(function (a) { return '[' + a + '="' + CSS.escape(el.getAttribute(a)) + '"]'; });
@@ -1300,7 +1310,8 @@
   function renderQuiz(q, st) {
     var n = q.quiz.length;
     if (st.quiz) return renderQuizDone(q, st);
-    var qi = Math.min(st.qi || 0, n - 1), item = q.quiz[qi], u = quizUI[q.id] || (quizUI[q.id] = { wrong: {}, answered: false, quip: null });
+    var qi = Math.min(st.qi || 0, n - 1), item = q.quiz[qi], u = quizUI[q.id];
+    if (!u || u.qi !== qi) u = quizUI[q.id] = { wrong: {}, answered: false, quip: null, qi: qi };
     var expr = u.answered ? 'proud' : (Object.keys(u.wrong).length ? 'think' : 'happy');
     var h = '<div class="quiz"><div class="quiz-top"><span class="eyebrow">' + uiH('question', { i: qi + 1, n: n }) + '</span><div class="dots">' +
       q.quiz.map(function (x, i) { return '<i class="' + (i < qi || (i === qi && u.answered) ? 'ok' : i === qi ? 'cur' : '') + '"></i>'; }).join('') + '</div></div>';
@@ -1365,7 +1376,7 @@
       if ((b = e.target.closest('[data-opt]'))) { answer(q, +b.getAttribute('data-opt'), root); return; }
       if (e.target.closest('[data-next]')) {
         var u = quizUI[q.id];
-        if (st.qi < q.quiz.length - 1) { st.qi++; quizUI[q.id] = { wrong: {}, answered: false, quip: null }; }
+        if (st.qi < q.quiz.length - 1) { st.qi++; quizUI[q.id] = { wrong: {}, answered: false, quip: null, qi: st.qi }; }
         else { st.quiz = true; quizUI[q.id] = null; Sound.play('achieve'); }
         save(); Sound.play('blip'); renderQuest(root, q);
         var nf = $('.opt:not([disabled])', root) || $('[data-claim]', root) || $('.quiz-done [data-tab]', root); if (nf && document.activeElement === document.body) nf.focus({ preventScroll: true });
@@ -1599,8 +1610,8 @@
     document.documentElement.dir = PD.lang === 'ar' ? 'rtl' : 'ltr';
     document.title = PD.config.title + ' · ' + (PD.lang === 'ar' ? 'رحلة AISA' : 'AISA');
     clearCaches();
-    renderTitle(); renderSetup();
-    if (mode === 'play') { buildHUD(); lastPrompt = '#'; }
+    keepFocus(titleEl, renderTitle); renderSetup();
+    if (mode === 'play') { keepFocus(hud, buildHUD); lastPrompt = '#'; }
     rerenderModal();
     if (dialog.open) dialog.show();
     if (!$('#cert').hasAttribute('hidden')) openCertificate();
@@ -1731,7 +1742,7 @@
       paused = false;
       setTimeout(function () { bubble(t(PD.leo.welcomeBack, { name: S.name }), 3800); }, 500);
     }
-    if (isNew) paused = true;
+    if (isNew && !S.introDone) paused = true;
   }
 
   /* =================================================================
