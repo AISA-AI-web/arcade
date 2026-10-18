@@ -3,7 +3,9 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Cairo:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/guide-lang.css?v=20261018b">
+<script src="../shared/guide-lang.js?v=20261018b"></script>
 <style>
 /* Layout: purple station band, sticky tool switcher, one stepper card per tool, shared "share with students" stepper, checklist + links */
 :root{
@@ -302,7 +304,7 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
         <div class="txt"><span class="num">1</span><h3>Start a new deck</h3><p>Open Google Slides and click <span class="ui">Blank presentation</span>. In the <em>Let's start creating</em> window, click <span class="ui">Slides</span>: <em>Create fully editable slides from simple text prompts</em>.</p><div class="tip"><b>No window, or no Slides option?</b> Your account may not have this feature yet. Use Route 1 or 2, and let the AI &amp; Innovation team know.</div></div>
       </li>
       <li class="step">
-        <div><figure class="shot"><button type="button"><img src="img/sl_02_panel.jpg" alt="Gemini side panel with the Create a presentation suggestion highlighted" loading="lazy"></button></figure><figure class="shot"><div class="typedemo" role="img" aria-label="Animation: in the Gemini prompt box, the word slide in Create a slide about is deleted and presentation is typed in its place"><div class="tlabel" id="tlabel">Before</div><div class="tbox"><span>Create a </span><span class="tword" id="tword">slide</span><span class="tcaret" aria-hidden="true"></span><span> about</span></div><div class="ticons" aria-hidden="true"><span>+</span><span>&#8645;</span><span>&#9673;</span><span class="tsend">&uarr;</span></div></div><figcaption>Delete <em>slide</em> and type <em>presentation</em> before you write the rest.</figcaption></figure></div>
+        <div><figure class="shot"><button type="button"><img src="img/sl_02_panel.jpg" alt="Gemini side panel with the Create a presentation suggestion highlighted" loading="lazy"></button></figure><figure class="shot"><div class="typedemo" role="img" aria-label="Animation: in the Gemini prompt box, the word slide in Create a slide about is deleted and presentation is typed in its place"><div class="tlabel" id="tlabel">Before</div><div class="tbox" dir="ltr" translate="no"><span>Create a </span><span class="tword" id="tword">slide</span><span class="tcaret" aria-hidden="true"></span><span> about</span></div><div class="ticons" dir="ltr" aria-hidden="true"><span>+</span><span>&#8645;</span><span>&#9673;</span><span class="tsend">&uarr;</span></div></div><figcaption>Delete <em>slide</em> and type <em>presentation</em> before you write the rest.</figcaption></figure></div>
         <div class="txt"><span class="num">2</span><h3>Choose Create a presentation</h3><p>The Gemini panel opens on the right. Click <span class="ui">Create a presentation</span>.</p><div class="tip"><b>Watch the prompt box.</b> It still starts with <em>Create a slide about</em>. Change the word <em>slide</em> to <em>presentation</em>, or delete it and write your own prompt in step 3. If you leave it, Gemini may make one slide instead of a whole deck.</div></div>
       </li>
       <li class="step">
@@ -362,6 +364,8 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
 
 <div class="lb" id="lb" hidden><button type="button" id="lbclose">Close</button><img id="lbimg" alt=""></div>
 
+<script src="ar.js?v=20261018b"></script>
+
 <script>
 (function(){
   var b=document.getElementById('copyRules'), msg=document.getElementById('copiedMsg'), t=document.getElementById('rulesText');
@@ -369,27 +373,27 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
   b.addEventListener('click',function(){
     var text=t.textContent;
     try{
-      navigator.clipboard.writeText(text).then(function(){msg.textContent='Copied';},function(){selectText();msg.textContent='Selected. Press Ctrl+C to copy.';});
-    }catch(e){selectText();msg.textContent='Selected. Press Ctrl+C to copy.';}
+      navigator.clipboard.writeText(text).then(function(){msg.textContent=GL.t('Copied','تم النسخ');},function(){selectText();msg.textContent=GL.t('Selected. Press Ctrl+C to copy.','تم تحديد النص. اضغط Ctrl+C لنسخه.');});
+    }catch(e){selectText();msg.textContent=GL.t('Selected. Press Ctrl+C to copy.','تم تحديد النص. اضغط Ctrl+C لنسخه.');}
   });
 })();
 // Typing demo: erase "slide", type "presentation", pause, repeat
 (function(){
   var w=document.getElementById('tword'), lab=document.getElementById('tlabel'); if(!w) return;
   var FROM='slide', TO='presentation';
-  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ w.textContent=TO; w.classList.add('hl'); lab.textContent='After'; return; }
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ w.textContent=TO; w.classList.add('hl'); lab.textContent=GL.t('After','بعد'); return; }
   function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
   async function loop(){
     for(;;){
-      w.textContent=FROM; w.classList.remove('hl'); lab.textContent='Before';
+      w.textContent=FROM; w.classList.remove('hl'); lab.textContent=GL.t('Before','قبل');
       await wait(1400);
-      w.classList.add('hl'); lab.textContent='Delete "slide"';
+      w.classList.add('hl'); lab.textContent=GL.t('Delete "slide"','احذف «slide»');
       await wait(700);
       for(var i=FROM.length;i>0;i--){ w.textContent=FROM.slice(0,i-1); await wait(140); }
-      lab.textContent='Type "presentation"';
+      lab.textContent=GL.t('Type "presentation"','اكتب «presentation»');
       await wait(300);
       for(var j=1;j<=TO.length;j++){ w.textContent=TO.slice(0,j); await wait(95); }
-      lab.textContent='After';
+      lab.textContent=GL.t('After','بعد');
       await wait(2600);
     }
   }
@@ -406,10 +410,10 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
     var count=document.createElement('span'); count.className='count';
     var dots=document.createElement('div'); dots.className='dots';
     var tog=document.createElement('button'); tog.type='button'; tog.className='toggle';
-    steps.forEach(function(s,k){var d=document.createElement('button');d.type='button';d.className='dot';d.setAttribute('aria-label','Go to step '+(k+1));d.onclick=function(){go(k)};dots.appendChild(d)});
+    steps.forEach(function(s,k){var d=document.createElement('button');d.type='button';d.className='dot';d.setAttribute('aria-label',GL.t('Go to step ','انتقل إلى الخطوة ')+(k+1));d.onclick=function(){go(k)};dots.appendChild(d)});
     bar.append(count,dots,tog); sp.prepend(bar);
     var nav=document.createElement('div'); nav.className='snav';
-    var back=document.createElement('button'); back.type='button'; back.className='btn'; back.textContent='← Back';
+    var back=document.createElement('button'); back.type='button'; back.className='btn'; back.textContent=GL.t('← Back','→ السابق');
     var next=document.createElement('button'); next.type='button'; next.className='btn primary';
     nav.append(back,next); sp.append(nav);
     back.onclick=function(){go(i-1)}; next.onclick=function(){ if(i<steps.length-1) go(i+1); else { var nx=sp.closest('section').nextElementSibling; if(nx) nx.scrollIntoView({behavior:'smooth'}); } };
@@ -421,10 +425,10 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
       steps.forEach(function(s,k){s.hidden=!all&&k!==i});
       [].forEach.call(dots.children,function(d,k){d.className='dot'+(k===i?' on':k<i?' done':'')});
       dots.hidden=all; nav.hidden=all;
-      count.innerHTML=all?'<b>'+steps.length+' steps</b>':'Step <b>'+(i+1)+'</b> of '+steps.length;
-      tog.textContent=all?'Show one step at a time':'Show all steps';
+      count.innerHTML=all?GL.t('<b>'+steps.length+' steps</b>','عدد الخطوات: <b>'+steps.length+'</b>'):GL.t('Step <b>'+(i+1)+'</b> of '+steps.length,'الخطوة <b>'+(i+1)+'</b> من '+steps.length);
+      tog.textContent=all?GL.t('Show one step at a time','عرض خطوة واحدة في كل مرة'):GL.t('Show all steps','عرض كل الخطوات');
       back.disabled=i===0;
-      next.textContent=i===steps.length-1?'Done ✓':'Next →';
+      next.textContent=i===steps.length-1?GL.t('Done ✓','تم ✓'):GL.t('Next →','التالي ←');
     }
     render();
   });
@@ -432,7 +436,7 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
   // Lightbox for screenshots
   var lb=document.getElementById('lb'), lbimg=document.getElementById('lbimg');
   document.querySelectorAll('.shot button').forEach(function(b){
-    var img=b.querySelector('img'); b.setAttribute('aria-label','Enlarge: '+img.alt);
+    var img=b.querySelector('img'); b.setAttribute('aria-label',GL.t('Enlarge: ','تكبير: ')+img.alt);
     b.onclick=function(){lbimg.src=img.src;lbimg.alt=img.alt;lb.hidden=false;document.getElementById('lbclose').focus()};
   });
   function close(){lb.hidden=true}
