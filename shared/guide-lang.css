@@ -1,0 +1,36 @@
+/* Station guides · Arabic font, right-to-left layout and the language button.
+   Loaded by every guide (and stations.html) after the page's own styles. */
+html.gl-wait body { visibility: hidden; }
+
+html[lang="ar"] { --font: 'Cairo', 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+html[lang="ar"] body { font-family: var(--font); }
+/* Arabic has no capitals, and letter-spacing pulls its joined letters apart */
+html[lang="ar"] body * { letter-spacing: normal !important; }
+
+/* Mirror the left-hand details of the shared guide layout */
+html[dir="rtl"] .quick ol,
+html[dir="rtl"] .challenge ol,
+html[dir="rtl"] .gem ol { padding-left: 0; padding-right: 1.2em; }
+html[dir="rtl"] .txt ul { padding-left: 0; padding-right: 1.1em; }
+html[dir="rtl"] .tip { border-left: 0; border-right: 3px solid var(--gold); border-radius: 8px 0 0 8px; }
+html[dir="rtl"] .tip.warn { border-right-color: #C0392B; }
+html[dir="rtl"] .links a span:last-child { text-align: left; }
+html[dir="rtl"] .lb button { right: auto; left: calc(12px + env(safe-area-inset-left, 0px)); }
+html[dir="rtl"] .arr { display: inline-block; transform: scaleX(-1); }
+html[dir="rtl"] .fprog i { left: auto; right: 0; }
+/* Button and menu names (and on-screen messages in <em>) stay in English: each keeps its own direction inside Arabic text */
+html[dir="rtl"] .ui,
+html[dir="rtl"] em { unicode-bidi: plaintext; }
+
+/* The English / العربية button, beside the station sign */
+header .top .sign { margin-inline-start: auto; }
+.gl-switch {
+  display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+  background: var(--gold, #D8B664); color: #21076C; border-radius: 999px;
+  padding: 4px 12px; font-weight: 700; font-size: .85rem; line-height: 1.5;
+}
+.gl-switch:hover { background: #E6C97E; }
+.gl-switch:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.gl-switch:lang(ar) { font-family: 'Cairo', 'DM Sans', sans-serif; }
+.gl-switch:lang(en) { font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif; }
+.gl-switch svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; }

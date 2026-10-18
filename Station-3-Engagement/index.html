@@ -3,7 +3,9 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Cairo:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/guide-lang.css?v=20261018b">
+<script src="../shared/guide-lang.js?v=20261018b"></script>
 <style>
 /* Layout: purple station band, sticky tool switcher, one stepper card per tool, shared "share with students" stepper, checklist + links */
 :root{
@@ -294,6 +296,8 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
 </main>
 
 <div class="lb" id="lb" hidden><button type="button" id="lbclose">Close</button><img id="lbimg" alt=""></div>
+
+<script src="ar.js?v=20261018b"></script>
 <script>
 (function(){
   // Steppers: show one step at a time with Back / Next, or all steps.
@@ -304,10 +308,10 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
     var count=document.createElement('span'); count.className='count';
     var dots=document.createElement('div'); dots.className='dots';
     var tog=document.createElement('button'); tog.type='button'; tog.className='toggle';
-    steps.forEach(function(s,k){var d=document.createElement('button');d.type='button';d.className='dot';d.setAttribute('aria-label','Go to step '+(k+1));d.onclick=function(){go(k)};dots.appendChild(d)});
+    steps.forEach(function(s,k){var d=document.createElement('button');d.type='button';d.className='dot';d.setAttribute('aria-label',GL.t('Go to step ','انتقل إلى الخطوة ')+(k+1));d.onclick=function(){go(k)};dots.appendChild(d)});
     bar.append(count,dots,tog); sp.prepend(bar);
     var nav=document.createElement('div'); nav.className='snav';
-    var back=document.createElement('button'); back.type='button'; back.className='btn'; back.textContent='← Back';
+    var back=document.createElement('button'); back.type='button'; back.className='btn'; back.textContent=GL.t('← Back','→ السابق');
     var next=document.createElement('button'); next.type='button'; next.className='btn primary';
     nav.append(back,next); sp.append(nav);
     back.onclick=function(){go(i-1)}; next.onclick=function(){ if(i<steps.length-1) go(i+1); else { var nx=sp.closest('section').nextElementSibling; if(nx) nx.scrollIntoView({behavior:'smooth'}); } };
@@ -319,10 +323,10 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
       steps.forEach(function(s,k){s.hidden=!all&&k!==i});
       [].forEach.call(dots.children,function(d,k){d.className='dot'+(k===i?' on':k<i?' done':'')});
       dots.hidden=all; nav.hidden=all;
-      count.innerHTML=all?'<b>'+steps.length+' steps</b>':'Step <b>'+(i+1)+'</b> of '+steps.length;
-      tog.textContent=all?'Show one step at a time':'Show all steps';
+      count.innerHTML=all?GL.t('<b>'+steps.length+' steps</b>','عدد الخطوات: <b>'+steps.length+'</b>'):GL.t('Step <b>'+(i+1)+'</b> of '+steps.length,'الخطوة <b>'+(i+1)+'</b> من '+steps.length);
+      tog.textContent=all?GL.t('Show one step at a time','عرض خطوة واحدة في كل مرة'):GL.t('Show all steps','عرض كل الخطوات');
       back.disabled=i===0;
-      next.textContent=i===steps.length-1?'Done ✓':'Next →';
+      next.textContent=i===steps.length-1?GL.t('Done ✓','تم ✓'):GL.t('Next →','التالي ←');
     }
     render();
   });
@@ -330,7 +334,7 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
   // Lightbox for screenshots
   var lb=document.getElementById('lb'), lbimg=document.getElementById('lbimg');
   document.querySelectorAll('.shot button').forEach(function(b){
-    var img=b.querySelector('img'); b.setAttribute('aria-label','Enlarge: '+img.alt);
+    var img=b.querySelector('img'); b.setAttribute('aria-label',GL.t('Enlarge: ','تكبير: ')+img.alt);
     b.onclick=function(){lbimg.src=img.src;lbimg.alt=img.alt;lb.hidden=false;document.getElementById('lbclose').focus()};
   });
   function close(){lb.hidden=true}

@@ -1327,7 +1327,7 @@ PD.ui = {
     ar: 'ابحث عن طاولة المحطة {n} في قاعة التطوير المهني واجلس مع من هناك؛ إنهم في المهمة نفسها، فتعاونوا. علقت؟ اسأل طاولتك قبل أن تسأل الإنترنت.'
   },
   openGuide: { en: 'Open the Station {n} guide', ar: 'افتح دليل المحطة {n}' },
-  guideNote: { en: 'Full step-by-step guide with screenshots (English).', ar: 'الدليل الكامل خطوة بخطوة مع الصور (باللغة الإنجليزية).' },
+  guideNote: { en: 'Full step-by-step guide with screenshots, in English and Arabic.', ar: 'الدليل الكامل خطوة بخطوة مع الصور، بالعربية والإنجليزية.' },
   usefulLinks: { en: 'Jump straight in', ar: 'روابط مباشرة' },
   kit: { en: 'Before you start', ar: 'قبل أن تبدأ' },
   privacyTip: {
