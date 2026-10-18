@@ -33,8 +33,15 @@ a.card span:last-child{color:var(--muted);font-size:.92rem}
 <a class="card" href="Station-4-Lesson-Video/index.html"><span class="n">Station 4</span><b>Turn Your Slides into a Video</b><span>Google Vids: script, voices, language and music.</span></a>
 <a class="card" href="Station-5-Coding-Activities/index.html"><span class="n">Station 5</span><b>Code Your Own Class Activities</b><span>Gemini Canvas to the AISA Activity Hub: link, QR code and Classroom.</span></a>
 <a class="card" href="https://aisa-ai-web.github.io/data-anonymizer/"><span class="n">Station 6</span><b>Student Data Anonymizer</b><span>Use AI with student data without the AI ever seeing who the students are.</span></a>
+<a class="card" href="https://aisa-ai-web.github.io/The-Learning-Hub/PD%20Modules/ai-and-assessment.html" data-langkey="aisa-newsletter-lang"><span class="n">Station 7</span><b>AI &amp; Assessment</b><span>Why AI detectors can't prove who wrote it, and how to design assessments that don't need one.</span></a>
 </main>
 <script>
+// The Learning Hub keeps its English / Arabic choice under data-langkey (same site),
+// so the Station 7 module opens in this page's language
+document.addEventListener('click', function (e) {
+  var a = e.target.closest('a[data-langkey]');
+  if (a) try { localStorage.setItem(a.getAttribute('data-langkey'), GL.lang); } catch (err) { }
+}, true);
 // This page in Arabic (how it works: shared/guide-lang.js)
 GL.ar({
   'AI PD Stations': 'محطات التطوير المهني في الذكاء الاصطناعي',
@@ -46,6 +53,7 @@ GL.ar({
   'Station 4': 'المحطة 4',
   'Station 5': 'المحطة 5',
   'Station 6': 'المحطة 6',
+  'Station 7': 'المحطة 7',
   'Differentiation &amp; Scaffolding': 'التمايز والدعم التدريجي',
   'Re-level text, translate and vocabulary lists in the Classroom Gemini tab.': 'إعادة ضبط مستوى النص والترجمة وقوائم المفردات في تبويب Gemini في Classroom.',
   'Polished Lesson Decks, Fast': 'عروض دروس متقنة… بسرعة',
@@ -57,7 +65,9 @@ GL.ar({
   'Code Your Own Class Activities': 'برمج أنشطة صفّك بنفسك',
   'Gemini Canvas to the AISA Activity Hub: link, QR code and Classroom.': 'من Gemini Canvas إلى منصة أنشطة AISA: رابط ورمز QR وزر Classroom.',
   'Student Data Anonymizer': 'أداة إخفاء هوية بيانات الطلاب',
-  'Use AI with student data without the AI ever seeing who the students are.': 'استخدم الذكاء الاصطناعي مع بيانات الطلاب من دون أن يعرف هويتهم أبداً.'
+  'Use AI with student data without the AI ever seeing who the students are.': 'استخدم الذكاء الاصطناعي مع بيانات الطلاب من دون أن يعرف هويتهم أبداً.',
+  'AI &amp; Assessment': 'الذكاء الاصطناعي والتقييم',
+  'Why AI detectors can\'t prove who wrote it, and how to design assessments that don\'t need one.': 'لماذا لا تثبت كاشفات الذكاء الاصطناعي من كتب النص، وكيف تصمّم تقييمات لا تحتاج إليها.'
 });
 </script>
 </body></html>
