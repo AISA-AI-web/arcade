@@ -202,14 +202,16 @@ html[lang="ar"] .banner-eyebrow { letter-spacing: 0; }
 .banner-sub { display: inline-block; margin-top: .5em; background: rgba(255, 255, 255, .94); color: var(--purple); font-weight: 600; padding: .35em .9em; border-radius: 10px; box-shadow: 0 6px 16px rgba(20, 8, 60, .2); }
 
 /* speech bubble over Leo */
-#bubble {
+#bubble, #tbubble {
   position: fixed; top: 0; left: 0; z-index: 14; max-width: 280px; pointer-events: none;
   background: #fff; color: var(--ink); font-weight: 600; font-size: .95rem; line-height: 1.35;
   padding: .6em .85em; border-radius: 14px; border: 2px solid var(--purple);
   box-shadow: 0 8px 20px rgba(20, 8, 60, .25); opacity: 0; transition: opacity .2s; margin-top: -10px;
 }
-#bubble::after { content: ''; position: absolute; bottom: -9px; left: 50%; width: 14px; height: 14px; background: #fff; border-right: 2px solid var(--purple); border-bottom: 2px solid var(--purple); transform: translateX(-50%) rotate(45deg); }
-#bubble.on { opacity: 1; }
+#bubble::after, #tbubble::after { content: ''; position: absolute; bottom: -9px; left: 50%; width: 14px; height: 14px; background: #fff; border-right: 2px solid var(--purple); border-bottom: 2px solid var(--purple); transform: translateX(-50%) rotate(45deg); }
+#bubble.on, #tbubble.on { opacity: 1; }
+#tbubble { border-color: #2B2F45; z-index: 15; }
+#tbubble::after { border-right-color: #2B2F45; border-bottom-color: #2B2F45; }
 
 /* toasts */
 #toasts { position: fixed; top: 76px; left: 50%; transform: translateX(-50%); z-index: 70; display: grid; gap: 8px; pointer-events: none; }

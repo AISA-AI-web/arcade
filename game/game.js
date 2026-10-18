@@ -270,10 +270,15 @@
       if (!up && !side) { c.fillStyle = 'rgba(0,0,0,0.12)'; c.fillRect(-0.5, -22, 1, 18); }
     }
     c.fillStyle = 'rgba(255,255,255,0.18)'; c.fillRect(-bw / 2 + 3, -23, bw - 6, 1.5);
-    // lanyard
+    // lanyard (or a shirt and tie)
     if (!up && !side) {
-      c.strokeStyle = '#21076C'; c.lineWidth = 1.2; c.beginPath(); c.moveTo(-4, -24); c.lineTo(0, -16); c.lineTo(4, -24); c.stroke();
-      H.fillRR(c, -2.6, -17, 5.2, 6, 1, '#D8B664'); c.fillStyle = '#FFFFFF'; c.fillRect(-1.6, -15.8, 3.2, 1.5);
+      if (look.tie) {
+        c.fillStyle = '#FFFFFF'; c.beginPath(); c.moveTo(-3.8, -24); c.lineTo(0, -20.5); c.lineTo(3.8, -24); c.closePath(); c.fill();
+        c.fillStyle = look.tieColor || '#D8B664'; c.beginPath(); c.moveTo(-1.2, -22.6); c.lineTo(1.2, -22.6); c.lineTo(1.9, -14.5); c.lineTo(0, -12.2); c.lineTo(-1.9, -14.5); c.closePath(); c.fill();
+      } else {
+        c.strokeStyle = '#21076C'; c.lineWidth = 1.2; c.beginPath(); c.moveTo(-4, -24); c.lineTo(0, -16); c.lineTo(4, -24); c.stroke();
+        H.fillRR(c, -2.6, -17, 5.2, 6, 1, '#D8B664'); c.fillStyle = '#FFFFFF'; c.fillRect(-1.6, -15.8, 3.2, 1.5);
+      }
     }
     // arms
     var armC = robe ? H.shade(oc, -0.1) : dark;
@@ -283,6 +288,13 @@
     } else {
       H.fillRR(c, -bw / 2 - 3.2, -23 + sw * 1.4, 4.2, 12, 2, armC); H.circle(c, -bw / 2 - 1.1, -10.5 + sw * 1.4, 2.3, skin);
       H.fillRR(c, bw / 2 - 1, -23 - sw * 1.4, 4.2, 12, 2, armC); H.circle(c, bw / 2 + 1.1, -10.5 - sw * 1.4, 2.3, skin);
+    }
+    if (look.clipboard && !up) {
+      var cbx = side ? side * 4.5 : bw / 2 + 1.5, cby = side ? -15 : -14 - sw * 1.4;
+      H.fillRR(c, cbx - 3.6, cby - 4.6, 7.2, 9.4, 1.2, '#8A5632');
+      c.fillStyle = '#FFFFFF'; c.fillRect(cbx - 2.7, cby - 3.3, 5.4, 7.2);
+      c.fillStyle = '#A3A3A3'; c.fillRect(cbx - 1.6, cby - 5.4, 3.2, 1.7);
+      c.fillStyle = 'rgba(33,7,108,0.55)'; c.fillRect(cbx - 1.9, cby - 1.6, 3.8, 0.7); c.fillRect(cbx - 1.9, cby + 0.4, 3.8, 0.7); c.fillRect(cbx - 1.9, cby + 2.2, 2.4, 0.7);
     }
 
     // head
@@ -481,6 +493,19 @@
   });
   if (S.pos) { leo.x = player.x + 1; leo.y = player.y + 0.4; }
 
+  /* ---- Dr. Torris, the director: patrols and keeps everyone on task ---- */
+  var DIR = PD.director && PD.director.enabled !== false ? PD.director : null;
+  var boss = null;
+  if (DIR) {
+    var BL = world.L, bstops = [{ x: BL.lobbyX + 6, y: BL.yTop + 14.6, look: 'down' }];
+    world.rooms.slice().sort(function (a, b) { return a.door.x - b.door.x; }).forEach(function (r) {
+      // beside the door, not on its mat (so clicks on the door still go to the door)
+      bstops.push({ x: r.doorTop ? r.door.x + 1 : r.door.x + 3, y: r.doorTop ? BL.yw2 - 1.4 : BL.yCor + 2.6, look: r.doorTop ? 'down' : 'up' });
+    });
+    bstops.push({ x: BL.loungeX + 5.5, y: BL.yTop + 13.6, look: 'down' });
+    boss = { x: bstops[1].x, y: bstops[1].y, dir: 'down', moving: false, phase: 0, stops: bstops, si: 1, step: 1, path: null, waitUntil: 0, holdUntil: 0, repathAt: 0, mode: 'patrol', tier: null, nextQuip: 0, quipI: Math.floor(Math.random() * DIR.quips.length), praise: false, look: 'down' };
+  }
+
   /* =================================================================
      INPUT
      ================================================================= */
@@ -526,7 +551,10 @@
     var wx = cam.x + e.clientX / V.scale, wy = cam.y + e.clientY / V.scale;
     var tx = wx / T, ty = wy / T;
     var hit = pickTarget(tx, ty);
-    if (hit) { goTo(hit); return; }
+    if (hit) {
+      if (hit.type === 'boss') { boss.holdUntil = Math.max(boss.holdUntil, performance.now() + 4000); boss.moving = false; }
+      goTo(hit); return;
+    }
     var gx = Math.floor(tx), gy = Math.floor(ty);
     if (world.isSolid(gx, gy)) {
       var best = null, bd = 9;
@@ -575,6 +603,7 @@
   function allTargets() {
     var list = world.interactables.map(function (p) { return { type: 'prop', p: p, rect: { x: p.x, y: p.y, w: p.w, h: p.h }, range: p.kind === 'kiosk' ? 1.15 : 0.8 }; });
     npcs.forEach(function (n) { list.push({ type: 'npc', n: n, rect: { x: n.x - 0.35, y: n.y - 0.35, w: 0.7, h: 0.4 }, range: 0.9 }); });
+    if (boss) list.push({ type: 'boss', rect: { x: boss.x - 0.35, y: boss.y - 0.35, w: 0.7, h: 0.4 }, range: 0.9 });
     list.push({ type: 'leo', rect: { x: leo.x - 0.5, y: leo.y - 0.45, w: 1, h: 0.5 }, range: 0.75 });
     return list;
   }
@@ -600,6 +629,7 @@
     if (Math.abs(tx - leo.x) < 0.7 && ty > leo.y - 1.3 && ty < leo.y + 0.2) return { type: 'leo', rect: { x: leo.x - 0.5, y: leo.y - 0.45, w: 1, h: 0.5 }, range: 0.75 };
     npcs.forEach(function (n) { if (Math.abs(tx - n.x) < 0.6 && ty > n.y - 1.5 && ty < n.y + 0.2) hit = { type: 'npc', n: n, rect: { x: n.x - 0.35, y: n.y - 0.35, w: 0.7, h: 0.4 }, range: 0.9 }; });
     if (hit) return hit;
+    if (boss && Math.abs(tx - boss.x) < 0.6 && ty > boss.y - 1.5 && ty < boss.y + 0.2) return { type: 'boss', rect: { x: boss.x - 0.35, y: boss.y - 0.35, w: 0.7, h: 0.4 }, range: 0.9 };
     for (var ri = 0; ri < world.rooms.length; ri++) {
       var kp = world.rooms[ri].kiosk;
       var colTop = questDone(world.rooms[ri].quest) ? kp.y - 2.7 : kp.y - 3.6;
@@ -625,6 +655,7 @@
   }
   function targetLabel(tg) {
     if (tg.type === 'leo') return ui('pat');
+    if (tg.type === 'boss') return ui('talk') + ' · ' + t(DIR.name);
     if (tg.type === 'npc') return ui('talk') + ' · ' + t(tg.n.def.role);
     var p = tg.p, it = p.interact;
     if (it.type === 'quest') return ui('openQuest') + ' · ' + ui('station') + ' ' + it.quest.station;
@@ -636,6 +667,12 @@
   function interact(tg) {
     path = null; pendingTarget = null;
     if (tg.type === 'leo') return patLeo();
+    if (tg.type === 'boss') {
+      var bk = S.counters.npc.torris || 0; S.counters.npc.torris = bk + 1; save();
+      boss.dir = faceToward(boss, player); boss.holdUntil = Infinity; hideBossBubble();
+      say([DIR.talk[bk % DIR.talk.length]], { portrait: 'npc', look: DIR.look, name: DIR.role, onDone: function () { boss.holdUntil = performance.now() + 2000; } });
+      return;
+    }
     if (tg.type === 'npc') {
       var n = tg.n, lines = n.def.lines, k = (S.counters.npc[n.def.id] || 0);
       S.counters.npc[n.def.id] = k + 1; save();
@@ -657,12 +694,20 @@
     var o = PD.objects[id]; if (!o) return;
     var c = S.counters.obj[id] || 0; S.counters.obj[id] = c + 1; save();
     var line = o.lines ? o.lines[c % o.lines.length] : null;
-    if (id === 'coffee') { unlockSecret('coffee'); startBoost(); }
+    var afterLine = null;
+    if (id === 'coffee') {
+      unlockSecret('coffee'); startBoost();
+      // once the coffee card closes, he comments if he is close by and visible
+      if (boss) afterLine = function () {
+        var sy = (boss.y * T - cam.y) * V.scale;
+        if (Math.hypot(boss.x - player.x, boss.y - player.y) < 8 && sy > 120 && sy < V.h - 10) bossSay(DIR.coffee, 4600);
+      };
+    }
     if (id === 'fridge') unlockSecret('fridge');
     if (id === 'copier') { S.counters.copier = (S.counters.copier || 0) + 1; if (S.counters.copier >= 3) unlockSecret('jam'); }
     if (id === 'bell') { Sound.play('bell'); shake = 0.5; unlockSecret('bell'); }
     else Sound.play('blip');
-    if (line) say([line], { portrait: null, name: o.name });
+    if (line) say([line], { portrait: null, name: o.name, onDone: afterLine });
   }
   function patLeo() {
     S.counters.pats = (S.counters.pats || 0) + 1; save();
@@ -703,6 +748,7 @@
     var queue = [{ svg: badgeSVG(stationBadgeDef(q)), name: t(q.badge.name), flavor: t(q.badge.flavor), line: t(q.done), expr: 'proud' }];
     checkMeta().forEach(function (m) { queue.push({ svg: badgeSVG({ icon: m.icon, color: m.color, tier: 'meta' }), name: t(m.name), flavor: t(m.flavor), line: m.id === 'pride-leader' ? t(PD.leo.allDone) : t(m.how), expr: 'wow' }); });
     showAwards(queue);
+    if (boss) { boss.praise = true; boss.nextQuip = Math.min(boss.nextQuip, performance.now() + 4000); }
   }
 
   /* =================================================================
@@ -798,7 +844,7 @@
       }
     }
     if (now < leo.hopUntil) leo.state = 'hop';
-    else if (player.idle > 32 && mode === 'play') leo.state = 'sleep';
+    else if (player.idle > 32 && mode === 'play' && !(boss && Math.hypot(boss.x - leo.x, boss.y - leo.y) < 3.5)) leo.state = 'sleep';
     else { leo.state = 'sit'; if (!leo.moving) leo.dir = faceToward(leo, player) === 'up' ? 'up' : (Math.abs(player.x - leo.x) > 0.6 ? faceToward(leo, player) : 'down'); }
 
     // NPCs glance at the player
@@ -808,6 +854,8 @@
       else if (now > n.turnAt) { n.dir = ['down', 'left', 'right', 'down'][Math.floor(Math.random() * 4)]; n.turnAt = now + 2500 + Math.random() * 4000; }
     });
 
+    updateBoss(dt, now);
+
     if (mode === 'play') {
       near = paused ? null : findNear();
       var z = world.zoneAt(player.x, player.y - 0.1);
@@ -816,6 +864,94 @@
     }
     hearts = hearts.filter(function (h) { return now - h.t < 1200; });
     if (shake > 0) shake = Math.max(0, shake - dt);
+  }
+
+  /* ---- director behaviour ---- */
+  var loungeTime = 0, loungeTier = 0, scolded = false;
+  function bossOnScreen() {
+    var sx = (boss.x * T - cam.x) * V.scale, sy = (boss.y * T - cam.y) * V.scale;
+    return sx > -20 && sx < V.w + 20 && sy > 40 && sy < V.h + 60;
+  }
+  function bossSay(line, ms) {
+    if (!boss || mode !== 'play') return;
+    boss.dir = faceToward(boss, player);
+    bossBubble(t(line), ms || 4200);
+    boss.nextQuip = Math.max(boss.nextQuip, performance.now() + 8000);
+  }
+  function allDone() { return badgeCount() === PD.quests.length; }
+  function bossPathTo(goal) {
+    boss.path = findPath(Math.floor(boss.x), Math.floor(boss.y - 0.1), goal);
+  }
+  function updateBoss(dt, now) {
+    if (!boss) return;
+    var playing = mode === 'play';
+    var inLounge = playing && currentZone === 'lounge';
+    if (inLounge && !paused) loungeTime += dt;
+    if (!inLounge) {
+      if (scolded && playing && bossOnScreen()) bossSay(DIR.thanks, 3600);
+      scolded = false; loungeTime = 0; loungeTier = 0;
+      if (boss.mode === 'scold') { boss.mode = 'patrol'; boss.path = null; boss.tier = null; boss.waitUntil = now + 1500; }
+    }
+    var limits = DIR.loungeSeconds || [25, 50, 80];
+    if (inLounge && loungeTier < limits.length && loungeTime >= limits[loungeTier]) {
+      boss.mode = 'scold'; boss.tier = loungeTier; loungeTier++; boss.path = null; boss.repathAt = 0;
+    }
+    if (now < boss.holdUntil) { boss.moving = false; return; }
+
+    var speed = 2.4;
+    if (boss.mode === 'scold') {
+      speed = 3.6;
+      if (Math.hypot(player.x - boss.x, player.y - boss.y) <= 2.2) {
+        boss.path = null; boss.moving = false; boss.dir = faceToward(boss, player);
+        if (boss.tier !== null && !paused) {
+          unlockSecret('torris'); boss.tier = null;
+          if (allDone() && DIR.doneLounge) {
+            bossSay(DIR.doneLounge, 5000); loungeTier = limits.length;
+            boss.mode = 'patrol'; boss.path = null; boss.waitUntil = now + 2500;
+            return;
+          }
+          bossSay(DIR.lounge[Math.min(loungeTier - 1, DIR.lounge.length - 1)], 5600); scolded = true;
+        }
+        return;
+      }
+      if (!boss.path || !boss.path.length || now > boss.repathAt) {
+        bossPathTo(function (x, y) { return Math.hypot(x + 0.5 - player.x, y + 0.6 - player.y) < 1.8; });
+        boss.repathAt = now + 1200;
+      }
+    } else if (!boss.path || !boss.path.length) {
+      boss.moving = false;
+      if (now < boss.waitUntil) { quipCheck(now); return; }
+      var n = boss.stops.length;
+      if (boss.si + boss.step >= n || boss.si + boss.step < 0) boss.step = -boss.step;
+      boss.si += boss.step;
+      var stop = boss.stops[boss.si];
+      bossPathTo(function (x, y) { return x === Math.floor(stop.x) && y === Math.floor(stop.y); });
+      boss.look = stop.look;
+      if (!boss.path) { boss.waitUntil = now + 2000; return; }
+    }
+    if (boss.path && boss.path.length) {
+      var wp = boss.path[0], dx = wp.x - boss.x, dy = wp.y - boss.y, d = Math.hypot(dx, dy), step = speed * dt;
+      if (d <= step) {
+        boss.x = wp.x; boss.y = wp.y; boss.path.shift();
+        if (!boss.path.length && boss.mode === 'patrol') { boss.waitUntil = now + 1800 + Math.random() * 2600; boss.dir = boss.look; }
+      } else {
+        boss.x += dx / d * step; boss.y += dy / d * step;
+        boss.dir = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up');
+      }
+      boss.moving = true; boss.phase += dt * 11;
+    }
+    quipCheck(now);
+  }
+  function quipCheck(now) {
+    if (boss.mode !== 'patrol' || mode !== 'play' || paused || now < boss.nextQuip) return;
+    if (Math.hypot(player.x - boss.x, player.y - boss.y) > 2.6 || !bossOnScreen()) return;
+    var done = allDone() && DIR.doneQuips && DIR.doneQuips.length;
+    var line = boss.praise ? DIR.praise : done ? DIR.doneQuips[(boss.doneI = (boss.doneI || 0) + 1) % DIR.doneQuips.length] : DIR.quips[boss.quipI++ % DIR.quips.length];
+    boss.praise = false;
+    bossSay(line, 4200);
+    boss.nextQuip = now + (DIR.quipEverySeconds || 45) * 1000;
+    boss.waitUntil = Math.max(boss.waitUntil, now + 1600);
+    if (boss.path && boss.path.length) boss.holdUntil = now + 1600;
   }
 
   function enterZone(z, prev) {
@@ -889,6 +1025,7 @@
       list.push({ y: leo.y, id: 100001, ch: 'leo' });
     }
     npcs.forEach(function (n, j) { list.push({ y: n.y, id: 100002 + j, ch: 'npc', n: n }); });
+    if (boss) list.push({ y: boss.y, id: 100090, ch: 'boss' });
     list.sort(function (a, b) { return a.y - b.y || a.id - b.id; });
     var blink = (now % 3900) < 120;
     list.forEach(function (it) {
@@ -898,6 +1035,7 @@
         else { var s = getSprite(pp); c.drawImage(s.cv, s.ox * T, s.oy * T, s.w * T, s.h * T); }
       } else if (it.ch === 'player') drawCharacter(c, player.x * T, player.y * T, player.look, player.dir, player.phase, player.moving, now, blink);
       else if (it.ch === 'leo') drawLeo(c, leo.x * T, leo.y * T, leo.dir, leo.phase, leo.moving, leo.state, now);
+      else if (it.ch === 'boss') drawCharacter(c, boss.x * T, boss.y * T, DIR.look, boss.dir, boss.phase, boss.moving, now, (now + 2100) % 4300 < 120);
       else if (it.ch === 'npc') drawCharacter(c, it.n.x * T, it.n.y * T, it.n.look, it.n.dir, 0, false, now + it.id * 777, (now + it.id * 1300) % 4700 < 120);
     });
 
@@ -929,6 +1067,13 @@
       }
       c.globalAlpha = 1;
     }
+    // the director's name tag
+    if (boss && mode !== 'title') {
+      var tagX = boss.x * T, tagY = (boss.y - 1.62) * T, tag = t(DIR.name);
+      c.save(); c.font = '800 6px ' + WD.FONT; var tw = c.measureText(tag).width + 8; c.restore();
+      H.fillRR(c, tagX - tw / 2, tagY - 4.5, tw, 9, 4.5, 'rgba(43,47,69,0.92)');
+      H.text(c, tag, tagX, tagY + 0.2, 6, '#D8B664', 800);
+    }
     // hearts from patting Leo
     hearts.forEach(function (h) {
       var a = (now - h.t) / 1200;
@@ -944,7 +1089,7 @@
     if (near && mode === 'play' && !paused) {
       var r = near.rect, px = (r.x + r.w / 2) * T, py;
       if (near.type === 'prop') { var top = near.p.layer === 'stand' ? Math.max(near.p.top || 0, WD.KIND_TOP[near.p.kind] || 0) : 0; py = (r.y - top) * T - 8; if (near.p.kind === 'kiosk') py -= 8; }
-      else py = (r.y - (near.type === 'leo' ? 0.9 : 1.35)) * T;
+      else py = (r.y - (near.type === 'leo' ? 0.9 : near.type === 'boss' ? 1.55 : 1.35)) * T;
       py += Math.sin(now / 180) * 2.5;
       c.fillStyle = '#FFFFFF'; c.strokeStyle = '#21076C'; c.lineWidth = 1.5;
       c.beginPath(); c.moveTo(px - 6, py - 7); c.lineTo(px + 6, py - 7); c.lineTo(px, py); c.closePath(); c.fill(); c.stroke();
@@ -997,6 +1142,7 @@
       c.fillStyle = '#FFFFFF'; c.font = '800 4px ' + WD.FONT; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText(questDone(z.quest) ? '✓' : String(z.quest.station), kx, ky + 0.3);
     });
     H.circle(c, leo.x * 3, leo.y * 3, 1.8, '#B8652A');
+    if (boss) { H.circle(c, boss.x * 3, boss.y * 3, 2.4, '#FFFFFF'); H.circle(c, boss.x * 3, boss.y * 3, 1.8, '#2B2F45'); }
     var pulse = 2.2 + Math.sin(now / 200) * 0.5;
     H.circle(c, player.x * 3, player.y * 3, pulse + 1, '#FFFFFF'); H.circle(c, player.x * 3, player.y * 3, pulse, '#E5333A');
   }
@@ -1085,7 +1231,22 @@
     bubbleEl.classList.add('on');
     bubbleUntil = performance.now() + (ms || 3000);
   }
+  var tbubbleEl = $('#tbubble'), tbubbleUntil = 0;
+  function bossBubble(text, ms) {
+    if (!tbubbleEl) return;
+    tbubbleEl.textContent = text;
+    tbubbleEl.classList.add('on');
+    tbubbleUntil = performance.now() + (ms || 4000);
+  }
+  function hideBossBubble() { if (tbubbleEl) { tbubbleEl.classList.remove('on'); tbubbleUntil = 0; } }
   function positionBubbles() {
+    if (tbubbleEl && boss && tbubbleEl.classList.contains('on')) {
+      if (performance.now() > tbubbleUntil || mode !== 'play') tbubbleEl.classList.remove('on');
+      else {
+        var bx = (boss.x * T - cam.x) * V.scale, by = ((boss.y - 2.05) * T - cam.y) * V.scale;
+        tbubbleEl.style.transform = 'translate(' + Math.round(bx) + 'px,' + Math.round(by) + 'px) translate(-50%,-100%)';
+      }
+    }
     if (!bubbleEl.classList.contains('on')) return;
     if (performance.now() > bubbleUntil || mode !== 'play') { bubbleEl.classList.remove('on'); return; }
     var sx = (leo.x * T - cam.x) * V.scale, sy = ((leo.y - 1.25) * T - cam.y) * V.scale;
@@ -1457,7 +1618,7 @@
         h += '<div class="badge-tile meta' + (d ? ' on' : '') + '"><div class="bt-img">' + badgeSVG({ icon: m.icon, color: m.color, tier: 'meta' }, !d) + '</div><b>' + esc(t(m.name)) + '</b><span>' + esc(t(d ? m.flavor : m.how)) + '</span></div>';
       });
       h += '</div><h3 class="sec-title">' + uiH('secretBadges') + '</h3><div class="badge-grid small">';
-      PD.secrets.forEach(function (s) {
+      PD.secrets.filter(function (s) { return s.id !== 'torris' || DIR; }).forEach(function (s) {
         var d = !!S.secrets[s.id];
         h += '<div class="badge-tile secret' + (d ? ' on' : '') + '"><div class="bt-img">' + badgeSVG({ icon: s.icon, color: s.color, tier: 'secret' }, !d) + '</div><b>' + (d ? esc(t(s.name)) : '???') + '</b><span>' + (d ? esc(t(s.how)) : uiH('secretHidden')) + '</span></div>';
       });
@@ -1792,5 +1953,5 @@
   boot();
 
   // a tiny debug hook for testing in the browser console
-  PD.game = { S: function () { return S; }, player: player, world: world, cam: cam, V: V, openQuest: openQuest, setLang: setLang, claimBadge: claimBadge, boostLeft: function () { return Math.max(0, boostUntil - performance.now()); } };
+  PD.game = { S: function () { return S; }, player: player, world: world, cam: cam, V: V, openQuest: openQuest, setLang: setLang, claimBadge: claimBadge, boostLeft: function () { return Math.max(0, boostUntil - performance.now()); }, boss: function () { return boss; }, lounge: function () { return { time: loungeTime, tier: loungeTier, scolded: scolded }; } };
 })();
