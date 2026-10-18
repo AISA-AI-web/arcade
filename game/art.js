@@ -444,6 +444,13 @@ window.PD = window.PD || {};
         r(10, 74, 38) + r(52, 74, 38) +
         '<path d="' + starPath(77, 17, 15, 7, 8, -90) + '" fill="' + c.k + '" stroke="' + c.k + '" stroke-width="2" stroke-linejoin="round"/>';
     },
+    clipboard: function (c) {
+      return '<rect x="20" y="17" width="60" height="75" rx="8" fill="' + c.w + '"/>' +
+        '<rect x="35" y="8" width="30" height="17" rx="5" fill="' + c.k + '"/>' +
+        '<circle cx="50" cy="13.5" r="3.2" fill="' + c.a + '"/>' +
+        sk('M31 44L37 50L47 38', c.a, 5) + sk('M55 44H70', c.a, 5, ' opacity=".45"') +
+        sk('M31 69L37 75L47 63', c.a, 5) + sk('M55 69H70', c.a, 5, ' opacity=".45"');
+    },
     bell: function (c) {
       return '<circle cx="50" cy="14" r="6.5" fill="' + c.w + '"/>' +
         '<path d="M21 72C27 66 28 58 28 46C28 32 38 21 50 21C62 21 72 32 72 46C72 58 73 66 79 72Z" fill="' + c.w + '"/>' +

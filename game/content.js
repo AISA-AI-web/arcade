@@ -1026,8 +1026,47 @@ PD.secrets = [
   { id: 'bestie', icon: 'heart', color: '#E0567A', name: { en: 'Leo\'s Bestie', ar: 'صديق ليو المقرّب' }, how: { en: 'Pat Leo five times.', ar: 'ربّت على ليو خمس مرات.' } },
   { id: 'explorer', icon: 'compass', color: '#2E9E6B', name: { en: 'Hall Monitor', ar: 'مراقب الممرات' }, how: { en: 'Visit every room in the school.', ar: 'زُر كل غرف المدرسة.' } },
   { id: 'bonk', icon: 'wall', color: '#B5651D', name: { en: 'Wall Inspector', ar: 'مفتش الجدران' }, how: { en: 'Walk into walls 15 times. The walls are fine, thanks for checking.', ar: 'اصطدم بالجدران 15 مرة. الجدران بخير، شكراً للاطمئنان.' } },
-  { id: 'bell', icon: 'bell', color: '#D8A21B', name: { en: 'Bell Ringer', ar: 'قارع الجرس' }, how: { en: 'Ring the school bell in the lobby.', ar: 'اقرع جرس المدرسة في الردهة.' } }
+  { id: 'bell', icon: 'bell', color: '#D8A21B', name: { en: 'Bell Ringer', ar: 'قارع الجرس' }, how: { en: 'Ring the school bell in the lobby.', ar: 'اقرع جرس المدرسة في الردهة.' } },
+  { id: 'torris', icon: 'clipboard', color: '#2B2F45', name: { en: 'Back to Work!', ar: 'هيا إلى العمل!' }, how: { en: 'Get caught lingering in the staff lounge by Dr. Torris.', ar: 'أن يضبطك د. توريس وأنت تطيل البقاء في غرفة المعلمين.' } }
 ];
+
+/* ---------------------------------------------------------------------
+   DR. TORRIS, AISA DIRECTOR
+   Patrols the lobby, corridor and staff lounge, keeps everyone on task
+   with a speech bubble now and then, and notices if you linger in the
+   staff lounge. He never blocks the way. Set enabled: false to remove him.
+   --------------------------------------------------------------------- */
+PD.director = {
+  enabled: true,
+  name: { en: 'Dr. Torris', ar: 'د. توريس' },
+  role: { en: 'Dr. Torris · AISA Director', ar: 'د. توريس · مدير AISA' },
+  look: { skin: 1, hair: 'short', hairColor: '#4A4A4A', outfit: 'shirt', color: '#2B2F45', glasses: true, tie: true, clipboard: true },
+  loungeSeconds: [25, 50, 80],   // time in the lounge before each of his lounge lines
+  quipEverySeconds: 45,          // at most one passing remark this often
+  quips: [
+    { en: 'Less talky talky, more worky worky!', ar: 'سوالف أقل… شغل أكثر!' },
+    { en: 'Is that a new badge I see? No? Back to work!', ar: 'هل هذا وسام جديد؟ لا؟ هيا إلى العمل!' },
+    { en: 'I\'m not saying the stations miss you. But they do.', ar: 'لا أقول إن المحطات اشتاقت إليك… لكنها اشتاقت فعلاً.' },
+    { en: 'Walking with purpose. I like it.', ar: 'مشيٌ بهدف. هذا ما أحبه.' },
+    { en: 'Six stations, one PD day, zero excuses.', ar: 'ست محطات، يوم تطوير واحد، ولا أعذار.' },
+    { en: 'Remember: AI writes the first draft. You write the final one.', ar: 'تذكّر: الذكاء الاصطناعي يكتب المسودة الأولى، وأنت تكتب النسخة النهائية.' },
+    { en: 'Quick question: which station are you heading to? Excellent. Go there.', ar: 'سؤال سريع: إلى أي محطة أنت ذاهب؟ ممتاز. اذهب إليها.' }
+  ],
+  lounge: [
+    { en: 'Ah, the staff lounge. Famous for its coffee and its suspiciously long breaks.', ar: 'آه، غرفة المعلمين… الشهيرة بقهوتها واستراحاتها الطويلة على نحو مريب.' },
+    { en: 'Less talky talky, more worky worky! The stations are that way.', ar: 'سوالف أقل… شغل أكثر! المحطات من هناك.' },
+    { en: 'I\'ve just introduced a two-minute lounge limit. Effective… now.', ar: 'أعلنتُ للتو حداً أقصى للبقاء هنا: دقيقتان. يسري مفعوله… الآن.' }
+  ],
+  thanks: { en: 'Thank you. Productivity has never looked so good.', ar: 'شكراً لك. لم تبدُ الإنتاجية بهذا الجمال من قبل.' },
+  coffee: { en: 'Coffee: approved. Coffee for twenty minutes: not approved.', ar: 'القهوة: موافَق عليها. القهوة لعشرين دقيقة: غير موافَق عليها.' },
+  praise: { en: 'A new badge! Now THAT is worky worky.', ar: 'وسام جديد! هذا هو الشغل الحقيقي.' },
+  talk: [
+    { en: 'Dr. Torris, AISA Director. Yes, I walk around a lot. It\'s called leadership.', ar: 'د. توريس، مدير AISA. نعم، أتجوّل كثيراً… وهذا ما يُسمّى القيادة.' },
+    { en: 'Every quest you finish is one less thing I have to remind you about.', ar: 'كل مهمة تنجزها تعني شيئاً أقل عليّ أن أذكّرك به.' },
+    { en: 'Have you visited the Data Vault yet? Protecting student data is not optional. Neither is having fun.', ar: 'هل زرت خزنة البيانات بعد؟ حماية بيانات الطلاب ليست اختيارية… ولا الاستمتاع أيضاً.' },
+    { en: 'Less talky talky, more worky worky! …Fine, a little talky talky is good too. We\'re a community.', ar: 'سوالف أقل… شغل أكثر! حسناً، قليل من السوالف لا بأس به. نحن مجتمع واحد.' }
+  ]
+};
 
 /* ---------------------------------------------------------------------
    LEO'S LINES
