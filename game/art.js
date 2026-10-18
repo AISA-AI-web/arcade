@@ -386,6 +386,17 @@ window.PD = window.PD || {};
         '<circle cx="50" cy="42" r="10" fill="' + c.a + '"/>' +
         '<path d="M45 47L41 69H59L55 47Z" fill="' + c.a + '" stroke="' + c.a + '" stroke-width="3" stroke-linejoin="round"/>';
     },
+    gavel: function (c) {
+      return '<rect x="6" y="79" width="48" height="14" rx="5" fill="' + c.w + '"/>' +
+        '<rect x="13" y="71" width="34" height="10" rx="3.5" fill="' + c.k + '"/>' +
+        '<g transform="rotate(-45 50 38)">' +
+        '<rect x="44.5" y="46" width="11" height="58" rx="5.5" fill="' + c.w + '"/>' +
+        '<rect x="22" y="18" width="56" height="32" rx="7" fill="' + c.w + '"/>' +
+        '<rect x="17" y="14" width="11" height="40" rx="4" fill="' + c.k + '"/>' +
+        '<rect x="72" y="14" width="11" height="40" rx="4" fill="' + c.k + '"/>' +
+        sk('M37 34H63', c.a, 4, ' opacity=".35"') + '</g>' +
+        sk('M60 70L67 64M62 80L70 79', c.k, 5);
+    },
     paw: function (c) {
       return '<path d="M50 50C63 50 78 65 78 77C78 87 69 91 60 89C56 88 53 87 50 87C47 87 44 88 40 89C31 91 22 87 22 77C22 65 37 50 50 50Z" fill="' + c.w + '"/>' +
         '<ellipse cx="20" cy="44" rx="8.5" ry="11" transform="rotate(-24 20 44)" fill="' + c.w + '"/>' +
@@ -458,7 +469,7 @@ window.PD = window.PD || {};
       '<circle cx="50" cy="79" r="7" fill="' + c.w + '"/>';
   };
 
-  var STATION_ICONS = { levels: 1, slides: 1, hook: 1, clapper: 1, code: 1, vault: 1 };
+  var STATION_ICONS = { levels: 1, slides: 1, hook: 1, clapper: 1, code: 1, vault: 1, gavel: 1 };
   var META_ICONS = { paw: 1, crown: 1 };
 
   function iconLayer(name, locked, accent, cx, cy, scale) {

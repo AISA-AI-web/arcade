@@ -13,8 +13,8 @@
    • To add a station: copy one quest object, give it a new `id`,
      `station` number, `theme` and `badge`, and the school builds an
      extra room for it automatically.
-     Themes: library, studio, arena, cinema, lab, vault.
-     Badge icons: levels, slides, hook, clapper, code, vault, paw, crown,
+     Themes: library, studio, arena, cinema, lab, vault, court.
+     Badge icons: levels, slides, hook, clapper, code, vault, gavel, paw, crown,
      coffee, paper, fridge, heart, compass, wall, bell.
    ===================================================================== */
 var PD = window.PD = window.PD || {};
@@ -998,6 +998,181 @@ PD.quests = [
       en: 'Names safe, insights gained. The Vault is proud of you. The Vault doesn\'t say that to everyone. The Vault doesn\'t talk, actually.',
       ar: 'الأسماء في أمان، والرؤى في يدك. الخزنة فخورة بك… والخزنة لا تقول هذا لأي أحد. في الحقيقة، الخزنة لا تتكلم أصلاً.'
     }
+  },
+
+  /* ================= STATION 7 ================= */
+  {
+    id: 'assessment',
+    station: 7,
+    theme: 'court',
+    color: '#0E7C86',
+    dir: '',
+    guide: 'https://aisa-ai-web.github.io/The-Learning-Hub/PD%20Modules/ai-and-assessment.html',
+    guideLabel: { en: 'Open the AI & Assessment module', ar: 'افتح وحدة الذكاء الاصطناعي والتقييم' },
+    room: { en: 'The Myth Court', ar: 'محكمة الخرافات' },
+    title: { en: 'AI & Assessment: Bust the Detector Myth', ar: 'الذكاء الاصطناعي والتقييم: خرافة الكاشفات' },
+    tagline: {
+      en: 'An AI detector can\'t prove who wrote it. A well-designed assessment can.',
+      ar: 'كاشف الذكاء الاصطناعي لا يثبت من كتب النص، أما التقييم المصمَّم جيداً فيستطيع.'
+    },
+    time: { en: '~25 min', ar: 'نحو 25 دقيقة' },
+    tools: { en: 'AI & Assessment module · AI Assessment Scale · Viva voce', ar: 'وحدة الذكاء الاصطناعي والتقييم · مقياس AIAS · المناقشة الشفهية' },
+    links: [
+      { label: { en: 'AI & Assessment module', ar: 'وحدة الذكاء الاصطناعي والتقييم' }, url: 'https://aisa-ai-web.github.io/The-Learning-Hub/PD%20Modules/ai-and-assessment.html' },
+      { label: { en: 'The Learning Hub', ar: 'منصة Learning Hub' }, url: 'https://aisa-ai-web.github.io/The-Learning-Hub/' }
+    ],
+    copy: {
+      label: { en: 'Task-sheet line · paste it on your next assessment', ar: 'سطر لورقة المهمة · الصقه في تقييمك القادم' },
+      text: {
+        en: 'AI use on this task: AMBER. You may use AI to brainstorm and to check your language, but every idea, analysis and sentence you hand in must be your own. Name each AI tool you used and attach a short reflection. You may be asked to talk me through your work.',
+        ar: 'استخدام الذكاء الاصطناعي في هذه المهمة: أصفر (AMBER). يمكنك استخدام الذكاء الاصطناعي لتوليد الأفكار ومراجعة لغتك، لكن كل فكرة وتحليل وجملة تسلّمها يجب أن تكون من عملك أنت. اذكر كل أداة ذكاء اصطناعي استخدمتها وأرفق تأملاً قصيراً. قد أطلب منك أن تشرح لي عملك شفهياً.'
+      }
+    },
+    briefing: [
+      {
+        en: 'Order in the court! Welcome to the Myth Court. Today\'s defendant: the AI detector. The charge: claiming it can tell who wrote what.',
+        ar: 'نظام في المحكمة! أهلاً بك في محكمة الخرافات. المتهم اليوم: كاشف الذكاء الاصطناعي. والتهمة: ادّعاء أنه يعرف من كتب ماذا.'
+      },
+      {
+        en: 'Exhibit A: detectors such as Turnitin\'s AI checker and GPTZero produce false positives, most often against multilingual writers and neurodivergent students. Some have even flagged the US Constitution as AI-written.',
+        ar: 'الدليل الأول: كاشفات مثل GPTZero وكاشف Turnitin تتهم نصوصاً بشرية خطأً، وأكثر من تظلمهم الطلاب متعددو اللغات والطلاب ذوو التنوع العصبي. بل إن بعضها صنّف دستور الولايات المتحدة على أنه مكتوب بالذكاء الاصطناعي.'
+      },
+      {
+        en: 'So stop trying to catch AI, {name}. In this module you set clear rules, design tasks AI can\'t quietly do for students, and let students defend their work out loud. Court is in session.',
+        ar: 'لذا توقّف عن محاولة الإمساك بالذكاء الاصطناعي يا {name}. في هذه الوحدة تضع قواعد واضحة، وتصمم مهام لا يستطيع الذكاء الاصطناعي إنجازها خفيةً عن الطلاب، وتدعهم يدافعون عن أعمالهم بصوت عالٍ. الجلسة مفتوحة.'
+      }
+    ],
+    kit: [
+      { en: 'Open the module and sign in with your **@aisa.sch.ae** Google account when it asks.', ar: 'افتح الوحدة، وسجّل الدخول بحساب Google الخاص بك على **@aisa.sch.ae** عندما يُطلب منك. محتوى الوحدة باللغة الإنجليزية.' },
+      { en: 'Pick one real assessment you\'ll give in the next three weeks. You\'ll redesign it in the planner at the end.', ar: 'اختر تقييماً حقيقياً ستقدّمه خلال الأسابيع الثلاثة القادمة؛ ستعيد تصميمه في المخطِّط في نهاية الوحدة.' },
+      { en: 'Six short sections plus a cheat sheet. **Next** moves you on and ticks off each section.', ar: 'ستة أقسام قصيرة وورقة ملخّص. زر **Next** ينقلك إلى القسم التالي ويسجّل إتمام كل قسم.' }
+    ],
+    missions: [
+      {
+        id: 'myth',
+        title: { en: 'Put the detector on trial', ar: 'حاكِم الكاشف' },
+        goal: {
+          en: 'Find out why an AI-detector score is not evidence.',
+          ar: 'اكتشف لماذا لا تُعدّ نتيجة كاشف الذكاء الاصطناعي دليلاً.'
+        },
+        how: [
+          { en: 'Open section 2, **AI-Proof**, and read **Don\'t rely on AI detectors**.', ar: 'افتح القسم 2، **AI-Proof**، واقرأ **Don\'t rely on AI detectors**.' },
+          { en: 'Detectors produce false positives, most often against multilingual writers and neurodivergent students: the students we most need to protect.', ar: 'الكاشفات تتهم نصوصاً بشرية خطأً، وأكثر من تظلمهم الطلاب متعددو اللغات وذوو التنوع العصبي، أي الطلاب الذين نحتاج إلى حمايتهم أكثر من غيرهم.' },
+          { en: 'Treat a detector score as a conversation starter at most, never as proof of misconduct.', ar: 'تعامل مع نتيجة الكاشف على أنها بداية حوار في أحسن الأحوال، ولا تعدّها أبداً دليلاً على مخالفة.' }
+        ]
+      },
+      {
+        id: 'rules',
+        title: { en: 'Set the rules first', ar: 'ضع القواعد أولاً' },
+        goal: {
+          en: 'Choose an AI Assessment Scale level and a traffic-light colour for your assessment.',
+          ar: 'اختر مستوى من مقياس تقييم الذكاء الاصطناعي (AIAS) ولوناً من إشارة المرور لتقييمك.'
+        },
+        how: [
+          { en: 'Section 1, **Set the Rules**: pick one of five levels, from **No AI** to **AI Exploration**.', ar: 'القسم 1، **Set the Rules**: اختر مستوى من خمسة، من **No AI** إلى **AI Exploration**.' },
+          { en: 'Match it to a traffic light: Red (no AI), Amber (AI for named steps only, and cited) or Green (AI expected).', ar: 'طابقه مع إشارة المرور: أحمر (لا ذكاء اصطناعي)، أو أصفر (ذكاء اصطناعي لخطوات محددة فقط مع ذكر مصدره)، أو أخضر (الذكاء الاصطناعي متوقَّع).' },
+          { en: 'Put the colour, one sentence of explanation and the citation rule on the task sheet. The Briefing tab has a ready-made Amber line to copy.', ar: 'اكتب اللون وجملة توضيحية وقاعدة ذكر المصدر على ورقة المهمة. في تبويب «الإحاطة» سطر جاهز للون الأصفر يمكنك نسخه.' }
+        ]
+      },
+      {
+        id: 'proof',
+        title: { en: 'Design out the need for a detector', ar: 'صمّم مهمة لا تحتاج إلى كاشف' },
+        goal: {
+          en: 'Pick at least two of the 12 AI-proofing moves for your assessment.',
+          ar: 'اختر خطوتين على الأقل من خطوات الحماية من الذكاء الاصطناعي الاثنتي عشرة لتقييمك.'
+        },
+        how: [
+          { en: 'Section 2 lists 12 moves. Strong starters: tie the task to this week\'s lesson, use local context, and grade the process (drafts, Docs version history), not just the final file.', ar: 'يعرض القسم 2 اثنتي عشرة خطوة. بدايات قوية: اربط المهمة بدرس هذا الأسبوع، واستخدم سياقاً محلياً، وقيّم مراحل العمل (المسودات، وسجل إصدارات Docs) لا الملف النهائي فقط.' },
+          { en: 'Ask for the reasoning: "Why did you choose A over B?" AI produces answers; students have to defend choices.', ar: 'اطلب التعليل: «لماذا اخترت A بدلاً من B؟» الذكاء الاصطناعي ينتج إجابات، أما الطلاب فعليهم الدفاع عن اختياراتهم.' },
+          { en: 'Section 3, **Integrate**, turns it round: tasks where students critique, fact-check or debate the AI.', ar: 'القسم 3، **Integrate**، يقلب الفكرة: مهام ينقد فيها الطلاب الذكاء الاصطناعي، ويتحققون من معلوماته، ويناظرونه.' }
+        ]
+      },
+      {
+        id: 'viva',
+        title: { en: 'A viva, not a verdict', ar: 'مناقشة لا حُكم' },
+        goal: {
+          en: 'Plan a short oral defense for your assessment.',
+          ar: 'خطّط لمناقشة شفهية قصيرة لتقييمك.'
+        },
+        how: [
+          { en: 'Section 4, **Defend (Viva)**: a 5–10 minute conversation where the student explains their work and answers questions they didn\'t prepare for.', ar: 'القسم 4، **Defend (Viva)**: حوار من 5 إلى 10 دقائق يشرح فيه الطالب عمله ويجيب عن أسئلة لم يستعد لها.' },
+          { en: 'Pick 3–5 questions from the question bank, e.g. "Walk me through how you arrived at this conclusion."', ar: 'اختر من 3 إلى 5 أسئلة من بنك الأسئلة، مثل: «اشرح لي كيف توصلت إلى هذا الاستنتاج».' },
+          { en: 'You don\'t need to viva everyone. Talk to one student in three, chosen at random after everyone has handed in. The chance of being asked changes the whole class.', ar: 'لا تحتاج إلى مناقشة الجميع: ناقش طالباً من كل ثلاثة، تختاره عشوائياً بعد أن يسلّم الجميع. مجرد احتمال أن يُسأل الطالب يغيّر سلوك الصف كله.' }
+        ]
+      },
+      {
+        id: 'plan',
+        title: { en: 'Pass the scenarios, plan your redesign', ar: 'اجتز السيناريوهات وخطّط لإعادة التصميم' },
+        goal: {
+          en: 'Answer the three scenarios in section 6, then fill in the Redesign Planner for your real assessment.',
+          ar: 'أجب عن السيناريوهات الثلاثة في القسم 6، ثم املأ مخطِّط إعادة التصميم لتقييمك الحقيقي.'
+        },
+        how: [
+          { en: 'Scenario 3 is the big one: GPTZero says "98% likely AI". Choose wisely.', ar: 'السيناريو 3 هو الأهم: يقول GPTZero إن النص «مكتوب بالذكاء الاصطناعي على الأرجح بنسبة 98%». اختر بحكمة.' },
+          { en: '**Next** stays locked until all three scenarios are answered correctly.', ar: 'يبقى زر **Next** مقفلاً حتى تجيب عن السيناريوهات الثلاثة إجابة صحيحة.' },
+          { en: 'Fill in the planner, then **Save to this browser** or **Print / Save as PDF**. Print the cheat sheet for your desk too.', ar: 'املأ المخطِّط، ثم انقر **Save to this browser** أو **Print / Save as PDF**. واطبع ورقة الملخّص لتضعها على مكتبك.' }
+        ]
+      }
+    ],
+    coop: {
+      en: 'Play "Human or AI?" with your table: each person reads out two short paragraphs, one they wrote and one Gemini wrote. Can anyone tell which is which? (Neither can the detectors.)',
+      ar: 'العبوا «إنسان أم ذكاء اصطناعي؟» على طاولتكم: يقرأ كل شخص فقرتين قصيرتين، واحدة كتبها بنفسه وأخرى كتبها Gemini. هل يستطيع أحد أن يميّز بينهما؟ (ولا الكاشفات تستطيع.)'
+    },
+    quiz: [
+      {
+        q: { en: 'GPTZero says a student\'s essay is "98% likely AI". What\'s the best next step?', ar: 'يقول GPTZero إن موضوع أحد الطلاب «مكتوب بالذكاء الاصطناعي على الأرجح بنسبة 98%». ما أفضل خطوة تالية؟' },
+        options: [
+          { en: 'Fail the student. 98% is basically certain', ar: 'أرسب الطالب؛ فنسبة 98% يقين تقريباً' },
+          { en: 'Run it through two more detectors until they agree', ar: 'أمرّره على كاشفين آخرين حتى تتفق النتائج' },
+          { en: 'Invite the student to a short viva and grade how they defend the work', ar: 'أدعو الطالب إلى مناقشة شفهية قصيرة وأقيّم دفاعه عن عمله' },
+          { en: 'Ignore it completely', ar: 'أتجاهل النتيجة تماماً' }
+        ],
+        answer: 2,
+        why: { en: 'A detector score isn\'t evidence. A short viva either shows the student owns the work or opens an honest conversation.', ar: 'نتيجة الكاشف ليست دليلاً. المناقشة القصيرة إما أن تُظهر أن العمل عمل الطالب فعلاً، وإما أن تفتح حواراً صادقاً.' }
+      },
+      {
+        q: { en: 'Which students are AI detectors most likely to flag by mistake?', ar: 'أيّ الطلاب تتهمهم كاشفات الذكاء الاصطناعي خطأً أكثر من غيرهم؟' },
+        options: [
+          { en: 'Students who type quickly', ar: 'الطلاب الذين يكتبون بسرعة' },
+          { en: 'Multilingual writers and neurodivergent students', ar: 'الطلاب متعددو اللغات وذوو التنوع العصبي' },
+          { en: 'Students who use spell check', ar: 'الطلاب الذين يستخدمون التدقيق الإملائي' },
+          { en: 'Nobody. Detectors are always right', ar: 'لا أحد؛ الكاشفات دائماً على حق' }
+        ],
+        answer: 1,
+        why: { en: 'False positives fall hardest on the students we most need to protect. That\'s why a score can never be proof.', ar: 'الاتهامات الخاطئة تقع أكثر على الطلاب الذين نحتاج إلى حمايتهم، ولهذا لا يمكن أن تكون النتيجة دليلاً أبداً.' }
+      },
+      {
+        q: { en: 'Students may use AI to tidy grammar and suggest structure, but the analysis and conclusions must be theirs. Which AI Assessment Scale level is that?', ar: 'يمكن للطلاب استخدام الذكاء الاصطناعي لتصحيح القواعد واقتراح البنية، لكن التحليل والاستنتاجات يجب أن تكون من عملهم. أي مستوى من مقياس AIAS هذا؟' },
+        options: [
+          { en: 'Level 1 · No AI', ar: 'المستوى 1 · No AI' },
+          { en: 'Level 2 · AI Planning', ar: 'المستوى 2 · AI Planning' },
+          { en: 'Level 4 · Full AI', ar: 'المستوى 4 · Full AI' },
+          { en: 'Level 5 · AI Exploration', ar: 'المستوى 5 · AI Exploration' }
+        ],
+        answer: 1,
+        why: { en: 'AI helps with planning and polish; the thinking stays with the student. That\'s Level 2, an Amber task.', ar: 'الذكاء الاصطناعي يساعد في التخطيط والتنقيح، والتفكير يبقى للطالب. هذا هو المستوى 2، أي مهمة صفراء.' }
+      },
+      {
+        q: { en: 'Which task is hardest for AI to do quietly for a student?', ar: 'أي مهمة هي الأصعب على الذكاء الاصطناعي أن ينجزها خفيةً عن الطالب؟' },
+        options: [
+          { en: '"Write 500 words on the causes of World War I."', ar: '«اكتب 500 كلمة عن أسباب الحرب العالمية الأولى».' },
+          { en: '"Summarise chapter 3."', ar: '«لخّص الفصل الثالث».' },
+          { en: '"Explain how Tuesday\'s lab results changed your prediction, then talk me through it for 3 minutes."', ar: '«اشرح كيف غيّرت نتائج تجربة يوم الثلاثاء توقعك، ثم حدّثني عنها لمدة 3 دقائق».' },
+          { en: '"List ten facts about volcanoes."', ar: '«اذكر عشر حقائق عن البراكين».' }
+        ],
+        answer: 2,
+        why: { en: 'It\'s tied to what happened in your room and ends with an oral defense. No detector needed.', ar: 'إنها مرتبطة بما حدث في صفّك وتنتهي بمناقشة شفهية. لا حاجة إلى أي كاشف.' }
+      }
+    ],
+    badge: {
+      name: { en: 'Myth Buster', ar: 'محطّم الخرافات' },
+      icon: 'gavel',
+      flavor: { en: 'Retired the AI detector and designed an assessment that doesn\'t need one.', ar: 'أحلت كاشف الذكاء الاصطناعي إلى التقاعد، وصمّمت تقييماً لا يحتاج إليه.' }
+    },
+    done: {
+      en: 'Case closed! The AI detector has been sentenced to early retirement. On its way out, it flagged its own resignation letter as 97% AI.',
+      ar: 'أُغلقت القضية! حُكم على كاشف الذكاء الاصطناعي بالتقاعد المبكر. وفي طريقه إلى الخارج، صنّف رسالة استقالته بأنها مكتوبة بالذكاء الاصطناعي بنسبة 97%.'
+    }
   }
 ];
 
@@ -1039,16 +1214,16 @@ PD.leo = {
       ar: 'أهلاً وسهلاً يا {name}! أنا ليو: تميمة AISA، ومسؤول الروح المعنوية، والموظف الوحيد الذي لا يتأخر عن مناوبته أبداً. (لأنني أنام في الردهة.)'
     },
     {
-      en: 'Welcome to pD-Day 2026! Six quests are hidden around this school. Each one teaches you an AI tool you can use in class next week.',
-      ar: 'مرحباً بك في يوم التطوير المهني 2026! في أرجاء هذه المدرسة ست مهمات، وكل مهمة تعلّمك أداة ذكاء اصطناعي تستخدمها في صفّك الأسبوع القادم.'
+      en: 'Welcome to pD-Day 2026! Seven quests are hidden around this school. Each one teaches you an AI tool you can use in class next week.',
+      ar: 'مرحباً بك في يوم التطوير المهني 2026! في أرجاء هذه المدرسة سبع مهمات، وكل مهمة تعلّمك أداة ذكاء اصطناعي تستخدمها في صفّك الأسبوع القادم.'
     },
     {
       en: 'Every quest matches a real station in the PD room. When a quest says "Go to Station 3", go and sit at that table. Everyone there is on the same quest, so help each other out!',
       ar: 'كل مهمة تقابل محطة حقيقية في قاعة التطوير المهني. عندما تقول المهمة «اذهب إلى المحطة 3»، اجلس على تلك الطاولة. كل من هناك يعمل على المهمة نفسها، فتعاونوا!'
     },
     {
-      en: 'Finish the missions, pass my (extremely fair) pop quiz, and earn a badge. Collect all six to become Leader of the Pride.',
-      ar: 'أنجز التحديات، واجتز اختباري القصير (العادل جداً)، واحصل على وسام. اجمع الأوسمة الستة لتصبح «قائد العرين».'
+      en: 'Finish the missions, pass my (extremely fair) pop quiz, and earn a badge. Collect all seven to become Leader of the Pride.',
+      ar: 'أنجز التحديات، واجتز اختباري القصير (العادل جداً)، واحصل على وسام. اجمع الأوسمة السبعة لتصبح «قائد العرين».'
     },
     {
       en: 'Move with the arrow keys or WASD, or just click where you want to go. Press E or Space to talk to people and things. Shall we?',
@@ -1182,6 +1357,15 @@ PD.objects = {
     name: { en: 'Arcade cabinet', ar: 'جهاز ألعاب' },
     lines: [
       { en: 'HIGH SCORE: LEO ··· 999,999. Nobody believes it either.', ar: 'أعلى نتيجة: ليو ··· 999,999. لا أحد يصدق ذلك أيضاً.' }
+    ]
+  },
+  detector: {
+    name: { en: 'AI Detector 3000', ar: 'كاشف الذكاء الاصطناعي 3000' },
+    lines: [
+      { en: '🚨 BEEP! "98% AI-generated": the US Constitution. The Founding Fathers have been invited to a viva.', ar: '🚨 بيب! «مكتوب بالذكاء الاصطناعي بنسبة 98%»: دستور الولايات المتحدة. وُجّهت دعوة إلى الآباء المؤسسين لحضور مناقشة شفهية.' },
+      { en: 'BEEP! "100% AI": Leo\'s roar. Leo is deeply offended. Leo is 100% lion.', ar: 'بيب! «ذكاء اصطناعي بنسبة 100%»: زئير ليو. ليو مستاء جداً… فليو أسد بنسبة 100%.' },
+      { en: 'BEEP! "87% AI": a Grade 6 story, handwritten in pencil during a power cut.', ar: 'بيب! «ذكاء اصطناعي بنسبة 87%»: قصة لطالب في الصف 6، كتبها بخط يده بقلم رصاص أثناء انقطاع الكهرباء.' },
+      { en: 'The detector isn\'t sure about this one, so it flags itself. Then it flags the flag.', ar: 'الكاشف غير متأكد هذه المرة، فيضع علامة على نفسه… ثم يضع علامة على العلامة.' }
     ]
   },
   books: {
