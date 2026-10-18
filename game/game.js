@@ -1234,9 +1234,11 @@
     if (!questTab[q.id]) questTab[q.id] = st.badge ? 'missions' : (missionsDone(q) ? 'missions' : 'briefing');
     openModal('quest:' + q.id, function (root) { renderQuest(root, q); }, 'quest');
   }
+  // Our own guides (and the station list) open in the game's language
+  function withLang(url) { return url + (url.indexOf('?') < 0 ? '?' : '&') + 'lang=' + PD.lang; }
   function guideUrl(q, anchor) {
     var g = q.guide || '';
-    var base = /^https?:/.test(g) ? g : (q.dir || '') + g;
+    var base = /^https?:/.test(g) ? g : withLang((q.dir || '') + g);
     return base + (anchor || '');
   }
   function renderQuest(root, q) {
@@ -1509,7 +1511,7 @@
       root.innerHTML = '<div class="panel"><header class="panel-head"><div><div class="eyebrow">' + esc(PD.config.title) + '</div><h2>' + uiH('helpTitle') + '</h2></div>' + closeBtn() + '</header><div class="scroll">' +
         '<div class="leo-says"><div class="portrait">' + leoSVG('wink') + '</div><div class="speech"><p>' + uiH('helpHow') + '</p></div></div>' +
         '<table class="keys">' + rows.map(function (r) { return '<tr><th>' + uiH(r[0]) + '</th><td>' + uiH(r[1]) + '</td></tr>'; }).join('') + '</table>' +
-        '<div class="btn-row"><a class="btn" href="' + esc(PD.config.stationsPage) + '" target="_blank" rel="noopener">' + icon('book') + ' ' + uiH('allStations') + '</a>' +
+        '<div class="btn-row"><a class="btn" href="' + esc(withLang(PD.config.stationsPage)) + '" target="_blank" rel="noopener">' + icon('book') + ' ' + uiH('allStations') + '</a>' +
         '<button class="btn" type="button" data-lang>' + icon('globe') + ' ' + (PD.lang === 'ar' ? 'English' : 'العربية') + '</button>' +
         '<button class="btn danger" type="button" data-reset>' + icon('refresh') + ' ' + uiH('reset') + '</button></div></div></div>';
       root.onclick = function (e) {

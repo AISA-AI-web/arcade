@@ -3,7 +3,9 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Cairo:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/guide-lang.css?v=20261018b">
+<script src="../shared/guide-lang.js?v=20261018b"></script>
 <style>
 /* Layout: purple station band, sticky tool switcher, one stepper card per tool, shared "share with students" stepper, checklist + links */
 :root{
@@ -160,6 +162,8 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
 @media (prefers-reduced-motion:reduce){.vcaret{animation:none}}
 
 .vmock + .shot,.flip + .flip,.shot + .flip,.flip + .shot{margin-top:12px}
+/* "Include AI voiceover, script, background music and animation" is wider than the text column: let button names wrap */
+.txt .ui{white-space:normal}
 @media (max-width:520px){.vrow{grid-template-columns:72px minmax(0,1fr)}.vrow img{width:72px}}
 </style>
 
@@ -226,7 +230,7 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
       </li>
       <li class="step">
         <div>
-          <div class="vmock" role="img" aria-label="Animation: the script for slide 1 is selected and replaced with a new, friendlier welcome">
+          <div class="vmock" dir="ltr" role="img" aria-label="Animation: the script for slide 1 is selected and replaced with a new, friendlier welcome">
             <span class="vlab" id="vlab">Gemini's script</span>
             <div class="vrow"><img src="img/v_thumb1.jpg" alt=""><div class="vtext" id="vtext"></div></div>
           </div>
@@ -370,7 +374,7 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
             </button>
           </div>
         </div>
-        <div class="txt"><span class="num">4</span><h3>Swap the old music for the new</h3><ol style="margin:0;padding-left:1.1em;display:grid;gap:4px"><li>Click the old music bar and press <b>Delete</b>.</li><li>Click the time under the preview so the playhead jumps to <em>00:00.0</em>.</li><li>In the Music panel, click <span class="ui">Insert</span>.</li><li>Click the new bar, then the speaker icon. Set ducking to <span class="ui">Background</span> and volume to about 30%.</li></ol><div class="tip"><b>Watch the playhead.</b> <span class="ui">Insert</span> puts the music wherever the playhead is. If it lands halfway through, press <b>Ctrl+Z</b> and try again.</div></div>
+        <div class="txt"><span class="num">4</span><h3>Swap the old music for the new</h3><ol style="margin:0;padding-inline-start:1.1em;display:grid;gap:4px"><li>Click the old music bar and press <b>Delete</b>.</li><li>Click the time under the preview so the playhead jumps to <em>00:00.0</em>.</li><li>In the Music panel, click <span class="ui">Insert</span>.</li><li>Click the new bar, then the speaker icon. Set ducking to <span class="ui">Background</span> and volume to about 30%.</li></ol><div class="tip"><b>Watch the playhead.</b> <span class="ui">Insert</span> puts the music wherever the playhead is. If it lands halfway through, press <b>Ctrl+Z</b> and try again.</div></div>
       </li>
     </ol>
   </div>
@@ -432,6 +436,8 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
 
 <div class="lb" id="lb" hidden><button type="button" id="lbclose">Close</button><img id="lbimg" alt=""></div>
 
+<script src="ar.js?v=20261018b"></script>
+
 <script>
 // Flipbooks: cycle real screenshots with a caption, step counter and controls
 (function(){
@@ -444,14 +450,16 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
     var cap=document.createElement('span'); cap.className='fcap'; cap.setAttribute('aria-live','polite');
     var ctl=document.createElement('span'); ctl.className='fctl';
     function mk(t,l){var b=document.createElement('button');b.type='button';b.textContent=t;b.setAttribute('aria-label',l);ctl.appendChild(b);return b}
-    var prev=mk('‹','Previous frame'), pp=mk(paused?'Play':'Pause','Play or pause'), next=mk('›','Next frame');
+    var PLAY=GL.t('Play','تشغيل'), PAUSE=GL.t('Pause','إيقاف مؤقت');
+    // The control row is mirrored in Arabic, so the arrows swap too
+    var prev=mk(GL.t('‹','›'),GL.t('Previous frame','الإطار السابق')), pp=mk(paused?PLAY:PAUSE,GL.t('Play or pause','تشغيل أو إيقاف مؤقت')), next=mk(GL.t('›','‹'),GL.t('Next frame','الإطار التالي'));
     fb.append(num,cap,ctl); f.append(prog,fb);
     function show(k){ i=(k+imgs.length)%imgs.length; imgs.forEach(function(im,n){im.classList.toggle('on',n===i)}); num.textContent=i+1; cap.textContent=imgs[i].dataset.cap||''; run(); }
     function run(){ clearTimeout(timer); bar.classList.remove('run'); bar.style.transitionDuration='0ms'; bar.style.width='0';
       if(paused||hover) return; void bar.offsetWidth; bar.classList.add('run'); bar.style.transitionDuration=ms+'ms'; bar.style.width='100%';
       timer=setTimeout(function(){show(i+1)},ms); }
     prev.onclick=function(){show(i-1)}; next.onclick=function(){show(i+1)};
-    pp.onclick=function(){paused=!paused; pp.textContent=paused?'Play':'Pause'; run();};
+    pp.onclick=function(){paused=!paused; pp.textContent=paused?PLAY:PAUSE; run();};
     f.addEventListener('mouseenter',function(){hover=true;run()}); f.addEventListener('mouseleave',function(){hover=false;run()});
     stage.addEventListener('click',function(){var lb=document.getElementById('lb'),li=document.getElementById('lbimg');li.src=imgs[i].src;li.alt=imgs[i].alt;lb.hidden=false;document.getElementById('lbclose').focus();});
     show(0);
@@ -464,13 +472,13 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
   var NEW='Welcome, Grade 10! Today we’re finding out how great speakers win people over, using three tools: ethos, pathos and logos.';
   function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
   function set(html){t.innerHTML=html}
-  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ set(esc(NEW)); lab.textContent='Your script'; return; }
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){ set(esc(NEW)); lab.textContent=GL.t('Your script','نصك'); return; }
   function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
   (async function loop(){ for(;;){
-    lab.textContent='Gemini’s script'; set(esc(OLD)+'<span class="vcaret"></span>'); await wait(1800);
-    lab.textContent='Select it'; set('<span class="sel">'+esc(OLD)+'</span>'); await wait(1100);
-    lab.textContent='Type your own'; for(var k=1;k<=NEW.length;k++){ set(esc(NEW.slice(0,k))+'<span class="vcaret"></span>'); await wait(38); }
-    lab.textContent='Your script'; await wait(3000);
+    lab.textContent=GL.t('Gemini’s script','نص Gemini'); set(esc(OLD)+'<span class="vcaret"></span>'); await wait(1800);
+    lab.textContent=GL.t('Select it','حدّده'); set('<span class="sel">'+esc(OLD)+'</span>'); await wait(1100);
+    lab.textContent=GL.t('Type your own','اكتب نصك'); for(var k=1;k<=NEW.length;k++){ set(esc(NEW.slice(0,k))+'<span class="vcaret"></span>'); await wait(38); }
+    lab.textContent=GL.t('Your script','نصك'); await wait(3000);
   }})();
 })();
 </script>
@@ -484,10 +492,10 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
     var count=document.createElement('span'); count.className='count';
     var dots=document.createElement('div'); dots.className='dots';
     var tog=document.createElement('button'); tog.type='button'; tog.className='toggle';
-    steps.forEach(function(s,k){var d=document.createElement('button');d.type='button';d.className='dot';d.setAttribute('aria-label','Go to step '+(k+1));d.onclick=function(){go(k)};dots.appendChild(d)});
+    steps.forEach(function(s,k){var d=document.createElement('button');d.type='button';d.className='dot';d.setAttribute('aria-label',GL.t('Go to step ','انتقل إلى الخطوة ')+(k+1));d.onclick=function(){go(k)};dots.appendChild(d)});
     bar.append(count,dots,tog); sp.prepend(bar);
     var nav=document.createElement('div'); nav.className='snav';
-    var back=document.createElement('button'); back.type='button'; back.className='btn'; back.textContent='← Back';
+    var back=document.createElement('button'); back.type='button'; back.className='btn'; back.textContent=GL.t('← Back','→ السابق');
     var next=document.createElement('button'); next.type='button'; next.className='btn primary';
     nav.append(back,next); sp.append(nav);
     back.onclick=function(){go(i-1)}; next.onclick=function(){ if(i<steps.length-1) go(i+1); else { var nx=sp.closest('section').nextElementSibling; if(nx) nx.scrollIntoView({behavior:'smooth'}); } };
@@ -499,10 +507,10 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
       steps.forEach(function(s,k){s.hidden=!all&&k!==i});
       [].forEach.call(dots.children,function(d,k){d.className='dot'+(k===i?' on':k<i?' done':'')});
       dots.hidden=all; nav.hidden=all;
-      count.innerHTML=all?'<b>'+steps.length+' steps</b>':'Step <b>'+(i+1)+'</b> of '+steps.length;
-      tog.textContent=all?'Show one step at a time':'Show all steps';
+      count.innerHTML=all?GL.t('<b>'+steps.length+' steps</b>','عدد الخطوات: <b>'+steps.length+'</b>'):GL.t('Step <b>'+(i+1)+'</b> of '+steps.length,'الخطوة <b>'+(i+1)+'</b> من '+steps.length);
+      tog.textContent=all?GL.t('Show one step at a time','عرض خطوة واحدة في كل مرة'):GL.t('Show all steps','عرض كل الخطوات');
       back.disabled=i===0;
-      next.textContent=i===steps.length-1?'Done ✓':'Next →';
+      next.textContent=i===steps.length-1?GL.t('Done ✓','تم ✓'):GL.t('Next →','التالي ←');
     }
     render();
   });
@@ -510,7 +518,7 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
   // Lightbox for screenshots
   var lb=document.getElementById('lb'), lbimg=document.getElementById('lbimg');
   document.querySelectorAll('.shot button').forEach(function(b){
-    var img=b.querySelector('img'); b.setAttribute('aria-label','Enlarge: '+img.alt);
+    var img=b.querySelector('img'); b.setAttribute('aria-label',GL.t('Enlarge: ','تكبير: ')+img.alt);
     b.onclick=function(){lbimg.src=img.src;lbimg.alt=img.alt;lb.hidden=false;document.getElementById('lbclose').focus()};
   });
   function close(){lb.hidden=true}
