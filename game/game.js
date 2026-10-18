@@ -721,6 +721,7 @@
   }
   var boostEl = $('#boost');
   function updateBoost(now) {
+    if (!boostEl) return;
     var left = boostUntil - now;
     if (left <= 0) {
       if (boostShown !== -1) { boostShown = -1; boostEl.classList.remove('on'); if (mode === 'play') bubble(ui('coffeeOver'), 3600); }
