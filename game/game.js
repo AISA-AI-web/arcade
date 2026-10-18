@@ -499,7 +499,8 @@
   if (DIR) {
     var BL = world.L, bstops = [{ x: BL.lobbyX + 6, y: BL.yTop + 14.6, look: 'down' }];
     world.rooms.slice().sort(function (a, b) { return a.door.x - b.door.x; }).forEach(function (r) {
-      bstops.push({ x: r.door.x + 1, y: r.doorTop ? BL.yw2 - 1.4 : BL.yCor + 1.8, look: r.doorTop ? 'down' : 'up' });
+      // beside the door, not on its mat (so clicks on the door still go to the door)
+      bstops.push({ x: r.doorTop ? r.door.x + 1 : r.door.x + 3, y: r.doorTop ? BL.yw2 - 1.4 : BL.yCor + 2.6, look: r.doorTop ? 'down' : 'up' });
     });
     bstops.push({ x: BL.loungeX + 5.5, y: BL.yTop + 13.6, look: 'down' });
     boss = { x: bstops[1].x, y: bstops[1].y, dir: 'down', moving: false, phase: 0, stops: bstops, si: 1, step: 1, path: null, waitUntil: 0, holdUntil: 0, repathAt: 0, mode: 'patrol', tier: null, nextQuip: 0, quipI: Math.floor(Math.random() * DIR.quips.length), praise: false, look: 'down' };
@@ -550,7 +551,10 @@
     var wx = cam.x + e.clientX / V.scale, wy = cam.y + e.clientY / V.scale;
     var tx = wx / T, ty = wy / T;
     var hit = pickTarget(tx, ty);
-    if (hit) { goTo(hit); return; }
+    if (hit) {
+      if (hit.type === 'boss') { boss.holdUntil = Math.max(boss.holdUntil, performance.now() + 4000); boss.moving = false; }
+      goTo(hit); return;
+    }
     var gx = Math.floor(tx), gy = Math.floor(ty);
     if (world.isSolid(gx, gy)) {
       var best = null, bd = 9;
@@ -690,16 +694,20 @@
     var o = PD.objects[id]; if (!o) return;
     var c = S.counters.obj[id] || 0; S.counters.obj[id] = c + 1; save();
     var line = o.lines ? o.lines[c % o.lines.length] : null;
+    var afterLine = null;
     if (id === 'coffee') {
       unlockSecret('coffee'); startBoost();
-      // he notices if he is close by, or anywhere in the lounge with you
-      if (boss && (Math.hypot(boss.x - player.x, boss.y - player.y) < 7 || world.zoneAt(boss.x, boss.y - 0.1) === 'lounge')) setTimeout(function () { bossSay(DIR.coffee, 4600); }, 1200);
+      // once the coffee card closes, he comments if he is close by and visible
+      if (boss) afterLine = function () {
+        var sy = (boss.y * T - cam.y) * V.scale;
+        if (Math.hypot(boss.x - player.x, boss.y - player.y) < 8 && sy > 120 && sy < V.h - 10) bossSay(DIR.coffee, 4600);
+      };
     }
     if (id === 'fridge') unlockSecret('fridge');
     if (id === 'copier') { S.counters.copier = (S.counters.copier || 0) + 1; if (S.counters.copier >= 3) unlockSecret('jam'); }
     if (id === 'bell') { Sound.play('bell'); shake = 0.5; unlockSecret('bell'); }
     else Sound.play('blip');
-    if (line) say([line], { portrait: null, name: o.name });
+    if (line) say([line], { portrait: null, name: o.name, onDone: afterLine });
   }
   function patLeo() {
     S.counters.pats = (S.counters.pats || 0) + 1; save();
@@ -868,7 +876,9 @@
     if (!boss || mode !== 'play') return;
     boss.dir = faceToward(boss, player);
     bossBubble(t(line), ms || 4200);
+    boss.nextQuip = Math.max(boss.nextQuip, performance.now() + 8000);
   }
+  function allDone() { return badgeCount() === PD.quests.length; }
   function bossPathTo(goal) {
     boss.path = findPath(Math.floor(boss.x), Math.floor(boss.y - 0.1), goal);
   }
@@ -893,7 +903,15 @@
       speed = 3.6;
       if (Math.hypot(player.x - boss.x, player.y - boss.y) <= 2.2) {
         boss.path = null; boss.moving = false; boss.dir = faceToward(boss, player);
-        if (boss.tier !== null && !paused) { bossSay(DIR.lounge[Math.min(boss.tier, DIR.lounge.length - 1)], 5600); scolded = true; boss.tier = null; unlockSecret('torris'); }
+        if (boss.tier !== null && !paused) {
+          unlockSecret('torris'); boss.tier = null;
+          if (allDone() && DIR.doneLounge) {
+            bossSay(DIR.doneLounge, 5000); loungeTier = limits.length;
+            boss.mode = 'patrol'; boss.path = null; boss.waitUntil = now + 2500;
+            return;
+          }
+          bossSay(DIR.lounge[Math.min(loungeTier - 1, DIR.lounge.length - 1)], 5600); scolded = true;
+        }
         return;
       }
       if (!boss.path || !boss.path.length || now > boss.repathAt) {
@@ -927,7 +945,8 @@
   function quipCheck(now) {
     if (boss.mode !== 'patrol' || mode !== 'play' || paused || now < boss.nextQuip) return;
     if (Math.hypot(player.x - boss.x, player.y - boss.y) > 2.6 || !bossOnScreen()) return;
-    var line = boss.praise ? DIR.praise : DIR.quips[boss.quipI++ % DIR.quips.length];
+    var done = allDone() && DIR.doneQuips && DIR.doneQuips.length;
+    var line = boss.praise ? DIR.praise : done ? DIR.doneQuips[(boss.doneI = (boss.doneI || 0) + 1) % DIR.doneQuips.length] : DIR.quips[boss.quipI++ % DIR.quips.length];
     boss.praise = false;
     bossSay(line, 4200);
     boss.nextQuip = now + (DIR.quipEverySeconds || 45) * 1000;
@@ -1589,7 +1608,7 @@
         h += '<div class="badge-tile meta' + (d ? ' on' : '') + '"><div class="bt-img">' + badgeSVG({ icon: m.icon, color: m.color, tier: 'meta' }, !d) + '</div><b>' + esc(t(m.name)) + '</b><span>' + esc(t(d ? m.flavor : m.how)) + '</span></div>';
       });
       h += '</div><h3 class="sec-title">' + uiH('secretBadges') + '</h3><div class="badge-grid small">';
-      PD.secrets.forEach(function (s) {
+      PD.secrets.filter(function (s) { return s.id !== 'torris' || DIR; }).forEach(function (s) {
         var d = !!S.secrets[s.id];
         h += '<div class="badge-tile secret' + (d ? ' on' : '') + '"><div class="bt-img">' + badgeSVG({ icon: s.icon, color: s.color, tier: 'secret' }, !d) + '</div><b>' + (d ? esc(t(s.name)) : '???') + '</b><span>' + (d ? esc(t(s.how)) : uiH('secretHidden')) + '</span></div>';
       });

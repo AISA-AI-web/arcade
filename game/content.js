@@ -1027,7 +1027,7 @@ PD.secrets = [
   { id: 'explorer', icon: 'compass', color: '#2E9E6B', name: { en: 'Hall Monitor', ar: 'مراقب الممرات' }, how: { en: 'Visit every room in the school.', ar: 'زُر كل غرف المدرسة.' } },
   { id: 'bonk', icon: 'wall', color: '#B5651D', name: { en: 'Wall Inspector', ar: 'مفتش الجدران' }, how: { en: 'Walk into walls 15 times. The walls are fine, thanks for checking.', ar: 'اصطدم بالجدران 15 مرة. الجدران بخير، شكراً للاطمئنان.' } },
   { id: 'bell', icon: 'bell', color: '#D8A21B', name: { en: 'Bell Ringer', ar: 'قارع الجرس' }, how: { en: 'Ring the school bell in the lobby.', ar: 'اقرع جرس المدرسة في الردهة.' } },
-  { id: 'torris', icon: 'clipboard', color: '#2B2F45', name: { en: 'Back to Work!', ar: 'هيا إلى العمل!' }, how: { en: 'Get caught lingering in the staff lounge by Dr. Torris.', ar: 'أن يضبطك د. توريس وأنت تطيل البقاء في غرفة المعلمين.' } }
+  { id: 'torris', icon: 'clipboard', color: '#2B2F45', name: { en: 'Back to Work!', ar: 'هيا إلى العمل!' }, how: { en: 'Get caught lingering in the staff lounge by Dr. Torris.', ar: 'أطِل البقاء في غرفة المعلمين حتى يلاحظك د. توريس.' } }
 ];
 
 /* ---------------------------------------------------------------------
@@ -1047,7 +1047,7 @@ PD.director = {
     { en: 'Less talky talky, more worky worky!', ar: 'سوالف أقل… شغل أكثر!' },
     { en: 'Is that a new badge I see? No? Back to work!', ar: 'هل هذا وسام جديد؟ لا؟ هيا إلى العمل!' },
     { en: 'I\'m not saying the stations miss you. But they do.', ar: 'لا أقول إن المحطات اشتاقت إليك… لكنها اشتاقت فعلاً.' },
-    { en: 'Walking with purpose. I like it.', ar: 'مشيٌ بهدف. هذا ما أحبه.' },
+    { en: 'Walking with purpose. I like it.', ar: 'تمشي وكأنك تعرف وجهتك تماماً… هذا ما أحبه!' },
     { en: 'Six stations, one PD day, zero excuses.', ar: 'ست محطات، يوم تطوير واحد، ولا أعذار.' },
     { en: 'Remember: AI writes the first draft. You write the final one.', ar: 'تذكّر: الذكاء الاصطناعي يكتب المسودة الأولى، وأنت تكتب النسخة النهائية.' },
     { en: 'Quick question: which station are you heading to? Excellent. Go there.', ar: 'سؤال سريع: إلى أي محطة أنت ذاهب؟ ممتاز. اذهب إليها.' }
@@ -1060,9 +1060,15 @@ PD.director = {
   thanks: { en: 'Thank you. Productivity has never looked so good.', ar: 'شكراً لك. لم تبدُ الإنتاجية بهذا الجمال من قبل.' },
   coffee: { en: 'Coffee: approved. Coffee for twenty minutes: not approved.', ar: 'القهوة: موافَق عليها. القهوة لعشرين دقيقة: غير موافَق عليها.' },
   praise: { en: 'A new badge! Now THAT is worky worky.', ar: 'وسام جديد! هذا هو الشغل الحقيقي.' },
+  // once a teacher has all six badges he eases off
+  doneQuips: [
+    { en: 'All six badges! Leader of the Pride. Fine, you have earned some talky talky.', ar: 'الأوسمة الستة كلها! «قائد العرين» رسمياً. حسناً، تستحق قليلاً من السوالف.' },
+    { en: 'Finished everything? Go and help a colleague with theirs. That is worky worky too.', ar: 'أنجزت كل شيء؟ ساعد زميلاً على إنهاء محطاته… وهذا شغل أيضاً.' }
+  ],
+  doneLounge: { en: 'All six badges? Then the lounge is all yours. Enjoy the coffee!', ar: 'كل الأوسمة الستة؟ إذن غرفة المعلمين لك. استمتع بالقهوة!' },
   talk: [
     { en: 'Dr. Torris, AISA Director. Yes, I walk around a lot. It\'s called leadership.', ar: 'د. توريس، مدير AISA. نعم، أتجوّل كثيراً… وهذا ما يُسمّى القيادة.' },
-    { en: 'Every quest you finish is one less thing I have to remind you about.', ar: 'كل مهمة تنجزها تعني شيئاً أقل عليّ أن أذكّرك به.' },
+    { en: 'Every quest you finish is one less thing I have to remind you about.', ar: 'كل مهمة تنجزها تعني أمراً لن أضطر إلى تذكيرك به.' },
     { en: 'Have you visited the Data Vault yet? Protecting student data is not optional. Neither is having fun.', ar: 'هل زرت خزنة البيانات بعد؟ حماية بيانات الطلاب ليست اختيارية… ولا الاستمتاع أيضاً.' },
     { en: 'Less talky talky, more worky worky! …Fine, a little talky talky is good too. We\'re a community.', ar: 'سوالف أقل… شغل أكثر! حسناً، قليل من السوالف لا بأس به. نحن مجتمع واحد.' }
   ]
