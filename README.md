@@ -8,7 +8,7 @@ Teachers walk around a school with Leo the lion. Each room holds a quest that ma
 2. Tick off the missions. Each one has step-by-step help and screenshots from the station guide.
 3. Pass Leo's quiz to earn the badge.
 
-Earning all six station badges unlocks *Leader of the Pride*, and the badge case prints a certificate.
+Earning all seven station badges unlocks *Leader of the Pride*, and the badge case prints a certificate.
 
 | Room | Station | Guide |
 |------|---------|-------|
@@ -18,10 +18,11 @@ Earning all six station badges unlocks *Leader of the Pride*, and the badge case
 | The Screening Room | 4 · Turn Your Slides into a Video | `Station-4-Lesson-Video/` |
 | The Code Arcade | 5 · Code Your Own Class Activities | `Station-5-Coding-Activities/` |
 | The Data Vault | 6 · Student Data Anonymizer | [aisa-ai-web.github.io/data-anonymizer](https://aisa-ai-web.github.io/data-anonymizer/) |
+| The Myth Court | 7 · AI & Assessment: Bust the Detector Myth | [AI & Assessment module](https://aisa-ai-web.github.io/The-Learning-Hub/PD%20Modules/ai-and-assessment.html) (Learning Hub, AISA sign-in) |
 
 The game also has a staff lounge, wandering colleagues and eight secret achievements. They're there for fun, so go and find them.
 
-**Dr. Torris**, the AISA director, patrols the lobby, corridor and staff lounge. Now and then he tells passers-by to get back to work ("Less talky talky, more worky worky!"). He walks over if someone lingers in the lounge, and eases off once a teacher has all six badges. He never blocks anyone. His lines, look and timings are under `PD.director` in `game/content.js`; set `enabled: false` there to remove him.
+**Dr. Torris**, the AISA director, patrols the lobby, corridor and staff lounge. Now and then he tells passers-by to get back to work ("Less talky talky, more worky worky!"). He walks over if someone lingers in the lounge, and eases off once a teacher has every station badge. He never blocks anyone. His lines, look and timings are under `PD.director` in `game/content.js`; set `enabled: false` there to remove him.
 
 ## Playing
 
@@ -79,8 +80,11 @@ Each guide is `Station-*/index.html` (in English) plus `Station-*/ar.js` (its Ar
 Copy one quest object in `PD.quests`, then:
 
 1. Give it a new `id` and `station` number.
-2. Choose a `color`, a `theme` (`library`, `studio`, `arena`, `cinema`, `lab` or `vault`) and a badge `icon` (`levels`, `slides`, `hook`, `clapper`, `code`, `vault`, `paw`, `crown`, `coffee`, `paper`, `fridge`, `heart`, `compass`, `wall`, `bell`, `clipboard`).
+2. Choose a `color`, a `theme` (`library`, `studio`, `arena`, `cinema`, `lab`, `vault` or `court`) and a badge `icon` (`levels`, `slides`, `hook`, `clapper`, `code`, `vault`, `gavel`, `paw`, `crown`, `coffee`, `paper`, `fridge`, `heart`, `compass`, `wall`, `bell`, `clipboard`).
 3. Point `dir` / `guide` at the station's folder, or set `guide` to a full URL.
+   If that site is on aisa-ai-web.github.io and remembers its language in the browser (the Learning Hub uses `aisa-newsletter-lang`), set `guideLangKey` to that key so it opens in the game's language.
+
+Leo's welcome (`PD.leo.intro` in `content.js`) says how many quests there are, in both languages, so update that number too.
 
 The school grows a new room automatically. Rooms fill the top row first, then the bottom row, so a 7th or 8th station adds a column.
 

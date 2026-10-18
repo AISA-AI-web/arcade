@@ -279,7 +279,7 @@
       prop('window', x + 10, y, 2, 1, { layer: 'flat', solid: false });
     }
     if (z.doorTop) prop('doorframe', z.door.x, y, 2, 1, { layer: 'flat', solid: false, color: col, inside: true });
-    var feature = { library: 'whiteboard', studio: 'screen', arena: 'hooksign', cinema: 'cinemascreen', lab: 'codewall', vault: 'vaultdoor' }[th] || 'whiteboard';
+    var feature = { library: 'whiteboard', studio: 'screen', arena: 'hooksign', cinema: 'cinemascreen', lab: 'codewall', vault: 'vaultdoor', court: 'courtseal' }[th] || 'whiteboard';
     prop(feature, x + 3.5, y, 5, 1, { layer: 'flat', solid: false, quest: q, color: col, interact: feature === 'whiteboard' ? { type: 'object', obj: 'whiteboard' } : null });
     var first = w.props.length;
 
@@ -350,6 +350,18 @@
         prop('desk', x + 10, y + 6, 2, 1, { top: 0.6, items: 'files', color: '#C9D2E0' });
         prop('plant', x + 11, y + 9, 1, 1, { top: 0.9, variant: 2 });
         prop('plant', x, y + 9, 1, 1, { top: 0.9, variant: 0 });
+      },
+      court: function () {
+        // the judge's bench sits under the seal unless the door is in that corner
+        prop('carpetrunner', z.doorTop ? x + 1 : x + 5, z.doorTop ? y + 1 : y + 5, 2, z.doorTop ? 4 : 5, { layer: 'flat', solid: false });
+        prop('judgebench', z.doorTop ? x + 8 : x + 4, y + 1, 4, 1, { top: 1.1, color: col });
+        prop('witness', x + 10, y + 3, 1, 1, { top: 0.8 });
+        prop('detector', x, y + 3, 1, 1, { top: 1.3, anim: true, interact: { type: 'object', obj: 'detector' } });
+        prop('bench', x, y + 7, 4, 1, { color: '#7A5233', horizontal: true });
+        prop('bench', x, y + 9, 4, 1, { color: '#7A5233', horizontal: true });
+        prop('bench', x + 8, y + 7, 4, 1, { color: '#7A5233', horizontal: true });
+        prop('bench', x + 8, y + 9, 4, 1, { color: '#7A5233', horizontal: true });
+        prop('plant', x + 11, y + 5, 1, 1, { top: 0.9, variant: 1 });
       }
     };
     (themes[th] || themes.library)();
@@ -382,7 +394,7 @@
      ================================================================= */
   var FLOOR_BASE = {
     lobby: '#F2EEFA', corridor: '#EEE9F6', lounge: '#D7A66B',
-    library: '#C68D57', studio: '#D9DCE3', arena: '#E3B275', cinema: '#3A2B5C', lab: '#D7E2EF', vault: '#9EA9BA'
+    library: '#C68D57', studio: '#D9DCE3', arena: '#E3B275', cinema: '#3A2B5C', lab: '#D7E2EF', vault: '#9EA9BA', court: '#A87A55'
   };
   function zoneStyle(world, z) {
     if (!z) return 'out';
@@ -464,6 +476,15 @@
         c.fillStyle = 'rgba(80,110,160,0.18)'; c.fillRect(px, py, T, 1); c.fillRect(px, py, 1, T);
         c.fillStyle = 'rgba(255,255,255,0.5)'; c.fillRect(px + 2, py + 2, T - 6, 1);
         if (r < 0.08) { c.fillStyle = 'rgba(123,79,214,0.25)'; c.fillRect(px + 10, py + 14, 12, 2); }
+        break;
+      case 'court':
+        // polished wooden planks
+        for (var pl = 0; pl < 4; pl++) {
+          c.fillStyle = shade(base, (hash(x, y * 4 + pl, 5) - 0.5) * 0.12); c.fillRect(px, py + pl * 8, T, 8);
+          c.fillStyle = 'rgba(70,40,15,0.22)'; c.fillRect(px, py + pl * 8, T, 1);
+          c.fillRect(px + Math.floor(hash(x, y * 4 + pl, 9) * T), py + pl * 8, 1, 8);
+        }
+        c.fillStyle = 'rgba(255,255,255,0.08)'; c.fillRect(px + 3, py + 2, T - 10, 1);
         break;
       case 'vault':
         c.fillStyle = 'rgba(40,50,70,0.35)'; c.fillRect(px, py, T, 1); c.fillRect(px, py, 1, T);
@@ -750,6 +771,24 @@
     c.fillStyle = '#2E3647'; c.fillRect(cx - 22, cy - 6, 5, 4); c.fillRect(cx - 22, cy + 3, 5, 4);
     text(c, 'STU-004', 34, 9, 7, '#D8B664', 800);
     text(c, '🔒', w - 32, 14, 10, '#FFFFFF', 400);
+  };
+  P.courtseal = function (c, p) {
+    var w = p.w * T, cx = w / 2, ar = PD.lang === 'ar';
+    fillRR(c, 6, 1, w - 12, 27, 4, '#21076C');
+    rr(c, 8, 3, w - 16, 23, 3); c.strokeStyle = '#D8B664'; c.lineWidth = 1.5; c.stroke();
+    // scales of justice
+    circle(c, cx, 14.5, 11.5, p.color);
+    c.strokeStyle = '#D8B664'; c.lineWidth = 1.6; c.lineCap = 'round'; c.beginPath();
+    c.moveTo(cx, 6); c.lineTo(cx, 21); c.moveTo(cx - 5, 21.5); c.lineTo(cx + 5, 21.5); c.moveTo(cx - 7, 9); c.lineTo(cx + 7, 9);
+    c.moveTo(cx - 7, 9); c.lineTo(cx - 9.5, 15); c.moveTo(cx - 7, 9); c.lineTo(cx - 4.5, 15);
+    c.moveTo(cx + 7, 9); c.lineTo(cx + 4.5, 15); c.moveTo(cx + 7, 9); c.lineTo(cx + 9.5, 15);
+    c.stroke();
+    c.fillStyle = '#D8B664';
+    c.beginPath(); c.arc(cx - 7, 15, 3, 0, Math.PI); c.fill();
+    c.beginPath(); c.arc(cx + 7, 15, 3, 0, Math.PI); c.fill();
+    // "Myth | Court", read in each language's direction
+    text(c, ar ? 'الخرافات' : 'MYTH', (10 + cx - 13) / 2, 14.5, 9, '#FFFFFF', 800, 'center', cx - 26);
+    text(c, ar ? 'محكمة' : 'COURT', (cx + 13 + w - 10) / 2, 14.5, 9, '#FFFFFF', 800, 'center', cx - 26);
   };
   P.doorsign = function (c, p) {
     var w = p.w * T, q = p.quest;
@@ -1276,10 +1315,56 @@
     }
   };
 
+  P.judgebench = function (c, p) {
+    var w = p.w * T;
+    shadow(c, w / 2, T - 2, w / 2, 5, 0.22);
+    fillRR(c, 0, -18, w, 46, 4, '#6B4226');
+    c.fillStyle = p.color; c.fillRect(0, 21, w, 3);
+    for (var i = 0; i < p.w; i++) { rr(c, i * T + 5, -11, T - 10, 30, 3); c.strokeStyle = 'rgba(0,0,0,0.22)'; c.lineWidth = 1.2; c.stroke(); }
+    fillRR(c, -2, -23, w + 4, 8, 3, '#8A5A34');
+    c.fillStyle = 'rgba(255,255,255,0.15)'; c.fillRect(2, -22, w - 4, 1.5);
+    fillRR(c, w / 2 - 27, -9, 54, 11, 2, '#D8B664');
+    text(c, PD.lang === 'ar' ? 'القاضي ليو' : 'JUDGE LEO', w / 2, -3.5, 6.5, '#21076C', 800, 'center', 50);
+    // papers, block and gavel
+    c.fillStyle = '#FFFFFF'; c.fillRect(12, -28, 18, 6); c.fillStyle = '#C8C3D6'; c.fillRect(14, -26.5, 11, 1); c.fillRect(14, -24.5, 8, 1);
+    fillRR(c, w - 32, -28, 16, 5, 2, '#5A3A20');
+    c.save(); c.translate(w - 21, -33); c.rotate(-0.5);
+    c.fillStyle = '#5A3A20'; c.fillRect(-1.2, 2, 2.4, 11);
+    fillRR(c, -7, -3.5, 14, 7, 2, '#8A5A34'); c.fillStyle = '#D8B664'; c.fillRect(-7, -3.5, 2, 7); c.fillRect(5, -3.5, 2, 7);
+    c.restore();
+  };
+  P.witness = function (c, p) {
+    shadow(c, 16, 29, 14, 4, 0.2);
+    fillRR(c, 2, -6, 28, 34, 3, '#7A4B2A');
+    rr(c, 6, 0, 20, 22, 2); c.strokeStyle = 'rgba(0,0,0,0.22)'; c.lineWidth = 1.2; c.stroke();
+    fillRR(c, 0, -10, 32, 6, 2, '#8A5A34');
+    c.strokeStyle = '#3B3550'; c.lineWidth = 1.6; c.lineCap = 'round';
+    c.beginPath(); c.moveTo(23, -10); c.lineTo(23, -18); c.lineTo(19, -21); c.stroke();
+    fillRR(c, 14, -26, 7, 7, 3.5, '#3B3550');
+  };
+  P.detector = function (c, p, now) {
+    var y0 = -p.top * T, H = (p.top + 1) * T, on = Math.sin((now || 0) / 150) > 0;
+    shadow(c, 16, 29, 13, 4, 0.25);
+    c.strokeStyle = '#6E6A80'; c.lineWidth = 1.5; c.beginPath(); c.moveTo(16, y0 + 8); c.lineTo(16, y0 + 2); c.stroke();
+    circle(c, 16, y0 + 2, 2.8, on ? '#FF4D4D' : '#7A2A2A');
+    fillRR(c, 3, y0 + 7, 26, H - 9, 4, '#C9D2E0');
+    fillRR(c, 3, y0 + 7, 26, 5, 3, '#AEB8C8');
+    fillRR(c, 6, y0 + 14, 20, 15, 2, '#1C1440');
+    text(c, '98%', 16, y0 + 19.5, 7, on ? '#FF6B6B' : '#E5533A', 800);
+    text(c, 'AI', 16, y0 + 25.5, 5.5, '#D8B664', 800);
+    circle(c, 11, y0 + 35, 3.5, '#8D98AB');
+    c.strokeStyle = '#21076C'; c.lineWidth = 1.2; c.beginPath(); c.moveTo(11, y0 + 35); c.lineTo(13, y0 + 32.5); c.stroke();
+    circle(c, 20, y0 + 35, 1.8, '#2E9E6B'); circle(c, 25, y0 + 35, 1.8, '#E5533A');
+    text(c, 'AI DETECTOR', 16, y0 + 43, 4.2, '#21076C', 800, 'center', 24);
+    // a fresh accusation printing out
+    c.fillStyle = '#FFFFFF'; c.fillRect(9, y0 + 48, 14, 8);
+    c.fillStyle = '#E5533A'; c.fillRect(11, y0 + 50, 10, 1.2); c.fillRect(11, y0 + 52.5, 7, 1.2);
+  };
+
   /* Which props need redrawing every frame */
   var DYNAMIC = { kiosk: 1, trophycase: 1, questboard: 1, server: 1, coffee: 1, flag: 1, clock: 1 };
   /* Minimum art height above the footprint (tiles) and side padding for cached sprites */
-  var KIND_TOP = { sofa: 0.4, table: 0.3, desk: 0.9, reception: 1.1, coffeetable: 0.1, lostfound: 0.1, counter: 0.75, bell: 0.3, palm: 3.4, bush: 0.1, roomsign: 0.9, plant: 0.5, globe: 0.5, chair: 0, armchair: 0.25, easel: 1.1, popcorn: 0.85, filmreel: 0.45, mic: 0.6, bleachers: 0.4, seats: 0.2, cooler: 1.1, copier: 0.75 };
+  var KIND_TOP = { judgebench: 1.1, witness: 0.8, detector: 1.3, sofa: 0.4, table: 0.3, desk: 0.9, reception: 1.1, coffeetable: 0.1, lostfound: 0.1, counter: 0.75, bell: 0.3, palm: 3.4, bush: 0.1, roomsign: 0.9, plant: 0.5, globe: 0.5, chair: 0, armchair: 0.25, easel: 1.1, popcorn: 0.85, filmreel: 0.45, mic: 0.6, bleachers: 0.4, seats: 0.2, cooler: 1.1, copier: 0.75 };
   var KIND_PAD = { palm: 1.1, stanchion: 1.8, sofa: 0.3 };
 
   PD.world = {
