@@ -65,7 +65,7 @@ GL.ar({
   // Prompt recipe
   'Prompt recipe · change the words in [brackets]': 'وصفة الطلب · غيّر الكلمات بين [القوسين]',
   'Make a single self-contained HTML file: a [sorting game / quiz / matching game / flashcards] for Grade [X] [subject] called "[title]". [Say what students do, one step at a time.] After each answer, explain in one sentence why. Show a score and a Play again button at the end. Clear, simple English for EAL learners, big buttons that work on a laptop, iPad or phone, no external images or links.':
-    'اصنع ملف HTML واحداً مستقلاً بذاته (a single self-contained HTML file): [لعبة تصنيف / اختبار / لعبة مطابقة / بطاقات تعليمية] للصف [X] في مادة [المادة] بعنوان «[العنوان]». [اشرح ما يفعله الطلاب خطوة بخطوة.] بعد كل إجابة، اشرح السبب في جملة واحدة. اعرض النتيجة وزر «العب مرة أخرى» في النهاية. استخدم [لغة إنجليزية واضحة وبسيطة تناسب متعلمي الإنجليزية لغةً إضافية / لغة عربية فصحى واضحة وبسيطة مع واجهة من اليمين إلى اليسار (RTL)]، مع أزرار كبيرة تعمل على الحاسوب المحمول والآيباد والهاتف، ومن دون صور أو روابط خارجية.',
+    'اصنع ملف HTML واحداً مستقلاً بذاته <bdi>(a single self-contained HTML file)</bdi>: [لعبة تصنيف / اختبار / لعبة مطابقة / بطاقات تعليمية] للصف [X] في مادة [المادة] بعنوان «[العنوان]». [اشرح ما يفعله الطلاب خطوة بخطوة.] بعد كل إجابة، اشرح السبب في جملة واحدة. اعرض النتيجة وزر «العب مرة أخرى» في النهاية. استخدم [لغة إنجليزية واضحة وبسيطة تناسب متعلمي الإنجليزية لغةً إضافية / لغة عربية فصحى واضحة وبسيطة مع واجهة من اليمين إلى اليسار (RTL)]، مع أزرار كبيرة تعمل على الحاسوب المحمول والآيباد والهاتف، ومن دون صور أو روابط خارجية.',
   'Copy the recipe': 'انسخ الوصفة',
 
   // Part 1 steps
@@ -83,7 +83,7 @@ GL.ar({
     'انسخ وصفة الطلب أعلاه، والصقها في مربع الكتابة، وغيّر الكلمات بين القوسين. ثم انقر سهم الإرسال.',
   'Two phrases do the heavy lifting:': 'عبارتان تقومان بالعمل الأهم:',
   '<b>"a single self-contained HTML file"</b> puts everything in one file, which is exactly what the Hub needs.':
-    'عبارة <b>«ملف HTML واحد مستقل بذاته»</b> (a single self-contained HTML file) تضع كل شيء في ملف واحد، وهذا بالضبط ما تحتاجه المنصة.',
+    'عبارة <b>«ملف HTML واحداً مستقلاً بذاته»</b> <bdi>(a single self-contained HTML file)</bdi> تضع كل شيء في ملف واحد، وهذا بالضبط ما تحتاجه المنصة.',
   '<b>"big buttons that work on a laptop, iPad or phone"</b> makes it easy to use on student devices.':
     'عبارة <b>«أزرار كبيرة تعمل على الحاسوب المحمول والآيباد والهاتف»</b> تجعل استخدامه سهلاً على أجهزة الطلاب.',
   '<b>Be specific about content.</b> Say how many questions, the grade, and where your students live. Our prompt asked for examples a teenager in the UAE would hear.':
@@ -158,7 +158,7 @@ GL.ar({
     'انتقل إلى تبويب <b>منصة الأنشطة</b>. انقر داخل <span class="ui">Paste your HTML here</span> واضغط <b dir="ltr">⌘V</b>، أو انقر زر <span class="ui">Paste</span>.',
   'The preview on the right starts running straight away.': 'تبدأ المعاينة على اليمين بالعمل فوراً.',
   '<b>Downloaded the file instead?</b> Click <span class="ui">Upload file</span> and choose the .html file. Copied some of Gemini\'s chat along with the code? That\'s fine, the Hub tidies it up.':
-    '<b>نزّلت الملف بدلاً من ذلك؟</b> انقر <span class="ui">Upload file</span> واختر ملف <span dir="ltr">.html</span>. نسخت جزءاً من محادثة Gemini مع الشيفرة؟ لا بأس، فالمنصة ترتّبها.',
+    '<b>نزّلت الملف بدلاً من ذلك؟</b> انقر <span class="ui">Upload file</span> واختر ملف HTML الذي نزّلته. نسخت جزءاً من محادثة Gemini مع الشيفرة؟ لا بأس، فالمنصة ترتّبها.',
   'Check the preview': 'راجع المعاينة',
   'Use the icons above the preview to see it at <b>desktop</b>, <b>tablet</b> and <b>phone</b> size. Play a few questions in phone view: that\'s how it looks when students scan the QR code.':
     'استخدم الأيقونات فوق المعاينة لترى النشاط بحجم <b>الحاسوب</b> و<b>الجهاز اللوحي</b> و<b>الهاتف</b>. العب بضعة أسئلة في عرض الهاتف، فهكذا يبدو النشاط عندما يمسح الطلاب رمز QR.',
