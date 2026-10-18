@@ -1,16 +1,19 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI PD Stations</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--purple:#21076C;--gold:#D8B664;--bg:#fff;--ink:#1A1A1A;--muted:#555;--line:#C8BEE8;--tint:#F2EFFA;--heading:#21076C}
 @media (prefers-color-scheme:dark){:root{--bg:#0E0920;--ink:#ECE9F7;--muted:#ABA4C8;--line:#3A2F6B;--tint:#1C1540;--heading:#CFC4FF}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 'DM Sans',system-ui,sans-serif}
 header{background:var(--purple);color:#fff;padding:36px 16px}
 .wrap{max-width:900px;margin:0 auto;padding:0 16px}
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.top .gl-switch{margin-inline-start:auto}
 .mark{color:var(--gold);font-weight:700;letter-spacing:.08em}
 h1{margin:8px 0 6px;font-size:clamp(2rem,6vw,2.8rem);line-height:1.1}
 header p{margin:0;color:#E4DEFA}
+header p a{color:var(--gold);font-weight:700}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:28px auto 48px}
 a.card{display:grid;gap:6px;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:18px;background:var(--bg)}
 a.card:hover{border-color:var(--heading);background:var(--tint)}
@@ -18,8 +21,11 @@ a.card:hover{border-color:var(--heading);background:var(--tint)}
 @media (prefers-color-scheme:dark){.n{color:#E6C97E}}
 a.card b{color:var(--heading);font-size:1.15rem}
 a.card span:last-child{color:var(--muted);font-size:.92rem}
-</style></head><body>
-<header><div class="wrap"><span class="mark">AISA</span><h1>AI PD Stations</h1><p>PD days, 19–20 October 2026. Open a station to start, or <a href="index.html" style="color:var(--gold);font-weight:700">play pD-Day 2026</a>.</p></div></header>
+</style>
+<link rel="stylesheet" href="shared/guide-lang.css?v=20261018b">
+<script src="shared/guide-lang.js?v=20261018b"></script>
+</head><body>
+<header><div class="wrap"><div class="top"><span class="mark">AISA</span></div><h1>AI PD Stations</h1><p>PD days, 19–20 October 2026. Open a station to start, or <a href="index.html">play pD-Day 2026</a>.</p></div></header>
 <main class="wrap grid">
 <a class="card" href="Station-1-Differentiation/index.html"><span class="n">Station 1</span><b>Differentiation &amp; Scaffolding</b><span>Re-level text, translate and vocabulary lists in the Classroom Gemini tab.</span></a>
 <a class="card" href="Station-2-Lesson-Decks/index.html"><span class="n">Station 2</span><b>Polished Lesson Decks, Fast</b><span>Three routes to a Google Slides deck with Gemini.</span></a>
@@ -27,4 +33,31 @@ a.card span:last-child{color:var(--muted);font-size:.92rem}
 <a class="card" href="Station-4-Lesson-Video/index.html"><span class="n">Station 4</span><b>Turn Your Slides into a Video</b><span>Google Vids: script, voices, language and music.</span></a>
 <a class="card" href="Station-5-Coding-Activities/index.html"><span class="n">Station 5</span><b>Code Your Own Class Activities</b><span>Gemini Canvas to the AISA Activity Hub: link, QR code and Classroom.</span></a>
 <a class="card" href="https://aisa-ai-web.github.io/data-anonymizer/"><span class="n">Station 6</span><b>Student Data Anonymizer</b><span>Use AI with student data without the AI ever seeing who the students are.</span></a>
-</main></body></html>
+</main>
+<script>
+// This page in Arabic (how it works: shared/guide-lang.js)
+GL.ar({
+  'AI PD Stations': 'محطات التطوير المهني في الذكاء الاصطناعي',
+  'PD days, 19–20 October 2026. Open a station to start, or <a href="index.html">play pD-Day 2026</a>.':
+    'يوما التطوير المهني، 19–20 أكتوبر 2026. افتح محطة لتبدأ، أو <a href="index.html">العب pD-Day 2026</a>.',
+  'Station 1': 'المحطة 1',
+  'Station 2': 'المحطة 2',
+  'Station 3': 'المحطة 3',
+  'Station 4': 'المحطة 4',
+  'Station 5': 'المحطة 5',
+  'Station 6': 'المحطة 6',
+  'Differentiation &amp; Scaffolding': 'التمايز والدعم التدريجي',
+  'Re-level text, translate and vocabulary lists in the Classroom Gemini tab.': 'إعادة ضبط مستوى النص والترجمة وقوائم المفردات في تبويب Gemini في Classroom.',
+  'Polished Lesson Decks, Fast': 'عروض دروس متقنة… بسرعة',
+  'Three routes to a Google Slides deck with Gemini.': 'ثلاث طرق للوصول إلى عرض Google Slides مع Gemini.',
+  'Engagement &amp; Active Participation': 'التفاعل والمشاركة النشطة',
+  'A lesson hook and a choice board for Grade 8 science.': 'افتتاحية مشوّقة للدرس ولوحة خيارات لمادة العلوم في الصف 8.',
+  'Turn Your Slides into a Video': 'حوّل شرائحك إلى فيديو',
+  'Google Vids: script, voices, language and music.': 'Google Vids: النص والأصوات واللغة والموسيقى.',
+  'Code Your Own Class Activities': 'برمج أنشطة صفّك بنفسك',
+  'Gemini Canvas to the AISA Activity Hub: link, QR code and Classroom.': 'من Gemini Canvas إلى منصة أنشطة AISA: رابط ورمز QR وزر Classroom.',
+  'Student Data Anonymizer': 'أداة إخفاء هوية بيانات الطلاب',
+  'Use AI with student data without the AI ever seeing who the students are.': 'استخدم الذكاء الاصطناعي مع بيانات الطلاب من دون أن يعرف هويتهم أبداً.'
+});
+</script>
+</body></html>
