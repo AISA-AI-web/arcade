@@ -305,9 +305,9 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
       </li>
       <li class="step">
         <div>
-          <div class="mock" role="img" aria-label="Animation: Canvas is selected, the prompt is typed into the Gemini chat box and the send button is clicked">
-            <span class="mlab" id="glab">Canvas on</span>
-            <div class="gbox">
+          <div class="mock" dir="ltr" role="img" aria-label="Animation: Canvas is selected, the prompt is typed into the Gemini chat box and the send button is clicked">
+            <span class="mlab" id="glab" dir="auto">Canvas on</span>
+            <div class="gbox" translate="no">
               <div class="gtext" id="gtext"><span class="ph">Ask Gemini</span></div>
               <div class="grow"><span class="gplus" aria-hidden="true">+</span><span class="gchip" id="gchip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="7" y="7" width="13" height="13" rx="2"/><path d="M4 16V5a1 1 0 0 1 1-1h11"/></svg>Canvas</span><span class="gsend" id="gsend" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span></div>
             </div>
@@ -546,14 +546,16 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
     var cap=document.createElement('span'); cap.className='fcap'; cap.setAttribute('aria-live','polite');
     var ctl=document.createElement('span'); ctl.className='fctl';
     function mk(t,l){var b=document.createElement('button');b.type='button';b.textContent=t;b.setAttribute('aria-label',l);ctl.appendChild(b);return b}
-    var prev=mk('‹','Previous frame'), pp=mk(paused?'Play':'Pause','Play or pause'), next=mk('›','Next frame');
+    var PLAY=GL.t('Play','تشغيل'), PAUSE=GL.t('Pause','إيقاف مؤقت');
+    // The control row is mirrored in Arabic, so the arrows swap too
+    var prev=mk(GL.t('‹','›'),GL.t('Previous frame','الإطار السابق')), pp=mk(paused?PLAY:PAUSE,GL.t('Play or pause','تشغيل أو إيقاف مؤقت')), next=mk(GL.t('›','‹'),GL.t('Next frame','الإطار التالي'));
     fb.append(num,cap,ctl); f.append(prog,fb);
     function show(k){ i=(k+imgs.length)%imgs.length; imgs.forEach(function(im,n){im.classList.toggle('on',n===i)}); num.textContent=i+1; cap.textContent=imgs[i].dataset.cap||''; run(); }
     function run(){ clearTimeout(timer); bar.classList.remove('run'); bar.style.transitionDuration='0ms'; bar.style.width='0';
       if(paused||hover) return; void bar.offsetWidth; bar.classList.add('run'); bar.style.transitionDuration=ms+'ms'; bar.style.width='100%';
       timer=setTimeout(function(){show(i+1)},ms); }
     prev.onclick=function(){show(i-1)}; next.onclick=function(){show(i+1)};
-    pp.onclick=function(){paused=!paused; pp.textContent=paused?'Play':'Pause'; run();};
+    pp.onclick=function(){paused=!paused; pp.textContent=paused?PLAY:PAUSE; run();};
     f.addEventListener('mouseenter',function(){hover=true;run()}); f.addEventListener('mouseleave',function(){hover=false;run()});
     stage.addEventListener('click',function(){var lb=document.getElementById('lb'),li=document.getElementById('lbimg');li.src=imgs[i].src;li.alt=imgs[i].alt;lb.hidden=false;document.getElementById('lbclose').focus();});
     show(0);
@@ -564,8 +566,9 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
   var b=document.getElementById('copyRules'), msg=document.getElementById('copiedMsg'), t=document.getElementById('rulesText');
   function selectText(){var r=document.createRange();r.selectNodeContents(t);var s=window.getSelection();s.removeAllRanges();s.addRange(r);}
   b.addEventListener('click',function(){
-    try{ navigator.clipboard.writeText(t.textContent).then(function(){msg.textContent='Copied. Paste it into Gemini.';},function(){selectText();msg.textContent='Selected. Press ⌘C to copy.';}); }
-    catch(e){selectText();msg.textContent='Selected. Press ⌘C to copy.';}
+    var COPIED=GL.t('Copied. Paste it into Gemini.','تم النسخ. الصقها في Gemini.'), SELECTED=GL.t('Selected. Press ⌘C to copy.','تم التحديد. اضغط \u200E⌘C للنسخ.');
+    try{ navigator.clipboard.writeText(t.textContent).then(function(){msg.textContent=COPIED;},function(){selectText();msg.textContent=SELECTED;}); }
+    catch(e){selectText();msg.textContent=SELECTED;}
   });
 })();
 // Option A / B chooser jumps to that step
@@ -584,13 +587,13 @@ function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
 (function(){
   var t=document.getElementById('gtext'), lab=document.getElementById('glab'), chip=document.getElementById('gchip'), send=document.getElementById('gsend'); if(!t) return;
   var P='Make a single self-contained HTML file: a sorting game for Grade 10 English called "Ethos, Pathos or Logos?". Show 10 short persuasive lines one at a time (examples a teenager would hear, suitable for a school in the UAE). Students tap Ethos, Pathos or Logos. After each answer, explain in one sentence why. Show a score and a Play again button at the end. Clear, simple English for EAL learners, big buttons that work on a Chromebook or phone, no external images or links.';
-  if(REDUCE){ t.textContent=P; t.style.height='auto'; chip.classList.add('on'); send.classList.add('ready'); lab.textContent='Canvas on, prompt ready'; return; }
+  if(REDUCE){ t.textContent=P; t.style.height='auto'; chip.classList.add('on'); send.classList.add('ready'); lab.textContent=GL.t('Canvas on, prompt ready','Canvas مفعّل، والطلب جاهز'); return; }
   (async function loop(){ for(;;){
     t.innerHTML='<span class="ph">Ask Gemini</span>'; chip.className='gchip'; send.className='gsend'; lab.textContent='+ › More tools › Canvas';
-    await wait(1200); chip.className='gchip on hl'; lab.textContent='Canvas on'; await wait(1200); chip.className='gchip on';
-    lab.textContent='Type your prompt';
+    await wait(1200); chip.className='gchip on hl'; lab.textContent=GL.t('Canvas on','Canvas مفعّل'); await wait(1200); chip.className='gchip on';
+    lab.textContent=GL.t('Type your prompt','اكتب طلبك');
     for(var k=2;k<=P.length;k+=2){ t.innerHTML=esc(P.slice(0,k))+'<span class="caret"></span>'; t.scrollTop=t.scrollHeight; await wait(22); }
-    send.className='gsend ready hl'; lab.textContent='Send'; await wait(2600);
+    send.className='gsend ready hl'; lab.textContent=GL.t('Send','أرسل'); await wait(2600);
   }})();
 })();
 // Option B mock (Gemini tab): click in the code, Cmd+A, Cmd+C

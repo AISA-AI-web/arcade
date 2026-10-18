@@ -160,6 +160,8 @@ footer{padding-block:40px 56px;color:var(--muted);font-size:.85rem}
 .tsend{margin-left:auto;width:30px;height:30px;border-radius:50%;background:var(--mock-send);display:grid;place-items:center;color:var(--mock-caret);font-weight:700}
 @keyframes blink{50%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.tcaret{animation:none}}
+/* Arabic page: an English example prompt inside a tip sits on its own left-aligned lines */
+html[dir="rtl"] .tip [dir="ltr"]{display:block;text-align:left}
 </style>
 
 <header class="band">

@@ -155,7 +155,7 @@ GL.ar({
   'Our demo:': 'مثالنا (كما كتبناه بالإنجليزية):',
   // The demo prompt stays in English: it has to start with "Create a presentation", as in the screenshot
   'Create a 10-slide presentation for a Grade 10 English lesson on persuasive speeches. Cover ethos, pathos and logos, and three rhetorical devices. Include a Do Now, a speech extract to annotate, a Think-Pair-Share task, a group evaluation task and an exit ticket.':
-    'Create a 10-slide presentation for a Grade 10 English lesson on persuasive speeches. Cover ethos, pathos and logos, and three rhetorical devices. Include a Do Now, a speech extract to annotate, a Think-Pair-Share task, a group evaluation task and an exit ticket.',
+    '<span dir="ltr">Create a 10-slide presentation for a Grade 10 English lesson on persuasive speeches. Cover ethos, pathos and logos, and three rhetorical devices. Include a Do Now, a speech extract to annotate, a Think-Pair-Share task, a group evaluation task and an exit ticket.</span>',
   'Answer Gemini\'s questions': 'أجب عن أسئلة Gemini',
   'Gemini asks about visual style, how much text you want, and the key learning goals. Pick your answers and click <span class="ui">Next</span>.':
     'يسأل Gemini عن النمط البصري، وكمية النص التي تريدها، وأهداف التعلم الرئيسية. اختر إجاباتك وانقر <span class="ui">Next</span>.',
