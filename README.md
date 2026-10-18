@@ -48,6 +48,7 @@ game/world.js       builds the school map and draws the rooms and furniture
 game/game.js        movement, Leo, quests, badges, sound, panels, language switching
 game/art.js         Leo's portraits, the badge emblems and the UI icons (SVG)
 game/styles.css     the interface (AISA brand: DM Sans / Cairo, #21076C, #D8B664)
+print/              the printouts: station labels and printed guides (see Printouts below)
 ```
 
 No build step and no libraries. It's static files, so GitHub Pages (or any web server) can host it as-is.
@@ -82,6 +83,32 @@ Copy one quest object in `PD.quests`, then:
 3. Point `dir` / `guide` at the station's folder, or set `guide` to a full URL.
 
 The school grows a new room automatically. Rooms fill the top row first, then the bottom row, so a 7th or 8th station adds a column.
+
+## Printouts
+
+Ready-to-print PDFs are in **`print/pdf/`**:
+
+| File | What it is | Print |
+|------|------------|-------|
+| `Station-Labels-A4.pdf` | One label per station table, English and Arabic side by side: what the station is, what teachers will do there, how long it takes, the game room and badge, and QR codes that open the guide in English or Arabic | A4 landscape, colour, one page per table, then laminate |
+| `Station-N-Guide-EN.pdf` | That station's full guide on paper, every step with its screenshots, in English | A4 portrait, colour, double-sided |
+| `Station-N-Guide-AR.pdf` | The same guide in Arabic | A4 portrait, colour, double-sided |
+
+Print at **100% / Actual size**, not "Fit to page", so the QR codes stay sharp. Each guide has a QR code on its first page that opens the online version, and the labels' QR codes open `https://aisa-ai-web.github.io/arcade/…`, so GitHub Pages must be switched on (see below). Scan one before you print the full set.
+
+The printouts are made from the same files as the screens, so they never say anything different:
+
+- Stations 1–5 guides: each station's `index.html` and `ar.js`. `print/guide-print.css` and `print/guide-print.js` lay them out for A4: every step at once, flipbook frames side by side with their captions, no animations or buttons.
+- Labels (`print/labels.html`) and the Station 6 guide (`print/guide-6.html`): the quests in `game/content.js`. Station 6's own guide is the anonymizer's site, so its printed guide uses the game's missions.
+
+After changing a guide or `game/content.js`, make the PDFs again (needs Node, Playwright with Chromium, and the internet for the fonts):
+
+```
+node print/build.js            everything
+node print/build.js labels 3   only the labels and Station 3's guides
+```
+
+The web addresses behind the QR codes are in `print/stations.js`. If they change, run `npm install --no-save qrcode && node print/make-qr.js` to remake the codes in `print/qr/`.
 
 ## Publishing on GitHub Pages
 

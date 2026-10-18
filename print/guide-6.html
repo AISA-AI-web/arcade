@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Station 6 Guide · pD-Day 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Cairo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* The printed guide for Station 6 (Student Data Anonymizer), in English or Arabic (?lang=ar).
+   That station's own guide is the anonymizer's site, so this page is made from the
+   Station 6 quest in game/content.js. PDF: node print/build.js 6 */
+@page {
+  size: A4 portrait;
+  margin: 12mm 13mm 14mm;
+  @bottom-center { content: counter(page) " / " counter(pages); font: 8pt 'DM Sans', sans-serif; color: #555; }
+}
+:root {
+  --purple: #21076C; --gold: #D8B664; --gold-ink: #7A5C14; --ink: #1A1A1A; --muted: #555555;
+  --tint: #F2EFFA; --line: #C8BEE8; --heading: #21076C;
+  --font: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+}
+html[lang="ar"] { --font: 'Cairo', 'DM Sans', ui-sans-serif, system-ui, sans-serif; }
+* { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body { margin: 0; background: #fff; }
+body { color: var(--ink); font: 10pt/1.45 var(--font); }
+html[lang="ar"] body { line-height: 1.6; }
+html[lang="ar"] body * { letter-spacing: normal !important; }
+@media screen { body { max-width: 184mm; margin: 12mm auto; } }
+h1, h2, h3 { margin: 0; color: var(--heading); font-weight: 700; }
+p { margin: 0; }
+ul, ol { margin: 0; padding-inline-start: 1.2em; }
+.ui { font-weight: 700; color: var(--heading); unicode-bidi: isolate; }
+.eyebrow { font-size: 8pt; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-ink); }
+
+.band { background: var(--purple); color: #fff; border-radius: 8px; padding: 7mm 8mm 7.5mm; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7mm; align-items: center; }
+.band > div:first-child { display: grid; gap: 2.5mm; }
+.top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.mark { font-weight: 700; letter-spacing: .08em; color: var(--gold); }
+.sign { margin-inline-start: auto; border: 1px solid rgba(216, 182, 100, .6); color: var(--gold); border-radius: 999px; padding: 1mm 3mm; font-size: 7.5pt; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.band h1 { color: #fff; font-size: 25pt; line-height: 1.08; }
+html[lang="ar"] .band h1 { line-height: 1.35; }
+.lede { font-size: 10.5pt; color: #E4DEFA; }
+.meta { display: flex; gap: 2mm 6mm; flex-wrap: wrap; font-size: 9pt; color: #CFC6F2; }
+.meta b { color: var(--gold); }
+.qr { display: grid; justify-items: center; gap: 1.5mm; background: #fff; border-radius: 6px; padding: 2.5mm 2.5mm 2mm; width: 31mm; text-align: center; }
+.qr img { width: 26mm; height: 26mm; display: block; }
+.qr span { font-size: 7pt; line-height: 1.25; color: var(--purple); font-weight: 700; }
+
+.card { border: 1px solid var(--line); border-radius: 8px; padding: 4mm 5mm; display: grid; gap: 2mm; margin-top: 4mm; break-inside: avoid; }
+.card li { font-size: 9.8pt; }
+.card ol, .card ul { display: grid; gap: 1mm; }
+
+section { margin-top: 7mm; }
+section > h2 { font-size: 16pt; margin-top: 1mm; break-after: avoid; }
+.intro { font-size: 9.5pt; margin-top: 1.5mm; }
+.steps { list-style: none; padding: 0; margin: 2mm 0 0; }
+.step { display: grid; grid-template-columns: 9mm minmax(0, 1fr); gap: 4mm; padding: 3.5mm 0; border-top: 1px solid var(--line); break-inside: avoid; }
+.num { width: 7.5mm; height: 7.5mm; border-radius: 50%; background: var(--purple); color: #fff; font-weight: 700; font-size: 10pt; display: grid; place-items: center; }
+.step h3 { font-size: 12pt; }
+.step .goal { margin-top: 1mm; font-size: 9.8pt; font-weight: 500; }
+.step ul { margin-top: 1.8mm; display: grid; gap: 1.2mm; }
+.step li { font-size: 9.5pt; }
+
+.tip { border-inline-start: 3px solid var(--gold); background: var(--tint); padding: 2.5mm 3.5mm; border-start-end-radius: 8px; border-end-end-radius: 8px; font-size: 9.5pt; margin-top: 4mm; break-inside: avoid; }
+.tip b { color: var(--heading); }
+.checks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3mm; margin-top: 3mm; }
+.check { border: 1px solid var(--line); border-radius: 8px; padding: 3mm 4mm; font-size: 9pt; break-inside: avoid; }
+.links { margin-top: 4mm; border-top: 1px solid var(--line); break-inside: avoid; }
+.links div { display: flex; justify-content: space-between; gap: 4mm; padding: 1.8mm 1mm; border-bottom: 1px solid var(--line); font-size: 9pt; }
+.links div span:first-child { font-weight: 700; color: var(--heading); }
+.links div span:last-child { color: var(--muted); direction: ltr; unicode-bidi: isolate; }
+footer { padding-top: 6mm; font-size: 8pt; color: var(--muted); }
+</style>
+</head>
+<body>
+<div id="guide"></div>
+
+<script src="../game/content.js?v=20261018d"></script>
+<script src="stations.js"></script>
+<script>
+(function () {
+  'use strict';
+  var lang = /[?&]lang=ar\b/.test(location.search) ? 'ar' : 'en';
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+  // Words on this page that aren't in game/content.js
+  var L = {
+    sign: { en: 'AI PD Stations · Station 6', ar: 'محطات الذكاء الاصطناعي · المحطة 6' },
+    time: { en: 'Time', ar: 'الوقت' },
+    tools: { en: 'Tools', ar: 'الأدوات' },
+    scan: { en: 'Scan to open the tool', ar: 'امسح الرمز لفتح الأداة' },
+    kit: { en: 'Before you start', ar: 'قبل أن تبدأ' },
+    missions: { en: 'Your missions', ar: 'تحدياتك' },
+    missionsIntro: { en: 'Practise with the made-up class first, and do the missions in order.', ar: 'تدرّب أولاً على الصف الوهمي، وأنجز التحديات بالترتيب.' },
+    coop: { en: 'With your table', ar: 'مع طاولتك' },
+    remember: { en: 'Remember', ar: 'تذكّر' },
+    rememberTitle: { en: 'Keep the names safe', ar: 'حافظ على الأسماء' },
+    links: { en: 'Links', ar: 'الروابط' },
+    footer: { en: 'AISA · AI & Innovation · AI PD Stations. The tool also has its own video tutorial and user guide (PDF).', ar: 'AISA · الذكاء الاصطناعي والابتكار · محطات التطوير المهني في الذكاء الاصطناعي. للأداة أيضاً فيديو تعليمي ودليل استخدام (PDF) خاصّان بها.' }
+  };
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function t(o) { return o[lang] || o.en; }
+  // **Button names** become highlighted labels, as in the game
+  function rich(o) { return esc(t(o)).replace(/\*\*(.+?)\*\*/g, '<span class="ui">$1</span>'); }
+
+  var q = PD.quests.filter(function (x) { return x.station === 6; })[0];
+  var s = PRINT_STATIONS.STATIONS[5];
+  document.title = t(q.title) + ' · pD-Day 2026';
+
+  var h = '';
+  h += '<header class="band"><div>' +
+    '<div class="top"><span class="mark">AISA</span><span class="sign">' + esc(t(L.sign)) + '</span></div>' +
+    '<h1>' + esc(t(q.title)) + '</h1>' +
+    '<p class="lede">' + rich(q.tagline) + ' ' + rich(q.briefing[1]) + '</p>' +
+    '<div class="meta"><span><b>' + esc(t(L.time)) + '</b> ' + esc(t(q.time)) + '</span><span><b>' + esc(t(L.tools)) + '</b> ' + rich(q.tools) + '</span></div>' +
+    '</div><div class="qr"><img src="qr/station-6-' + lang + '.svg" alt=""><span>' + esc(t(L.scan)) + '</span></div></header>';
+
+  h += '<div class="card"><span class="eyebrow">' + esc(t(L.kit)) + '</span><ol>' +
+    q.kit.map(function (k) { return '<li>' + rich(k) + '</li>'; }).join('') + '</ol></div>';
+
+  h += '<section><h2>' + esc(t(L.missions)) + '</h2>' +
+    '<p class="intro">' + esc(t(L.missionsIntro)) + '</p><ol class="steps">' +
+    q.missions.map(function (m, i) {
+      return '<li class="step"><span class="num">' + (i + 1) + '</span><div>' +
+        '<h3>' + rich(m.title) + '</h3><p class="goal">' + rich(m.goal) + '</p>' +
+        '<ul>' + m.how.map(function (x) { return '<li>' + rich(x) + '</li>'; }).join('') + '</ul></div></li>';
+    }).join('') + '</ol>' +
+    '<div class="tip"><b>' + esc(t(L.coop)) + '.</b> ' + rich(q.coop) + '</div></section>';
+
+  // The points behind Leo's quiz, as plain statements
+  h += '<section><span class="eyebrow">' + esc(t(L.remember)) + '</span><h2>' + esc(t(L.rememberTitle)) + '</h2><div class="checks">' +
+    q.quiz.map(function (x) { return '<div class="check">' + rich(x.why) + '</div>'; }).join('') + '</div>' +
+    '<div class="links">' + q.links.map(function (l) {
+      return '<div><span>' + esc(t(l.label)) + '</span><span>' + esc(l.url.replace(/^https?:\/\//, '').replace(/\/$/, '')) + '</span></div>';
+    }).join('') + '</div></section>';
+
+  h += '<footer>' + esc(t(L.footer)) + '</footer>';
+  document.getElementById('guide').innerHTML = h;
+})();
+</script>
+</body>
+</html>

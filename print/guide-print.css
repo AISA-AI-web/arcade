@@ -1,0 +1,113 @@
+/* =====================================================================
+   Printed station guides (A4)
+   ---------------------------------------------------------------------
+   print/build.js adds this file and guide-print.js to a station guide
+   (index.html in a Station folder, in English or Arabic) and saves it as a PDF.
+   The guide itself is unchanged: on paper every step is shown at once,
+   the screenshots sit beside the text, and the animations, buttons and
+   menus are left out.
+   ===================================================================== */
+@page {
+  size: A4 portrait;
+  margin: 12mm 13mm 14mm;
+  @bottom-center { content: counter(page) " / " counter(pages); font: 8pt 'DM Sans', sans-serif; color: #555; }
+}
+
+/* Light colours on paper, whatever the screen is set to */
+:root, :root[data-theme] {
+  --bg: #FFFFFF !important; --ink: #1A1A1A !important; --muted: #555555 !important; --tint: #F2EFFA !important;
+  --line: #C8BEE8 !important; --surface: #FFFFFF !important; --heading: #21076C !important; --gold-ink: #7A5C14 !important;
+  --shadow: none !important; color-scheme: light !important;
+}
+* { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body { background: #fff !important; }
+body { font-size: 10pt; line-height: 1.45; }
+html[lang="ar"] body { font-size: 10pt; line-height: 1.6; }
+.wrap { max-width: none !important; padding: 0 !important; margin: 0 !important; }
+
+/* Things that only work on screen */
+.nav, .sbar, .snav, .lb, .gl-switch, .btnrow, .toggle, .copied,
+.fbar, .fprog, .mock, .vmock, .typedemo, .chip:has(a), .route .go { display: none !important; }
+.step[hidden] { display: grid !important; }
+a { color: inherit; text-decoration: none; }
+
+/* Station band */
+.band { border-radius: 8px; }
+.band .wrap { padding: 7mm 8mm 7.5mm !important; gap: 2.5mm; }
+.band h1 { font-size: 25pt; }
+.band .lede { font-size: 10.5pt; max-width: none; }
+.band .meta { font-size: 9pt; }
+.pr-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7mm; align-items: center; }
+.pr-head > div { display: grid; gap: 2.5mm; }
+.pr-qr { display: grid; justify-items: center; gap: 1.5mm; background: #fff; border-radius: 6px; padding: 2.5mm 2.5mm 2mm; width: 31mm; text-align: center; }
+.pr-qr img { width: 26mm; height: 26mm; display: block; }
+.pr-qr span { font-size: 7pt; line-height: 1.25; color: #21076C; font-weight: 700; }
+
+/* Before you start */
+.quick { margin-top: 4mm !important; }
+.quick li { font-size: 9.8pt; }
+.quick .card { box-shadow: none !important; padding: 4mm 5mm !important; gap: 2mm !important; break-inside: avoid; }
+
+/* Sections and tools */
+section.tool, .sect { padding: 7mm 0 0 !important; }
+.toolhead { display: block !important; margin-bottom: 2mm !important; break-inside: avoid; break-after: avoid; }
+.toolhead > * + * { margin-top: 1.5mm; }
+.toolhead + .stepper, .stepper .step:first-child { break-before: avoid; }
+.toolhead h2, .sect h2 { font-size: 16pt !important; break-after: avoid; }
+.toolhead p.why { font-size: 9.5pt; max-width: none; }
+.chips { gap: 1.5mm; }
+.chip { font-size: 8pt; padding: 0.4mm 2.5mm; }
+.sect > h2 + * { margin-top: 3mm; }
+
+/* Steps: text first, screenshots beside it */
+.stepper { border: 0 !important; box-shadow: none !important; overflow: visible !important; border-radius: 0 !important; background: none !important; }
+.step {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr) !important;
+  gap: 6mm !important; padding: 3.5mm 0 !important;
+  border-top: 1px solid var(--line) !important; break-inside: avoid;
+}
+.step .txt { order: -1; gap: 1.8mm !important; }
+.step h3 { font-size: 11.5pt !important; }
+.txt p, .txt li { font-size: 9.5pt !important; }
+.num { width: 7mm !important; height: 7mm !important; font-size: 9.5pt !important; }
+.tip { font-size: 8.8pt !important; padding: 1.8mm 3mm !important; }
+.shot { margin: 0 !important; }
+.shot + .shot, .pr-frames + .shot, .shot + .pr-frames, .pr-frames + .pr-frames { margin-top: 2.5mm !important; }
+.shot button { cursor: default; border-radius: 5px !important; }
+.shot img { max-height: 72mm; width: auto !important; max-width: 100%; margin: 0 auto; object-fit: contain; }
+.shot figcaption { font-size: 7.8pt !important; margin-top: 1mm !important; }
+
+/* A step with two or more pictures: text across the top, pictures in a row below */
+.step.pr-wide { grid-template-columns: minmax(0, 1fr) !important; gap: 3mm !important; }
+.step.pr-wide > div:not(.txt) { display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); gap: 3mm; align-items: start; }
+.step.pr-wide > div:not(.txt) > * { margin: 0 !important; }
+.step.pr-wide .pr-frames { display: contents; }
+.step.pr-wide .shot img { max-height: 58mm; }
+.step.pr-wide[style*="--cols: 3"] .shot img { max-height: 46mm; }
+
+/* Flipbook frames, shown one after another */
+.pr-frames { display: grid; gap: 2.5mm; }
+.pr-frames figcaption b { color: var(--heading); }
+
+/* Routes, prompt recipe, ideas, checks */
+.routes { gap: 3mm !important; margin-top: 3mm !important; }
+.route { padding: 3mm 4mm !important; box-shadow: none !important; break-inside: avoid; }
+.route h3 { font-size: 11pt !important; }
+.route p { font-size: 9pt !important; }
+.rules, .gem { break-inside: avoid; box-shadow: none !important; margin-top: 3mm !important; padding: 3.5mm 4.5mm !important; }
+.rules code, .gem code { font-size: 9pt !important; white-space: pre-wrap; }
+.ideas { gap: 3mm !important; margin-top: 3mm !important; }
+.idea { padding: 3mm 4mm !important; break-inside: avoid; }
+.idea p { font-size: 8.8pt !important; }
+.challenge { margin-top: 7mm !important; padding: 5mm 6mm !important; gap: 2mm !important; break-inside: avoid; }
+.challenge h2 { font-size: 14pt !important; }
+.challenge ol { gap: 1mm !important; font-size: 9.5pt; }
+.checks { gap: 3mm !important; margin-top: 3mm !important; }
+.check { padding: 3mm 4mm !important; break-inside: avoid; }
+.check p { font-size: 8.8pt !important; }
+.links { margin-top: 4mm !important; break-inside: avoid; }
+.links a { padding: 1.8mm 1mm !important; font-size: 9pt; }
+.links a span:last-child { font-size: 8.3pt !important; }
+footer { padding: 6mm 0 0 !important; font-size: 8pt !important; }
+.shot:has(> .typedemo) { display: none !important; }
+.sect > .eyebrow, section.tool > .eyebrow { display: block; break-after: avoid; }
