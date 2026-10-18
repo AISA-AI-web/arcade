@@ -51,7 +51,7 @@ GL.ar({
   'Use the Gem →': 'استخدم الـ Gem ←',
 
   // Start B · the EduSim Gem
-  'Start B · AISA EduSim Gem': 'البداية B · AISA EduSim Gem',
+  'Start B · AISA EduSim Gem': 'البداية <bdi>B</bdi> · AISA EduSim Gem',
   'Let the Gem write the prompt for you': 'دع الـ Gem يكتب الطلب نيابةً عنك',
   'Open the <b>EduSim</b> Gem with your AISA account.': 'افتح <b>EduSim</b> Gem بحساب AISA.',
   'Type your grade, subject and topic. It\'s fine to say you\'re not sure where to start.':
@@ -313,7 +313,7 @@ GL.ar({
   'A question appears with Ethos, Pathos and Logos buttons.': 'يظهر سؤال مع أزرار Ethos وPathos وLogos.',
   'Answer it: you get Correct! and a one-sentence reason.': 'أجب عنه: تظهر لك Correct! وسبب من جملة واحدة.',
   'Click the share icon, then Copy contents.': 'انقر أيقونة المشاركة، ثم Copy contents.',
-  '“Copied to clipboard” appears at the bottom left.': 'تظهر «Copied to clipboard» أسفل اليسار.',
+  '“Copied to clipboard” appears at the bottom left.': 'تظهر رسالة Copied to clipboard أسفل اليسار.',
   'Click Code, then click inside the code.': 'انقر Code، ثم انقر داخل الشيفرة.',
   'Press ⌘A: all the code turns blue. Then press ⌘C.': 'اضغط \u200E⌘A: تتلوّن الشيفرة كلها بالأزرق. ثم اضغط \u200E⌘C.',
   'In the library, click Create an activity.': 'في المكتبة، انقر Create an activity.',
