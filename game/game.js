@@ -1241,6 +1241,14 @@
     var base = /^https?:/.test(g) ? g : withLang((q.dir || '') + g);
     return base + (anchor || '');
   }
+  // A site that remembers its own language (guideLangKey in content.js) opens in the game's language too
+  function langKeyAttr(q) { return q.guideLangKey ? ' data-langkey="' + esc(q.guideLangKey) + '"' : ''; }
+  ['click', 'auxclick'].forEach(function (ev) {
+    document.addEventListener(ev, function (e) {
+      var a = e.target.closest && e.target.closest('a[data-langkey]');
+      if (a) try { localStorage.setItem(a.getAttribute('data-langkey'), PD.lang); } catch (err) { }
+    }, true);
+  });
   function renderQuest(root, q) {
     var st = qs(q.id), tab = questTab[q.id] || 'briefing';
     var md = missionsDone(q), mt = q.missions.length, done = st.badge;
@@ -1273,13 +1281,13 @@
     h += '<section class="goto"><div class="goto-pin">' + (icon('pin') || '📍') + '<span>' + q.station + '</span></div><div class="goto-main">' +
       '<div class="eyebrow">' + uiH('station') + ' ' + q.station + '</div>' +
       '<h3>' + uiH('goTo', { n: q.station }) + '</h3><p>' + uiH('goToText', { n: q.station }) + '</p>' +
-      '<div class="btn-row"><a class="btn primary" href="' + esc(guideUrl(q)) + '" target="_blank" rel="noopener">' + (external && q.guideLabel ? esc(t(q.guideLabel)) : uiH('openGuide', { n: q.station })) + ' ' + icon('external') + '</a></div>' +
+      '<div class="btn-row"><a class="btn primary" href="' + esc(guideUrl(q)) + '"' + langKeyAttr(q) + ' target="_blank" rel="noopener">' + (external && q.guideLabel ? esc(t(q.guideLabel)) : uiH('openGuide', { n: q.station })) + ' ' + icon('external') + '</a></div>' +
       (external ? '' : '<p class="small muted">' + uiH('guideNote') + '</p>') + '</div></section>';
     h += '<div class="grid2"><section class="card"><h4>' + icon('check') + ' ' + uiH('kit') + '</h4><ul class="kit">' +
       q.kit.map(function (k) { return '<li>' + rich(k) + '</li>'; }).join('') + '</ul>' +
       (q.theme !== 'vault' ? '<p class="tip vault-tip">' + (icon('lock') || '🔒') + '<span>' + uiH('privacyTip') + '</span></p>' : '') + '</section>' +
       '<section class="card"><h4>' + icon('external') + ' ' + uiH('usefulLinks') + '</h4><div class="link-list">' +
-      q.links.map(function (l) { return '<a href="' + esc(l.url) + '" target="_blank" rel="noopener"><span>' + esc(t(l.label)) + '</span>' + icon('external') + '</a>'; }).join('') + '</div></section></div>';
+      q.links.map(function (l) { return '<a href="' + esc(l.url) + '"' + langKeyAttr(q) + ' target="_blank" rel="noopener"><span>' + esc(t(l.label)) + '</span>' + icon('external') + '</a>'; }).join('') + '</div></section></div>';
     if (q.copy) {
       h += '<section class="copybox"><div class="copybox-head"><span class="eyebrow">' + esc(t(q.copy.label)) + '</span><button class="btn small" data-copy type="button">' + icon('copy') + ' <span>' + uiH('copy') + '</span></button></div><p class="copytext">' + esc(t(q.copy.text)) + '</p></section>';
     }
@@ -1298,7 +1306,7 @@
         '<button class="link-btn" type="button" data-how="' + m.id + '">' + uiH('showHow') + '</button>' +
         '<div class="how" hidden><ol class="steps">' + m.how.map(function (s) { return '<li>' + rich(s) + '</li>'; }).join('') + '</ol>' +
         (m.imgs && m.imgs.length ? '<div class="shots">' + m.imgs.map(function (src, k) { return '<button class="shot" type="button" data-shot="' + esc(m.id) + '" data-k="' + k + '"><img loading="lazy" src="' + esc((q.dir || '') + src) + '" alt=""></button>'; }).join('') + '</div>' : '') +
-        (m.anchor || /^https?:/.test(q.guide) ? '<a class="guide-link" href="' + esc(guideUrl(q, m.anchor)) + '" target="_blank" rel="noopener">' + uiH('inGuide') + ' ' + icon('external') + '</a>' : '') +
+        (m.anchor || /^https?:/.test(q.guide) ? '<a class="guide-link" href="' + esc(guideUrl(q, m.anchor)) + '"' + langKeyAttr(q) + ' target="_blank" rel="noopener">' + uiH('inGuide') + ' ' + icon('external') + '</a>' : '') +
         '</div></div>' +
         '<button class="done-btn" type="button" data-toggle="' + m.id + '">' + (on ? icon('check') + ' ' : '') + uiH('markDone') + '</button>' +
         '</li>';

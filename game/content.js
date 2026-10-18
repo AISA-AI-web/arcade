@@ -1009,6 +1009,9 @@ PD.quests = [
     dir: '',
     guide: 'https://aisa-ai-web.github.io/The-Learning-Hub/PD%20Modules/ai-and-assessment.html',
     guideLabel: { en: 'Open the AI & Assessment module', ar: 'افتح وحدة الذكاء الاصطناعي والتقييم' },
+    // The Learning Hub keeps its English / Arabic choice under this key (same site as the game),
+    // so opening the module from here sets it to the game's language.
+    guideLangKey: 'aisa-newsletter-lang',
     room: { en: 'The Myth Court', ar: 'محكمة الخرافات' },
     title: { en: 'AI & Assessment: Bust the Detector Myth', ar: 'الذكاء الاصطناعي والتقييم: خرافة الكاشفات' },
     tagline: {
@@ -1043,7 +1046,7 @@ PD.quests = [
       }
     ],
     kit: [
-      { en: 'Open the module and sign in with your **@aisa.sch.ae** Google account when it asks.', ar: 'افتح الوحدة، وسجّل الدخول بحساب Google الخاص بك على **@aisa.sch.ae** عندما يُطلب منك. محتوى الوحدة باللغة الإنجليزية.' },
+      { en: 'Open the module and sign in with your **@aisa.sch.ae** Google account when it asks. It opens in the language you\'re playing in.', ar: 'افتح الوحدة، وسجّل الدخول بحساب Google الخاص بك على **@aisa.sch.ae** عندما يُطلب منك. ستُفتح الوحدة باللغة التي تلعب بها.' },
       { en: 'Pick one real assessment you\'ll give in the next three weeks. You\'ll redesign it in the planner at the end.', ar: 'اختر تقييماً حقيقياً ستقدّمه خلال الأسابيع الثلاثة القادمة؛ ستعيد تصميمه في المخطِّط في نهاية الوحدة.' },
       { en: 'Six short sections plus a cheat sheet. **Next** moves you on and ticks off each section.', ar: 'ستة أقسام قصيرة وورقة ملخّص. زر **Next** ينقلك إلى القسم التالي ويسجّل إتمام كل قسم.' }
     ],

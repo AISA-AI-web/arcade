@@ -79,6 +79,7 @@ Copy one quest object in `PD.quests`, then:
 1. Give it a new `id` and `station` number.
 2. Choose a `color`, a `theme` (`library`, `studio`, `arena`, `cinema`, `lab`, `vault` or `court`) and a badge `icon` (`levels`, `slides`, `hook`, `clapper`, `code`, `vault`, `gavel`, `paw`, `crown`, `coffee`, `paper`, `fridge`, `heart`, `compass`, `wall`, `bell`).
 3. Point `dir` / `guide` at the station's folder, or set `guide` to a full URL.
+   If that site is on aisa-ai-web.github.io and remembers its language in the browser (the Learning Hub uses `aisa-newsletter-lang`), set `guideLangKey` to that key so it opens in the game's language.
 
 Leo's welcome (`PD.leo.intro` in `content.js`) says how many quests there are, in both languages, so update that number too.
 
