@@ -1,7 +1,7 @@
 /* Makes the QR codes in print/qr/ that the station labels and printed guides use.
    Run it again only if the web addresses change:
      npm install --no-save qrcode && node print/make-qr.js
-   The addresses are in print/stations.js (SITE, and anonymizer for Station 6). */
+   The addresses are in print/stations.js. */
 'use strict';
 const fs = require('fs');
 const path = require('path');

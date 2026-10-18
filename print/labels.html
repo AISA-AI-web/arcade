@@ -9,8 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* One bilingual A4 label per station table, to print and laminate.
-   Everything a label says comes from game/content.js; the web addresses
-   behind the QR codes are in print/stations.js. PDF: node print/build.js labels */
+   Everything a label says comes from game/content.js; the web addresses behind
+   the QR codes, and what readers find there, are in print/stations.js.
+   PDF: node print/build.js labels */
 @page { size: A4 landscape; margin: 0; }
 :root {
   --purple: #21076C; --gold: #D8B664; --gold-ink: #7A5C14; --ink: #1A1A1A; --muted: #555555;
@@ -108,8 +109,7 @@ ol.missions span { font-size: calc(10.5pt * var(--k)); line-height: 1.35; color:
     doHere: { en: 'What you’ll do', ar: 'ماذا ستفعل' },
     guide: { en: 'Step-by-step guide', ar: 'الدليل خطوة بخطوة' },
     scanGuide: { en: 'Scan to open it in English', ar: 'امسح الرمز لفتحه بالعربية' },
-    tool: { en: 'Open the tool', ar: 'افتح الأداة' },
-    scanTool: { en: 'Scan to open it on your laptop or phone', ar: 'امسح الرمز لفتحها على حاسوبك أو هاتفك' },
+    scanOther: { en: 'Scan to open it on your laptop or phone', ar: 'امسح الرمز لفتحه على حاسوبك أو هاتفك' },
     room: { en: 'In the game, this table is <b>{room}</b>. Earn the <b>{badge}</b> badge.',
             ar: 'في اللعبة، هذه الطاولة هي <b>{room}</b>. اكسب وسام <b>«{badge}»</b>.' }
   };
@@ -133,12 +133,13 @@ ol.missions span { font-size: calc(10.5pt * var(--k)); line-height: 1.35; color:
         return '<li><b>' + rich(m.title, lang) + '</b><span>' + rich(m.goal, lang) + '</span></li>';
       }).join('') + '</ol></div>';
   }
-  function qr(s, lang) {
-    var own = !!s.dir;
+  // The station's own guide, or the site that is its guide (Stations 6 and 7)
+  function qr(q, s, lang) {
+    var own = !!s.dir, note = s.labelNote && s.labelNote[lang];
     return '<div class="qr" lang="' + lang + '" dir="' + (lang === 'ar' ? 'rtl' : 'ltr') + '">' +
       '<img src="qr/station-' + s.n + '-' + lang + '.svg" alt="">' +
-      '<div><b>' + esc(t(own ? L.guide : L.tool, lang)) + '</b>' +
-      '<span>' + esc(t(own ? L.scanGuide : L.scanTool, lang)) + '</span>' +
+      '<div><b>' + esc(t(own ? L.guide : q.guideLabel, lang)) + '</b>' +
+      '<span>' + esc(own ? t(L.scanGuide, lang) : note || t(L.scanOther, lang)) + '</span>' +
       '<small>' + esc(s.short(lang)) + '</small></div></div>';
   }
   function game(q) {
@@ -158,7 +159,7 @@ ol.missions span { font-size: calc(10.5pt * var(--k)); line-height: 1.35; color:
     html += '<section class="sheet" style="--accent:' + q.color + '">' +
       '<header class="band">' + side(q, 'en') + '<div class="num" aria-label="Station ' + q.station + '"><span>' + q.station + '</span></div>' + side(q, 'ar') + '</header>' +
       '<div class="body">' + col(q, 'en') + col(q, 'ar') + '</div>' +
-      '<footer class="foot">' + qr(s, 'en') + game(q) + qr(s, 'ar') + '</footer>' +
+      '<footer class="foot">' + qr(q, s, 'en') + game(q) + qr(q, s, 'ar') + '</footer>' +
       '</section>';
   });
   document.getElementById('labels').innerHTML = html;

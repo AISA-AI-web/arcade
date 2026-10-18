@@ -6,7 +6,7 @@
      Station-N-Guide-EN.pdf       each station's guide on paper, in English
      Station-N-Guide-AR.pdf       … and in Arabic
    The guides are the real station guides (each index.html + ar.js), and the
-   labels and the Station 6 guide come from game/content.js, so the printouts
+   labels and the Station 6 and 7 guides come from game/content.js, so the printouts
    always say what the screens say. Edit those files, then run:
 
      node print/build.js            everything
@@ -95,8 +95,8 @@ async function pdf(page, file) {
         const missing = await page.evaluate(() => (window.GL && GL.missing || []).length);
         if (missing) console.warn(`  ${missing} text(s) on the ${lang} page have no Arabic yet`);
       } else {
-        // Station 6's own guide is on another site, so its printed guide is made from game/content.js
-        await page.goto(base + `print/guide-6.html?lang=${lang}`, { waitUntil: 'networkidle' });
+        // This station's own guide is on another site, so its printed guide is made from game/content.js
+        await page.goto(base + `print/guide-quest.html?station=${s.n}&lang=${lang}`, { waitUntil: 'networkidle' });
       }
       await pdf(page, file);
     }

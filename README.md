@@ -98,12 +98,12 @@ Ready-to-print PDFs are in **`print/pdf/`**:
 | `Station-N-Guide-EN.pdf` | That station's full guide on paper, every step with its screenshots, in English | A4 portrait, colour, double-sided |
 | `Station-N-Guide-AR.pdf` | The same guide in Arabic | A4 portrait, colour, double-sided |
 
-Print at **100% / Actual size**, not "Fit to page", so the QR codes stay sharp. Each guide has a QR code on its first page that opens the online version, and the labels' QR codes open `https://aisa-ai-web.github.io/arcade/…`, so GitHub Pages must be switched on (see below). Scan one before you print the full set.
+Print at **100% / Actual size**, not "Fit to page", so the QR codes stay sharp. Each guide has a QR code on its first page that opens the online version. For Stations 1–5 the QR codes open `https://aisa-ai-web.github.io/arcade/…`, so GitHub Pages must be switched on (see below); Station 6 opens the anonymizer and Station 7 the Learning Hub module. Scan one before you print the full set.
 
 The printouts are made from the same files as the screens, so they never say anything different:
 
 - Stations 1–5 guides: each station's `index.html` and `ar.js`. `print/guide-print.css` and `print/guide-print.js` lay them out for A4: every step at once, flipbook frames side by side with their captions, no animations or buttons.
-- Labels (`print/labels.html`) and the Station 6 guide (`print/guide-6.html`): the quests in `game/content.js`. Station 6's own guide is the anonymizer's site, so its printed guide uses the game's missions.
+- Labels (`print/labels.html`) and the Station 6 and 7 guides (`print/guide-quest.html`): the quests in `game/content.js`. Those two stations' own guides are on other sites (the anonymizer and the Learning Hub module), so their printed guides use the game's missions. Neither site opens in Arabic from a link, so the Arabic label and guide say what to expect there (notes in `print/stations.js`).
 
 After changing a guide or `game/content.js`, make the PDFs again (needs Node, Playwright with Chromium, and the internet for the fonts):
 
