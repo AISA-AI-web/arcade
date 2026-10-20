@@ -4,13 +4,14 @@
 (function (root) {
   'use strict';
   var SITE = 'https://aisa-ai-web.github.io/arcade/';
-  // Stations whose guide is on another site. Neither site opens in Arabic from a link, so
-  // labelNote (under the label's QR code) and guideNote (in the printed guide) say what to expect.
+  // Stations whose guide is on another site. Both sites are in English and Arabic, but a link
+  // can't choose the language, so labelNote (under the label's QR code) and guideNote (in the
+  // printed guide) say how to switch.
   var OTHER = {
     6: {
       url: 'https://aisa-ai-web.github.io/data-anonymizer/',
-      labelNote: { en: '', ar: 'الأداة باللغة الإنجليزية، وخطواتها بالعربية في الدليل المطبوع.' },
-      guideNote: { en: '', ar: 'الأداة باللغة الإنجليزية، وأسماء الأزرار في هذا الدليل كما تظهر على الشاشة.' }
+      labelNote: { en: '', ar: 'إن فُتحت بالإنجليزية، فانقر «العربية» أعلى يمين الصفحة.' },
+      guideNote: { en: '', ar: 'إن فُتحت الأداة بالإنجليزية، فانقر «العربية» أعلى يمين الصفحة.' }
     },
     7: {
       url: 'https://aisa-ai-web.github.io/The-Learning-Hub/PD%20Modules/ai-and-assessment.html',
@@ -20,11 +21,15 @@
   };
   var DIRS = ['Station-1-Differentiation', 'Station-2-Lesson-Decks', 'Station-3-Engagement',
     'Station-4-Lesson-Video', 'Station-5-Coding-Activities', '', ''];
+  // File names in the zip of guides
+  var NAMES = ['Differentiation and Scaffolding', 'Lesson Decks', 'Engagement', 'Lesson Video',
+    'Coding Activities', 'Student Data Anonymizer', 'AI and Assessment'];
   var STATIONS = DIRS.map(function (dir, i) {
     var n = i + 1, other = OTHER[n];
     return {
       n: n,
       dir: dir,
+      name: NAMES[i],
       labelNote: other ? other.labelNote : null,
       guideNote: other ? other.guideNote : null,
       url: function (lang) { return dir ? SITE + dir + '/?lang=' + lang : other.url; },

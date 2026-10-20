@@ -5,12 +5,15 @@
      Station-Labels-A4.pdf        one bilingual table label per station (A4 landscape)
      Station-N-Guide-EN.pdf       each station's guide on paper, in English
      Station-N-Guide-AR.pdf       … and in Arabic
+   and print/AISA-AI-PD-Station-Guides.zip, every guide in an English and an
+   Arabic folder, to share on the Learning Hub (not kept in git: remake it here)
    The guides are the real station guides (each index.html + ar.js), and the
    labels and the Station 6 and 7 guides come from game/content.js, so the printouts
    always say what the screens say. Edit those files, then run:
 
      node print/build.js            everything
      node print/build.js labels 3   only the labels and Station 3's guides
+     node print/build.js zip        only the zip, from the PDFs already made
 
    It needs Playwright with Chromium (npm install playwright) and the internet
    for the Google Fonts.
@@ -19,6 +22,7 @@
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
+const zlib = require('zlib');
 
 function load(name) {
   try { return require(name); } catch (e) {
@@ -64,8 +68,48 @@ async function pdf(page, file) {
   console.log('  ' + file);
 }
 
+// A zip of files as they are (PDFs are compressed already), with UTF-8 names
+function zip(file, entries) {
+  const parts = [], dir = [], d = new Date();
+  const time = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1);
+  const date = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+  let offset = 0;
+  for (const [name, data] of entries) {
+    const n = Buffer.from(name, 'utf8'), crc = zlib.crc32(data);
+    const head = Buffer.alloc(30);
+    head.writeUInt32LE(0x04034b50, 0); head.writeUInt16LE(20, 4); head.writeUInt16LE(0x0800, 6);
+    head.writeUInt16LE(time, 10); head.writeUInt16LE(date, 12); head.writeUInt32LE(crc, 14); head.writeUInt32LE(data.length, 18); head.writeUInt32LE(data.length, 22);
+    head.writeUInt16LE(n.length, 26);
+    const cen = Buffer.alloc(46);
+    cen.writeUInt32LE(0x02014b50, 0); cen.writeUInt16LE(20, 4); cen.writeUInt16LE(20, 6); cen.writeUInt16LE(0x0800, 8);
+    cen.writeUInt16LE(time, 12); cen.writeUInt16LE(date, 14); cen.writeUInt32LE(crc, 16); cen.writeUInt32LE(data.length, 20); cen.writeUInt32LE(data.length, 24);
+    cen.writeUInt16LE(n.length, 28); cen.writeUInt32LE(offset, 42);
+    parts.push(head, n, data);
+    dir.push(cen, n);
+    offset += 30 + n.length + data.length;
+  }
+  const size = dir.reduce((a, b) => a + b.length, 0), end = Buffer.alloc(22);
+  end.writeUInt32LE(0x06054b50, 0); end.writeUInt16LE(entries.length, 8); end.writeUInt16LE(entries.length, 10);
+  end.writeUInt32LE(size, 12); end.writeUInt32LE(offset, 16);
+  fs.writeFileSync(file, Buffer.concat([...parts, ...dir, end]));
+}
+
+function zipGuides() {
+  const top = 'AISA AI PD Station Guides/', entries = [];
+  for (const [lang, folder] of [['EN', 'English'], ['AR', 'Arabic']]) {
+    for (const s of STATIONS) {
+      const pdf = path.join(OUT, `Station-${s.n}-Guide-${lang}.pdf`);
+      if (!fs.existsSync(pdf)) throw new Error('Missing ' + pdf + ': run node print/build.js first');
+      entries.push([`${top}${folder}/Station ${s.n} - ${s.name} (${folder}).pdf`, fs.readFileSync(pdf)]);
+    }
+  }
+  zip(path.join(__dirname, 'AISA-AI-PD-Station-Guides.zip'), entries);
+  console.log('  AISA-AI-PD-Station-Guides.zip');
+}
+
 (async () => {
   fs.mkdirSync(OUT, { recursive: true });
+  if (ONLY.length === 1 && ONLY[0] === 'zip') return zipGuides();
   const server = await serve();
   const base = 'http://127.0.0.1:' + server.address().port + '/';
   const browser = await chromium.launch();
@@ -104,5 +148,6 @@ async function pdf(page, file) {
 
   await browser.close();
   server.close();
+  if (!ONLY.length || ONLY.includes('zip')) { console.log('Zip of guides'); zipGuides(); }
   if (problems) { console.warn(problems + ' page error(s); check the PDFs'); process.exitCode = 1; }
 })();

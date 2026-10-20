@@ -841,6 +841,9 @@ PD.quests = [
     dir: '',
     guide: 'https://aisa-ai-web.github.io/data-anonymizer/',
     guideLabel: { en: 'Open the Student Data Anonymizer', ar: 'افتح أداة إخفاء هوية بيانات الطلاب' },
+    // The anonymizer keeps its English / Arabic choice under this key (same site as the game),
+    // so opening it from here sets it to the game's language.
+    guideLangKey: 'aisa-anonymizer.language',
     room: { en: 'The Data Vault', ar: 'خزنة البيانات' },
     title: { en: 'Use AI with Student Data, Safely', ar: 'استخدم الذكاء الاصطناعي مع بيانات الطلاب… بأمان' },
     tagline: {
@@ -868,8 +871,8 @@ PD.quests = [
       }
     ],
     kit: [
-      { en: 'The tool has its own **Watch the video tutorial** and **Read the user guide (PDF)** buttons. Use them if you get stuck.', ar: 'للأداة زرّان خاصان: **Watch the video tutorial** و**Read the user guide (PDF)**. استخدمهما إن احتجت.' },
-      { en: 'Practise with made-up data today: **Try it with a made-up class list**. No real students needed.', ar: 'تدرّب اليوم ببيانات وهمية: **Try it with a made-up class list**. لا حاجة إلى بيانات طلاب حقيقية.' },
+      { en: 'The tool has its own **Watch the video tutorial** and **Read the user guide (PDF)** buttons. Use them if you get stuck.', ar: 'للأداة زرّان خاصان: **شاهد الفيديو التعليمي** و**اقرأ دليل المستخدم (PDF)**. استخدمهما إن احتجت.' },
+      { en: 'Practise with made-up data today: **Try it with a made-up class list**. No real students needed.', ar: 'تدرّب اليوم ببيانات وهمية: **جرّب الأداة على قائمة صف وهمية**. لا حاجة إلى بيانات طلاب حقيقية.' },
       { en: 'Open Gemini (or another school-approved AI tool) in a second tab.', ar: 'افتح Gemini (أو أداة ذكاء اصطناعي معتمدة من المدرسة) في تبويب ثانٍ.' }
     ],
     missions: [
@@ -878,12 +881,12 @@ PD.quests = [
         title: { en: 'Load the practice class', ar: 'حمّل الصف التجريبي' },
         goal: {
           en: 'Open the anonymizer and click Try it with a made-up class list.',
-          ar: 'افتح الأداة وانقر Try it with a made-up class list.'
+          ar: 'افتح الأداة وانقر «جرّب الأداة على قائمة صف وهمية».'
         },
         how: [
-          { en: 'Open the Student Data Anonymizer. New here? Start with **Watch the video tutorial**.', ar: 'افتح أداة إخفاء الهوية. جديد عليها؟ ابدأ بـ**Watch the video tutorial**.' },
-          { en: 'Click **Try it with a made-up class list** to practise on fictional students.', ar: 'انقر **Try it with a made-up class list** للتدرب على طلاب وهميين.' },
-          { en: 'With real data later, drop a CSV or Excel (.xlsx) file onto **Drop a spreadsheet here, or click to choose one**.', ar: 'لاحقاً مع البيانات الحقيقية، أسقط ملف CSV أو Excel (.xlsx) في **Drop a spreadsheet here, or click to choose one**.' }
+          { en: 'Open the Student Data Anonymizer. New here? Start with **Watch the video tutorial**.', ar: 'افتح أداة إخفاء الهوية. جديد عليها؟ ابدأ بـ**شاهد الفيديو التعليمي**.' },
+          { en: 'Click **Try it with a made-up class list** to practise on fictional students.', ar: 'انقر **جرّب الأداة على قائمة صف وهمية** للتدرب على طلاب وهميين.' },
+          { en: 'With real data later, drop a CSV or Excel (.xlsx) file onto **Drop a spreadsheet here, or click to choose one**.', ar: 'لاحقاً مع البيانات الحقيقية، أسقط ملف CSV أو Excel (.xlsx) في **أفلت جدول البيانات هنا، أو انقر لاختياره**.' }
         ]
       },
       {
@@ -894,10 +897,10 @@ PD.quests = [
           ar: 'اختر ما تفعله بكل عمود. الاقتراحات مجرد نقطة بداية.'
         },
         how: [
-          { en: 'Read **What the tool thinks** for each column, then choose **What to do**.', ar: 'اقرأ **What the tool thinks** لكل عمود، ثم اختر **What to do**.' },
-          { en: 'Names and student IDs: **Replace with codes (reversible)**. They become codes like STU-004.', ar: 'الأسماء وأرقام الطلاب: **Replace with codes (reversible)**، فتصبح رموزاً مثل STU-004.' },
-          { en: 'Emails, phone numbers, Emirates IDs, medical or SEN details: **Remove column**.', ar: 'البريد الإلكتروني والهواتف وأرقام الهوية الإماراتية والتفاصيل الطبية أو الاحتياجات الخاصة: **Remove column**.' },
-          { en: 'Dates of birth: **Keep year only**.', ar: 'تواريخ الميلاد: **Keep year only**.' }
+          { en: 'Read **What the tool thinks** for each column, then choose **What to do**.', ar: 'اقرأ **تقدير الأداة** لكل عمود، ثم اختر **الإجراء**.' },
+          { en: 'Names and student IDs: **Replace with codes (reversible)**. They become codes like STU-004.', ar: 'الأسماء وأرقام الطلاب: **الاستبدال برموز (قابل للاسترجاع)**، فتصبح رموزاً مثل STU-004.' },
+          { en: 'Emails, phone numbers, Emirates IDs, medical or SEN details: **Remove column**.', ar: 'البريد الإلكتروني والهواتف وأرقام الهوية الإماراتية والتفاصيل الطبية أو الاحتياجات الخاصة: **حذف العمود**.' },
+          { en: 'Dates of birth: **Keep year only**.', ar: 'تواريخ الميلاد: **الإبقاء على السنة فقط**.' }
         ]
       },
       {
@@ -908,10 +911,10 @@ PD.quests = [
           ar: 'أكمل قائمة التحقق، ثم نزّل ملف المفتاح والملف المُخفى الهوية.'
         },
         how: [
-          { en: 'Read the warnings, e.g. **Some students could still be singled out** by a combination like gender + nationality + section.', ar: 'اقرأ التحذيرات، مثل **Some students could still be singled out** بسبب تركيبة كالجنس والجنسية والشعبة.' },
-          { en: 'Confirm each point under **Before you share anything, confirm each point**.', ar: 'أكّد كل بند في **Before you share anything, confirm each point**.' },
-          { en: 'Under **Keep private**, type a passphrase (at least 8 characters, twice) first, then click **Download key file**. Never upload the key to an AI tool.', ar: 'تحت **Keep private** اكتب عبارة مرور (8 أحرف على الأقل، مرتين) أولاً، ثم انقر **Download key file**. لا ترفع المفتاح أبداً إلى أداة ذكاء اصطناعي.' },
-          { en: 'Click **Download anonymized file** (CSV works with every AI tool). This is the ONLY file that goes to the AI.', ar: 'انقر **Download anonymized file** (CSV يعمل مع كل الأدوات). هذا هو الملف الوحيد الذي يذهب إلى الذكاء الاصطناعي.' }
+          { en: 'Read the warnings, e.g. **Some students could still be singled out** by a combination like gender + nationality + section.', ar: 'اقرأ التحذيرات، مثل **لا يزال من الممكن تمييز بعض الطلاب** بسبب تركيبة كالجنس والجنسية والشعبة.' },
+          { en: 'Confirm each point under **Before you share anything, confirm each point**.', ar: 'أكّد كل بند في **قبل مشاركة أي شيء، أكّد كل بند**.' },
+          { en: 'Under **Keep private**, type a passphrase (at least 8 characters, twice) first, then click **Download key file**. Never upload the key to an AI tool.', ar: 'تحت **احتفظ به لنفسك** اكتب عبارة مرور (8 أحرف على الأقل، مرتين) أولاً، ثم انقر **تنزيل ملف المفتاح**. لا ترفع المفتاح أبداً إلى أداة ذكاء اصطناعي.' },
+          { en: 'Click **Download anonymized file** (CSV works with every AI tool). This is the ONLY file that goes to the AI.', ar: 'انقر **تنزيل الملف المُخفى الهوية** (CSV يعمل مع كل الأدوات). هذا هو الملف الوحيد الذي يذهب إلى الذكاء الاصطناعي.' }
         ]
       },
       {
@@ -922,7 +925,7 @@ PD.quests = [
           ar: 'ارفع الملف المُخفى الهوية فقط إلى Gemini، والصق التعليمات، واطرح سؤالاً.'
         },
         how: [
-          { en: 'Click **Copy instructions** and paste them into Gemini with your file. They tell the AI to keep the codes intact.', ar: 'انقر **Copy instructions** والصقها في Gemini مع ملفك؛ فهي تطلب من الذكاء الاصطناعي الحفاظ على الرموز كما هي.' },
+          { en: 'Click **Copy instructions** and paste them into Gemini with your file. They tell the AI to keep the codes intact.', ar: 'انقر **نسخ التعليمات** والصقها في Gemini مع ملفك؛ فهي تطلب من الذكاء الاصطناعي الحفاظ على الرموز كما هي.' },
           { en: 'Ask something useful, e.g. "Which students scored below 60%, and which topics should I reteach?"', ar: 'اسأل شيئاً مفيداً، مثل: «أيّ الطلاب حصلوا على أقل من 60%، وما الموضوعات التي يجب أن أعيد تدريسها؟»' },
           { en: 'Download or copy the AI\'s answer.', ar: 'نزّل إجابة الذكاء الاصطناعي أو انسخها.' }
         ]
@@ -935,7 +938,7 @@ PD.quests = [
           ar: 'أعد ربط نتائج الذكاء الاصطناعي بالأسماء باستخدام ملف المفتاح.'
         },
         how: [
-          { en: 'Go to **Re-identify results** and load your key file (and passphrase).', ar: 'انتقل إلى **Re-identify results** وحمّل ملف المفتاح (وعبارة المرور).' },
+          { en: 'Go to **Re-identify results** and load your key file (and passphrase).', ar: 'انتقل إلى **استعادة الأسماء في النتائج** وحمّل ملف المفتاح (وعبارة المرور).' },
           { en: 'Drop in the AI\'s output file, or paste its text.', ar: 'أسقط ملف إجابة الذكاء الاصطناعي، أو الصق نصها.' },
           { en: 'Every code turns back into a real name. Unknown codes are flagged, because AI tools sometimes change or invent codes.', ar: 'يعود كل رمز إلى اسم حقيقي. وتُعلَّم الرموز غير المعروفة، لأن أدوات الذكاء الاصطناعي قد تغيّر الرموز أو تخترعها أحياناً.' }
         ]
@@ -1048,7 +1051,7 @@ PD.quests = [
     kit: [
       { en: 'Open the module and sign in with your **@aisa.sch.ae** Google account when it asks. It opens in the language you\'re playing in.', ar: 'افتح الوحدة، وسجّل الدخول بحساب Google الخاص بك على **@aisa.sch.ae** عندما يُطلب منك. ستُفتح الوحدة باللغة التي تلعب بها.' },
       { en: 'Pick one real assessment you\'ll give in the next three weeks. You\'ll redesign it in the planner at the end.', ar: 'اختر تقييماً حقيقياً ستقدّمه خلال الأسابيع الثلاثة القادمة؛ ستعيد تصميمه في المخطِّط في نهاية الوحدة.' },
-      { en: 'Six short sections plus a cheat sheet. **Next** moves you on and ticks off each section.', ar: 'ستة أقسام قصيرة وورقة ملخّص. زر **Next** ينقلك إلى القسم التالي ويسجّل إتمام كل قسم.' }
+      { en: 'Six short sections plus a cheat sheet. **Next** moves you on and ticks off each section.', ar: 'ستة أقسام قصيرة وورقة ملخّص. زر **التالي** ينقلك إلى القسم التالي ويسجّل إتمام كل قسم.' }
     ],
     missions: [
       {
@@ -1059,7 +1062,7 @@ PD.quests = [
           ar: 'اكتشف لماذا لا تُعدّ نتيجة كاشف الذكاء الاصطناعي دليلاً.'
         },
         how: [
-          { en: 'Open section 2, **AI-Proof**, and read **Don\'t rely on AI detectors**.', ar: 'افتح القسم 2، **AI-Proof**، واقرأ **Don\'t rely on AI detectors**.' },
+          { en: 'Open section 2, **AI-Proof**, and read **Don\'t rely on AI detectors**.', ar: 'افتح القسم 2، **حصّن التقييم**، واقرأ **لا تعتمد على أدوات كشف الذكاء الاصطناعي**.' },
           { en: 'Detectors produce false positives, most often against multilingual writers and neurodivergent students: the students we most need to protect.', ar: 'الكاشفات تتهم نصوصاً بشرية خطأً، وأكثر من تظلمهم الطلاب متعددو اللغات وذوو التنوع العصبي، أي الطلاب الذين نحتاج إلى حمايتهم أكثر من غيرهم.' },
           { en: 'Treat a detector score as a conversation starter at most, never as proof of misconduct.', ar: 'تعامل مع نتيجة الكاشف على أنها بداية حوار في أحسن الأحوال، ولا تعدّها أبداً دليلاً على مخالفة.' }
         ]
@@ -1072,7 +1075,7 @@ PD.quests = [
           ar: 'اختر مستوى من مقياس تقييم الذكاء الاصطناعي (AIAS) ولوناً من إشارة المرور لتقييمك.'
         },
         how: [
-          { en: 'Section 1, **Set the Rules**: pick one of five levels, from **No AI** to **AI Exploration**.', ar: 'القسم 1، **Set the Rules**: اختر مستوى من خمسة، من **No AI** إلى **AI Exploration**.' },
+          { en: 'Section 1, **Set the Rules**: pick one of five levels, from **No AI** to **AI Exploration**.', ar: 'القسم 1، **ضع القواعد**: اختر مستوى من خمسة، من **بلا ذكاء اصطناعي** إلى **الاستكشاف بالذكاء الاصطناعي**.' },
           { en: 'Match it to a traffic light: Red (no AI), Amber (AI for named steps only, and cited) or Green (AI expected).', ar: 'طابقه مع إشارة المرور: أحمر (لا ذكاء اصطناعي)، أو أصفر (ذكاء اصطناعي لخطوات محددة فقط مع ذكر مصدره)، أو أخضر (الذكاء الاصطناعي متوقَّع).' },
           { en: 'Put the colour, one sentence of explanation and the citation rule on the task sheet. The Briefing tab has a ready-made Amber line to copy.', ar: 'اكتب اللون وجملة توضيحية وقاعدة ذكر المصدر على ورقة المهمة. في تبويب «الإحاطة» سطر جاهز للون الأصفر يمكنك نسخه.' }
         ]
@@ -1087,7 +1090,7 @@ PD.quests = [
         how: [
           { en: 'Section 2 lists 12 moves. Strong starters: tie the task to this week\'s lesson, use local context, and grade the process (drafts, Docs version history), not just the final file.', ar: 'يعرض القسم 2 اثنتي عشرة خطوة. بدايات قوية: اربط المهمة بدرس هذا الأسبوع، واستخدم سياقاً محلياً، وقيّم مراحل العمل (المسودات، وسجل إصدارات Docs) لا الملف النهائي فقط.' },
           { en: 'Ask for the reasoning: "Why did you choose A over B?" AI produces answers; students have to defend choices.', ar: 'اطلب التعليل: «لماذا اخترت A بدلاً من B؟» الذكاء الاصطناعي ينتج إجابات، أما الطلاب فعليهم الدفاع عن اختياراتهم.' },
-          { en: 'Section 3, **Integrate**, turns it round: tasks where students critique, fact-check or debate the AI.', ar: 'القسم 3، **Integrate**، يقلب الفكرة: مهام ينقد فيها الطلاب الذكاء الاصطناعي، ويتحققون من معلوماته، ويناظرونه.' }
+          { en: 'Section 3, **Integrate**, turns it round: tasks where students critique, fact-check or debate the AI.', ar: 'القسم 3، **ادمج الذكاء الاصطناعي**، يقلب الفكرة: مهام ينقد فيها الطلاب الذكاء الاصطناعي، ويتحققون من معلوماته، ويناظرونه.' }
         ]
       },
       {
@@ -1098,7 +1101,7 @@ PD.quests = [
           ar: 'خطّط لمناقشة شفهية قصيرة لتقييمك.'
         },
         how: [
-          { en: 'Section 4, **Defend (Viva)**: a 5–10 minute conversation where the student explains their work and answers questions they didn\'t prepare for.', ar: 'القسم 4، **Defend (Viva)**: حوار من 5 إلى 10 دقائق يشرح فيه الطالب عمله ويجيب عن أسئلة لم يستعد لها.' },
+          { en: 'Section 4, **Defend (Viva)**: a 5–10 minute conversation where the student explains their work and answers questions they didn\'t prepare for.', ar: 'القسم 4، **دافِع (المناقشة الشفهية)**: حوار من 5 إلى 10 دقائق يشرح فيه الطالب عمله ويجيب عن أسئلة لم يستعد لها.' },
           { en: 'Pick 3–5 questions from the question bank, e.g. "Walk me through how you arrived at this conclusion."', ar: 'اختر من 3 إلى 5 أسئلة من بنك الأسئلة، مثل: «اشرح لي كيف توصلت إلى هذا الاستنتاج».' },
           { en: 'You don\'t need to viva everyone. Talk to one student in three, chosen at random after everyone has handed in. The chance of being asked changes the whole class.', ar: 'لا تحتاج إلى مناقشة الجميع: ناقش طالباً من كل ثلاثة، تختاره عشوائياً بعد أن يسلّم الجميع. مجرد احتمال أن يُسأل الطالب يغيّر سلوك الصف كله.' }
         ]
@@ -1112,8 +1115,8 @@ PD.quests = [
         },
         how: [
           { en: 'Scenario 3 is the big one: GPTZero says "98% likely AI". Choose wisely.', ar: 'السيناريو 3 هو الأهم: يقول GPTZero إن النص «مكتوب بالذكاء الاصطناعي على الأرجح بنسبة 98%». اختر بحكمة.' },
-          { en: '**Next** stays locked until all three scenarios are answered correctly.', ar: 'يبقى زر **Next** مقفلاً حتى تجيب عن السيناريوهات الثلاثة إجابة صحيحة.' },
-          { en: 'Fill in the planner, then **Save to this browser** or **Print / Save as PDF**. Print the cheat sheet for your desk too.', ar: 'املأ المخطِّط، ثم انقر **Save to this browser** أو **Print / Save as PDF**. واطبع ورقة الملخّص لتضعها على مكتبك.' }
+          { en: '**Next** stays locked until all three scenarios are answered correctly.', ar: 'يبقى زر **التالي** مقفلاً حتى تجيب عن السيناريوهات الثلاثة إجابة صحيحة.' },
+          { en: 'Fill in the planner, then **Save to this browser** or **Print / Save as PDF**. Print the cheat sheet for your desk too.', ar: 'املأ المخطِّط، ثم انقر **احفظ في هذا المتصفح** أو **طباعة / حفظ بصيغة PDF**. واطبع ورقة الملخّص لتضعها على مكتبك.' }
         ]
       }
     ],
@@ -1147,10 +1150,10 @@ PD.quests = [
       {
         q: { en: 'Students may use AI to tidy grammar and suggest structure, but the analysis and conclusions must be theirs. Which AI Assessment Scale level is that?', ar: 'يمكن للطلاب استخدام الذكاء الاصطناعي لتصحيح القواعد واقتراح البنية، لكن التحليل والاستنتاجات يجب أن تكون من عملهم. أي مستوى من مقياس AIAS هذا؟' },
         options: [
-          { en: 'Level 1 · No AI', ar: 'المستوى 1 · No AI' },
-          { en: 'Level 2 · AI Planning', ar: 'المستوى 2 · AI Planning' },
-          { en: 'Level 4 · Full AI', ar: 'المستوى 4 · Full AI' },
-          { en: 'Level 5 · AI Exploration', ar: 'المستوى 5 · AI Exploration' }
+          { en: 'Level 1 · No AI', ar: 'المستوى 1 · بلا ذكاء اصطناعي' },
+          { en: 'Level 2 · AI Planning', ar: 'المستوى 2 · التخطيط بالذكاء الاصطناعي' },
+          { en: 'Level 4 · Full AI', ar: 'المستوى 4 · ذكاء اصطناعي كامل' },
+          { en: 'Level 5 · AI Exploration', ar: 'المستوى 5 · الاستكشاف بالذكاء الاصطناعي' }
         ],
         answer: 1,
         why: { en: 'AI helps with planning and polish; the thinking stays with the student. That\'s Level 2, an Amber task.', ar: 'الذكاء الاصطناعي يساعد في التخطيط والتنقيح، والتفكير يبقى للطالب. هذا هو المستوى 2، أي مهمة صفراء.' }
