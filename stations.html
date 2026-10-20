@@ -32,12 +32,12 @@ a.card span:last-child{color:var(--muted);font-size:.92rem}
 <a class="card" href="Station-3-Engagement/index.html"><span class="n">Station 3</span><b>Engagement &amp; Active Participation</b><span>A lesson hook and a choice board for Grade 8 science.</span></a>
 <a class="card" href="Station-4-Lesson-Video/index.html"><span class="n">Station 4</span><b>Turn Your Slides into a Video</b><span>Google Vids: script, voices, language and music.</span></a>
 <a class="card" href="Station-5-Coding-Activities/index.html"><span class="n">Station 5</span><b>Code Your Own Class Activities</b><span>Gemini Canvas to the AISA Activity Hub: link, QR code and Classroom.</span></a>
-<a class="card" href="https://aisa-ai-web.github.io/data-anonymizer/"><span class="n">Station 6</span><b>Student Data Anonymizer</b><span>Use AI with student data without the AI ever seeing who the students are.</span></a>
+<a class="card" href="https://aisa-ai-web.github.io/data-anonymizer/" data-langkey="aisa-anonymizer.language"><span class="n">Station 6</span><b>Student Data Anonymizer</b><span>Use AI with student data without the AI ever seeing who the students are.</span></a>
 <a class="card" href="https://aisa-ai-web.github.io/The-Learning-Hub/PD%20Modules/ai-and-assessment.html" data-langkey="aisa-newsletter-lang"><span class="n">Station 7</span><b>AI &amp; Assessment</b><span>Why AI detectors can't prove who wrote it, and how to design assessments that don't need one.</span></a>
 </main>
 <script>
-// The Learning Hub keeps its English / Arabic choice under data-langkey (same site),
-// so the Station 7 module opens in this page's language
+// The anonymizer and the Learning Hub keep their English / Arabic choice under data-langkey
+// (same site), so Stations 6 and 7 open in this page's language
 document.addEventListener('click', function (e) {
   var a = e.target.closest('a[data-langkey]');
   if (a) try { localStorage.setItem(a.getAttribute('data-langkey'), GL.lang); } catch (err) { }

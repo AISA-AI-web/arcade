@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Station Labels · pD-Day 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* One bilingual A4 label per station table, to print and laminate.
+   Everything a label says comes from game/content.js; the web addresses behind
+   the QR codes, and what readers find there, are in print/stations.js.
+   PDF: node print/build.js labels */
+@page { size: A4 landscape; margin: 0; }
+:root {
+  --purple: #21076C; --gold: #D8B664; --gold-ink: #7A5C14; --ink: #1A1A1A; --muted: #555555;
+  --tint: #F2EFFA; --line: #C8BEE8;
+  --en: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --ar: 'Cairo', 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+}
+* { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body { margin: 0; }
+body { background: #D9D5E6; color: var(--ink); font-family: var(--en); }
+[lang="ar"] { font-family: var(--ar); }
+.ui, bdi { unicode-bidi: isolate; }
+.ui { font-weight: 700; color: var(--purple); }
+
+/* On screen: the sheets one under another; on paper: one per page */
+.sheet {
+  --k: 1; /* size of the mission text; the script sets it to fit each label */
+  width: 297mm; height: 210mm; margin: 10mm auto; padding: 8mm 9mm; background: #fff;
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 5mm; overflow: hidden;
+  break-after: page; box-shadow: 0 2px 12px rgba(33, 7, 108, .18);
+}
+@media print { body { background: #fff; } .sheet { margin: 0; box-shadow: none; } }
+
+/* Purple band: English | station number | Arabic */
+.band {
+  background: var(--purple); color: #fff; border-radius: 6mm; padding: 5.5mm 8mm 6mm;
+  display: grid; grid-template-columns: minmax(0, 1fr) 31mm minmax(0, 1fr); align-items: center; gap: 6mm;
+}
+.band .side { display: grid; gap: 1.6mm; align-content: center; }
+.eyebrow { font-size: 9pt; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+[lang="ar"] .eyebrow { letter-spacing: 0; font-size: 10.5pt; }
+.band h1 { margin: 0; font-size: 24pt; line-height: 1.08; font-weight: 800; text-wrap: balance; }
+.band [lang="ar"] h1 { font-size: 23pt; line-height: 1.3; }
+.band .tag { margin: 0; font-size: 11pt; line-height: 1.35; color: #E4DEFA; }
+.band [lang="ar"] .tag { line-height: 1.55; }
+.num {
+  width: 31mm; height: 31mm; border-radius: 50%; background: var(--gold); color: var(--purple);
+  display: grid; place-items: center; font-weight: 800; font-size: 54pt; line-height: 1;
+  box-shadow: 0 0 0 2mm rgba(216, 182, 100, .28);
+}
+.num span { transform: translateY(-1mm); }
+
+/* What you'll do: English | Arabic */
+.body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; min-height: 0; }
+.col { padding: 0 8mm; display: grid; align-content: start; gap: calc(2.6mm * var(--k)); min-height: 0; overflow: hidden; }
+.col:first-child { padding-left: 2mm; border-right: 0.5mm solid var(--line); }
+.col:last-child { padding-right: 2mm; }
+.col h2 { margin: 0; display: flex; align-items: baseline; gap: 4mm; flex-wrap: wrap; font-size: calc(16pt * var(--k)); color: var(--purple); font-weight: 800; }
+.col h2 .time { font-size: calc(10.5pt * var(--k)); font-weight: 700; color: var(--gold-ink); background: var(--tint); border-radius: 99px; padding: .6mm 3mm; }
+.tools { margin: -1.5mm 0 0; font-size: calc(10pt * var(--k)); color: var(--muted); }
+ol.missions { margin: 0; padding: 0; list-style: none; display: grid; gap: calc(2.4mm * var(--k)); counter-reset: m; }
+ol.missions li { display: grid; grid-template-columns: 8mm minmax(0, 1fr); column-gap: 3mm; counter-increment: m; }
+ol.missions li::before {
+  content: counter(m); grid-row: span 2; width: 8mm; height: 8mm; border-radius: 50%;
+  background: var(--purple); color: #fff; font: 700 11pt/8mm var(--en); text-align: center;
+}
+ol.missions b { font-size: calc(12.5pt * var(--k)); line-height: 1.25; color: var(--purple); padding-top: .8mm; }
+ol.missions span { font-size: calc(10.5pt * var(--k)); line-height: 1.35; color: var(--ink); }
+[lang="ar"] ol.missions b { line-height: 1.45; padding-top: 0; }
+[lang="ar"] ol.missions span { line-height: 1.55; }
+
+/* Foot: QR (English) | the game | QR (Arabic) */
+.foot {
+  border-top: 0.5mm solid var(--line); padding-top: 4mm;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1fr); gap: 6mm; align-items: center;
+}
+.qr { display: flex; align-items: center; gap: 4mm; }
+.qr img { width: 25mm; height: 25mm; flex: none; }
+.qr div { display: grid; gap: .8mm; }
+.qr b { font-size: 12pt; color: var(--purple); }
+.qr span { font-size: 10pt; color: var(--ink); }
+.qr small { font: 7.5pt var(--en); color: var(--muted); overflow-wrap: anywhere; direction: ltr; text-align: start; unicode-bidi: isolate; }
+.game { display: flex; align-items: center; gap: 4mm; background: var(--tint); border-radius: 4mm; padding: 2.5mm 4mm; }
+.game .emblem { width: 19mm; height: 19mm; flex: none; }
+.game .emblem svg { width: 100%; height: 100%; display: block; }
+.game div { display: grid; gap: .6mm; min-width: 0; }
+.game .k { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; color: var(--gold-ink); }
+.game p { margin: 0; font-size: 9.5pt; line-height: 1.35; }
+.game p[lang="ar"] { font-size: 10pt; line-height: 1.5; }
+.game b { color: var(--purple); }
+</style>
+</head>
+<body>
+<main id="labels"></main>
+
+<script src="../game/content.js?v=20261020a"></script>
+<script src="../game/art.js?v=20261018e"></script>
+<script src="stations.js"></script>
+<script>
+(function () {
+  'use strict';
+  // Words on the label that aren't in game/content.js
+  var L = {
+    eyebrow: { en: 'AI PD Stations · Station {n}', ar: 'محطات الذكاء الاصطناعي · المحطة {n}' },
+    doHere: { en: 'What you’ll do', ar: 'ماذا ستفعل' },
+    guide: { en: 'Step-by-step guide', ar: 'الدليل خطوة بخطوة' },
+    scanGuide: { en: 'Scan to open it in English', ar: 'امسح الرمز لفتحه بالعربية' },
+    scanOther: { en: 'Scan to open it on your laptop or phone', ar: 'امسح الرمز لفتحه على حاسوبك أو هاتفك' },
+    room: { en: 'In the game, this table is <b>{room}</b>. Earn the <b>{badge}</b> badge.',
+            ar: 'في اللعبة، هذه الطاولة هي <b>{room}</b>. اكسب وسام <b>«{badge}»</b>.' }
+  };
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function t(o, lang) { return o[lang] || o.en; }
+  // **Button names** in content.js become highlighted labels, as in the game
+  function rich(o, lang) { return esc(t(o, lang)).replace(/\*\*(.+?)\*\*/g, '<b class="ui">$1</b>'); }
+  function fill(s, vars) { return s.replace(/\{(\w+)\}/g, function (m, k) { return vars[k] != null ? vars[k] : m; }); }
+
+  function side(q, lang) {
+    return '<div class="side" lang="' + lang + '" dir="' + (lang === 'ar' ? 'rtl' : 'ltr') + '">' +
+      '<span class="eyebrow">' + esc(fill(t(L.eyebrow, lang), { n: q.station })) + '</span>' +
+      '<h1>' + esc(t(q.title, lang)) + '</h1>' +
+      '<p class="tag">' + rich(q.tagline, lang) + '</p></div>';
+  }
+  function col(q, lang) {
+    return '<div class="col" lang="' + lang + '" dir="' + (lang === 'ar' ? 'rtl' : 'ltr') + '">' +
+      '<h2>' + esc(t(L.doHere, lang)) + ' <span class="time">' + esc(t(q.time, lang)) + '</span></h2>' +
+      '<p class="tools">' + rich(q.tools, lang) + '</p>' +
+      '<ol class="missions">' + q.missions.map(function (m) {
+        return '<li><b>' + rich(m.title, lang) + '</b><span>' + rich(m.goal, lang) + '</span></li>';
+      }).join('') + '</ol></div>';
+  }
+  // The station's own guide, or the site that is its guide (Stations 6 and 7)
+  function qr(q, s, lang) {
+    var own = !!s.dir, note = s.labelNote && s.labelNote[lang];
+    return '<div class="qr" lang="' + lang + '" dir="' + (lang === 'ar' ? 'rtl' : 'ltr') + '">' +
+      '<img src="qr/station-' + s.n + '-' + lang + '.svg" alt="">' +
+      '<div><b>' + esc(t(own ? L.guide : q.guideLabel, lang)) + '</b>' +
+      '<span>' + esc(own ? t(L.scanGuide, lang) : note || t(L.scanOther, lang)) + '</span>' +
+      '<small>' + esc(s.short(lang)) + '</small></div></div>';
+  }
+  function game(q) {
+    var emblem = PD.art && PD.art.badge ? PD.art.badge({ icon: q.badge.icon, color: q.color, tier: 'station' }) : '';
+    function line(lang) {
+      return '<p lang="' + lang + '" dir="' + (lang === 'ar' ? 'rtl' : 'ltr') + '">' +
+        fill(t(L.room, lang), { room: esc(t(q.room, lang)), badge: esc(t(q.badge.name, lang)) }) + '</p>';
+    }
+    return '<div class="game"><span class="emblem">' + emblem + '</span><div>' +
+      '<span class="k">' + esc(PD.config.title) + '</span>' +
+      line('en') + line('ar') + '</div></div>';
+  }
+
+  var html = '';
+  PD.quests.slice().sort(function (a, b) { return a.station - b.station; }).forEach(function (q) {
+    var s = PRINT_STATIONS.STATIONS.filter(function (x) { return x.n === q.station; })[0];
+    html += '<section class="sheet" style="--accent:' + q.color + '">' +
+      '<header class="band">' + side(q, 'en') + '<div class="num" aria-label="Station ' + q.station + '"><span>' + q.station + '</span></div>' + side(q, 'ar') + '</header>' +
+      '<div class="body">' + col(q, 'en') + col(q, 'ar') + '</div>' +
+      '<footer class="foot">' + qr(q, s, 'en') + game(q) + qr(q, s, 'ar') + '</footer>' +
+      '</section>';
+  });
+  document.getElementById('labels').innerHTML = html;
+
+  // Make the mission text as big as the label allows (print/build.js waits for this)
+  window.PRINT_READY = document.fonts.ready.then(function () {
+    [].forEach.call(document.querySelectorAll('.sheet'), function (sheet) {
+      var cols = sheet.querySelectorAll('.col'), k = 1.3;
+      function over() { return [].some.call(cols, function (c) { return c.scrollHeight > c.clientHeight + 1; }); }
+      sheet.style.setProperty('--k', k);
+      while (over() && k > 0.7) { k -= 0.02; sheet.style.setProperty('--k', k.toFixed(2)); }
+      if (over()) console.error('Station label ' + sheet.querySelector('.num').textContent + ': the missions still don’t fit');
+    });
+  });
+})();
+</script>
+</body>
+</html>
